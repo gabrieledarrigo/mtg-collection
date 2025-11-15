@@ -1,0 +1,15 @@
+services:
+  database:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: mtg_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mtg_collection
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql
+
+volumes:
+  db_data:

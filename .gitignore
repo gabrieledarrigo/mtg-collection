@@ -17,5 +17,8 @@ yarn-error.log*
 # Prisma
 /generated/prisma
 
+# Docker
+db_data
+
 # Editor
 .vscode

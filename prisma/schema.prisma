@@ -7,3 +7,125 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Rarity {
+  COMMON
+  UNCOMMON
+  RARE
+  MYTHIC
+}
+
+enum Condition {
+  MINT
+  NEAR_MINT
+  EXCELLENT
+  GOOD
+  LIGHT_PLAYED
+  PLAYED
+  POOR
+}
+
+enum Language {
+  EN // English
+  ES // Spanish
+  FR // French
+  DE // German
+  IT // Italian
+  PT // Portuguese
+  JA // Japanese
+  KO // Korean
+  RU // Russian
+  ZHS // Simplified Chinese
+  ZHT // Traditional Chinese
+  HE // Hebrew
+  LA // Latin
+  GRC // Ancient Greek
+  AR // Arabic
+  SA // Sanskrit
+  PX // Phyrexian
+}
+
+enum Source {
+  CARDTRADER
+  DIRECT_PURCHASE
+  TRADE
+  GIFT
+  OTHER
+}
+
+model User {
+  id              String           @id @default(uuid(7))
+  username        String           @unique
+  email           String           @unique
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  collectionItems CollectionItem[]
+
+  @@map("users")
+}
+
+model Card {
+  id              String           @id @default(uuid(7))
+  scryfallId      String           @map("scryfall_id") @db.Uuid()
+  oracleId        String           @map("oracle_id") @db.Uuid()
+  name            String
+  setCode         String           @map("set_code")
+  collectorNumber String           @map("collector_number")
+  rarity          Rarity
+  typeLine        String           @map("type_line")
+  imageUrl        String           @map("image_url")
+  oracleText      String           @map("oracle_text")
+  manaCost        String           @map("mana_cost")
+  cmc             Decimal
+  colorIdentity   String[]         @default([]) @map("color_identity")
+  layout          String           @default("normal")
+  cardFaces       Json?            @map("card_faces")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  collectionItems CollectionItem[]
+
+  @@unique([scryfallId], name: "unique_scryfall_id")
+  @@index([setCode], name: "idx_set_code")
+  @@map("cards")
+}
+
+model CollectionItem {
+  id        String     @id @default(uuid(7))
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String     @map("user_id")
+  card      Card       @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId    String     @map("card_id")
+  language  Language
+  foil      Boolean
+  condition Condition
+  quantity  Int
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  purchases Purchase[]
+
+  @@unique([userId, cardId, language, foil, condition], name: "unique_collection_item")
+  @@index([userId], name: "idx_user_id")
+  @@index([cardId], name: "idx_card_id")
+  @@map("collection_items")
+}
+
+model Purchase {
+  id               String         @id @default(uuid(7))
+  collectionItem   CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
+  collectionItemId String         @map("collection_item_id")
+
+  quantity Int    @default(1)
+  price    Int    @map("price_per_card")
+  currency String @default("EUR")
+
+  source        Source   @default(CARDTRADER)
+  sourceOrderId String   @map("source_order_id")
+  purchasedAt   DateTime @map("purchased_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([collectionItemId])
+  @@index([purchasedAt])
+  @@map("purchases")
+}
