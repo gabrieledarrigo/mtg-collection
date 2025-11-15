@@ -1,0 +1,45 @@
+{
+  "name": "mtg-collection",
+  "version": "0.1.0",
+  "description": "Track the collection of my mtg cards",
+  "keywords": [
+    "mtg",
+    "magic",
+    "cards"
+  ],
+  "homepage": "https://github.com/gabrieledarrigo/mtg-collection#readme",
+  "bugs": {
+    "url": "https://github.com/gabrieledarrigo/mtg-collection/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrieledarrigo/mtg-collection.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Gabriele D'Arrigo",
+    "email": "darrigo.g@gmail.com"
+  },
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "check": "prettier . --check",
+    "format": "prettier . --write",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.2.0",
+    "@types/node": "^24.10.1",
+    "jest": "^30.2.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "prisma": "^6.19.0"
+  }
+}
