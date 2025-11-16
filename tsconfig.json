@@ -5,7 +5,7 @@
     "outDir": "./dist",
 
     // Environment Settings
-    "module": "nodenext",
+    "module": "commonjs",
     "target": "esnext",
 
     "lib": ["esnext"],
@@ -13,8 +13,7 @@
 
     // Other Outputs
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    "noEmit": true,
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
@@ -25,11 +24,9 @@
 
     // Recommended Options
     "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleDetection": "force"
   },
   "exclude": ["node_modules", "dist", "prisma.config.ts"]
 }
