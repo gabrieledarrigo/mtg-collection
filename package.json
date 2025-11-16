@@ -27,6 +27,9 @@
     "format": "prettier . --write",
     "typecheck": "tsc --noEmit",
     "build": "tsc --build",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -40,6 +43,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "@scryfall/api-types": "^1.0.0-alpha.4",
     "dotenv": "^17.2.3",
     "prisma": "^6.19.0"
   }
