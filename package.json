@@ -20,7 +20,6 @@
     "name": "Gabriele D'Arrigo",
     "email": "darrigo.g@gmail.com"
   },
-  "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "check": "prettier . --check",
@@ -30,7 +29,8 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "jest",
+    "import": "ts-node src/importer/index.ts"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
@@ -44,6 +44,7 @@
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "@scryfall/api-types": "^1.0.0-alpha.4",
+    "csv-parser": "^3.2.0",
     "dotenv": "^17.2.3",
     "prisma": "^6.19.0"
   }
