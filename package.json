@@ -44,8 +44,8 @@
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "@scryfall/api-types": "^1.0.0-alpha.4",
-    "csv-parser": "^3.2.0",
     "dotenv": "^17.2.3",
+    "fast-csv": "^5.0.5",
     "prisma": "^6.19.0"
   }
 }
