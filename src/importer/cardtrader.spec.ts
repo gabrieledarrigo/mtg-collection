@@ -8,6 +8,8 @@ import {
   normalizeCollectorNumber,
   normalizeOrderItem,
   OrderItemRaw,
+  aggregateOrderItems,
+  OrderItem,
 } from "./cardtrader";
 
 describe("cardtrader", () => {
@@ -149,6 +151,130 @@ describe("cardtrader", () => {
       expect(result.signed).toBe(false);
       expect(result.altered).toBe(true);
       expect(result.collectorNumber).toBe(123);
+    });
+  });
+
+  describe("aggregateOrderItems", () => {
+    it("should aggregate order items with the same key", () => {
+      const items: OrderItem[] = [
+        {
+          game: "mtg",
+          setReleasedAt: "2023-01-01",
+          setName: "Test Set",
+          setCode: "tst",
+          itemName: "Test Card",
+          priceInEurCents: 100,
+          quantity: 2,
+          condition: Condition.NEAR_MINT,
+          language: Language.EN,
+          foilReverse: false,
+          signed: false,
+          altered: false,
+          firstEdition: "no",
+          collectorNumber: 123,
+        },
+        {
+          game: "mtg",
+          setReleasedAt: "2023-01-01",
+          setName: "Test Set",
+          setCode: "tst",
+          itemName: "Test Card",
+          priceInEurCents: 150,
+          quantity: 1,
+          condition: Condition.EXCELLENT,
+          language: Language.EN,
+          foilReverse: false,
+          signed: false,
+          altered: false,
+          firstEdition: "no",
+          collectorNumber: 123,
+        },
+      ];
+
+      const result = aggregateOrderItems(items);
+      const key = "tst_123_EN";
+
+      expect(result[key]).toBeDefined();
+      expect(result[key]!.quantity).toBe(3);
+      expect(result[key]!.totalPrice).toBe(250);
+      expect(result[key]!.item).toBe(items[0]);
+    });
+
+    it("should keep order items with different keys separate", () => {
+      const items: OrderItem[] = [
+        {
+          game: "mtg",
+          setReleasedAt: "2023-01-01",
+          setName: "Test Set",
+          setCode: "tst",
+          itemName: "Test Card",
+          priceInEurCents: 100,
+          quantity: 1,
+          condition: Condition.NEAR_MINT,
+          language: Language.EN,
+          foilReverse: false,
+          signed: false,
+          altered: false,
+          firstEdition: "no",
+          collectorNumber: 123,
+        },
+        {
+          game: "mtg",
+          setReleasedAt: "2023-01-01",
+          setName: "Test Set",
+          setCode: "tst",
+          itemName: "Test Card",
+          priceInEurCents: 150,
+          quantity: 2,
+          condition: Condition.NEAR_MINT,
+          language: Language.FR,
+          foilReverse: false,
+          signed: false,
+          altered: false,
+          firstEdition: "no",
+          collectorNumber: 123,
+        },
+      ];
+
+      const result = aggregateOrderItems(items);
+
+      expect(result["tst_123_EN"]).toBeDefined();
+      expect(result["tst_123_FR"]).toBeDefined();
+      expect(result["tst_123_EN"]!.quantity).toBe(1);
+      expect(result["tst_123_FR"]!.quantity).toBe(2);
+    });
+
+    it("should return empty object for an empty array", () => {
+      const result = aggregateOrderItems([]);
+      expect(result).toEqual({});
+    });
+
+    it("should handle a single order item", () => {
+      const items = [
+        {
+          game: "mtg",
+          setReleasedAt: "2023-01-01",
+          setName: "Test Set",
+          setCode: "tst",
+          itemName: "Test Card",
+          priceInEurCents: 100,
+          quantity: 1,
+          condition: Condition.NEAR_MINT,
+          language: Language.EN,
+          foilReverse: false,
+          signed: false,
+          altered: false,
+          firstEdition: "no",
+          collectorNumber: 123,
+        },
+      ];
+
+      const result = aggregateOrderItems(items);
+      const key = "tst_123_EN";
+
+      expect(Object.keys(result)).toHaveLength(1);
+      expect(result[key]!.quantity).toBe(1);
+      expect(result[key]!.totalPrice).toBe(100);
     });
   });
 });

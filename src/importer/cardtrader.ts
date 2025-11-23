@@ -34,6 +34,16 @@ export type OrderItem = {
   collectorNumber: number;
 };
 
+export type AggregatedKey = `${string}_${number}_${Language}`;
+
+export type AggregatedOrderItems = {
+  [key: AggregatedKey]: {
+    quantity: number;
+    totalPrice: number;
+    item: OrderItem;
+  };
+};
+
 export const LANGUAGE_MAP = {
   en: Language.EN,
   fr: Language.FR,
@@ -111,4 +121,23 @@ export function normalizeOrderItem(raw: OrderItemRaw): OrderItem {
     altered: normalizeBoolean(raw.altered),
     collectorNumber: normalizeCollectorNumber(raw.collectorNumber),
   };
+}
+
+export function aggregateOrderItems(items: OrderItem[]): AggregatedOrderItems {
+  return items.reduce((aggregate, item) => {
+    const key: AggregatedKey = `${item.setCode}_${item.collectorNumber}_${item.language}`;
+
+    if (!aggregate[key]) {
+      aggregate[key] = {
+        quantity: 0,
+        totalPrice: 0,
+        item: item,
+      };
+    }
+
+    aggregate[key].quantity += item.quantity;
+    aggregate[key].totalPrice += item.priceInEurCents;
+
+    return aggregate;
+  }, {} as AggregatedOrderItems);
 }
