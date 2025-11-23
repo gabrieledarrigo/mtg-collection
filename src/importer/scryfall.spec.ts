@@ -18,10 +18,16 @@ describe("scryfall", () => {
         json: async () => card,
       } as Response);
 
-      const result = await bySetAndNumber("khm", "123", Language.EN);
+      const result = await bySetAndNumber("khm", 123, Language.EN);
 
       expect(fetch).toHaveBeenCalledWith(
         "https://api.scryfall.com/cards/khm/123/en",
+        {
+          headers: {
+            Accept: "application/json",
+            "User-Agent": "mtg-collection/1.0",
+          },
+        },
       );
       expect(result).toEqual(card);
     });
@@ -34,8 +40,10 @@ describe("scryfall", () => {
       } as Response);
 
       await expect(
-        bySetAndNumber("khm", "999", "en" as Language),
-      ).rejects.toThrow("Failed to fetch card khm #999 (en): 404 Not Found");
+        bySetAndNumber("khm", 999, "en" as Language),
+      ).rejects.toThrow(
+        "Failed to fetch card with data: khm, 999, en. 404 Not Found",
+      );
     });
   });
 
@@ -58,10 +66,15 @@ describe("scryfall", () => {
       const result = await search(params);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("https://api.scryfall.com/cards/search?"),
-      );
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=Lightning+Bolt%2Blanguage%3Aen"),
+        expect.stringContaining(
+          "https://api.scryfall.com/cards/search?q=Lightning+Bolt%2Blanguage%3Aen",
+        ),
+        {
+          headers: {
+            Accept: "application/json",
+            "User-Agent": "mtg-collection/1.0",
+          },
+        },
       );
       expect(result).toEqual(list);
     });

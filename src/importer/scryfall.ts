@@ -8,18 +8,44 @@ export type SearchParams = {
 };
 
 const CARDS_URL = "https://api.scryfall.com/cards";
+const FETCH_DELAY = 150;
+
+function createScryfallClient() {
+  let lastRequestTime = 0;
+
+  return async function (url: string): Promise<Response> {
+    const now = Date.now();
+    const timeSinceLastRequest = now - lastRequestTime;
+
+    if (timeSinceLastRequest < FETCH_DELAY) {
+      await new Promise((resolve) => setTimeout(resolve, FETCH_DELAY));
+    }
+
+    lastRequestTime = Date.now();
+
+    return fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "mtg-collection/1.0",
+      },
+    });
+  };
+}
+
+const fetchScryfall = createScryfallClient();
 
 export async function bySetAndNumber(
   setCode: string,
-  collectorNumber: string,
+  collectorNumber: number,
   language: Language,
 ): Promise<ScryfallCard.Any> {
   const URL = `${CARDS_URL}/${setCode}/${collectorNumber}/${language.toLowerCase()}`;
-  const response = await fetch(URL);
+
+  const response = await fetchScryfall(URL);
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch card ${setCode} #${collectorNumber} (${language}): ${response.status} ${response.statusText}`,
+      `Failed to fetch card with data: ${setCode}, ${collectorNumber}, ${language}. ${response.status} ${response.statusText}`,
     );
   }
 
@@ -39,7 +65,7 @@ export async function search(
   searchParams.append("unique", "prints");
 
   const URL = `https://api.scryfall.com/cards/search?${searchParams.toString()}`;
-  const response = await fetch(URL);
+  const response = await fetchScryfall(URL);
 
   if (!response.ok) {
     throw new Error(
