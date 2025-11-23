@@ -8,7 +8,7 @@ global.fetch = jest.fn() as jest.MockedFunction<typeof fetch>;
 describe("scryfall", () => {
   describe("bySetAndNumber", () => {
     it("should fetch a card successfully", async () => {
-      const card: ScryfallCard.Any = {
+      const card = {
         id: "123",
         name: "Test Card",
       } as ScryfallCard.Any;
@@ -18,7 +18,7 @@ describe("scryfall", () => {
         json: async () => card,
       } as Response);
 
-      const result = await bySetAndNumber("khm", 123, Language.EN);
+      const result = await bySetAndNumber("khm", "123", Language.EN);
 
       expect(fetch).toHaveBeenCalledWith(
         "https://api.scryfall.com/cards/khm/123/en",
@@ -40,7 +40,7 @@ describe("scryfall", () => {
       } as Response);
 
       await expect(
-        bySetAndNumber("khm", 999, "en" as Language),
+        bySetAndNumber("khm", "999", "en" as Language),
       ).rejects.toThrow(
         "Failed to fetch card with data: khm, 999, en. 404 Not Found",
       );
@@ -49,7 +49,7 @@ describe("scryfall", () => {
 
   describe("search", () => {
     it("should search for cards successfully", async () => {
-      const list: ScryfallList.Cards = {
+      const list = {
         data: [],
         has_more: false,
       } as unknown as ScryfallList.Cards;

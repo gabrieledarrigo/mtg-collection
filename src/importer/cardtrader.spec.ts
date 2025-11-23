@@ -97,27 +97,27 @@ describe("cardtrader", () => {
 
   describe("normalizeCollectorNumber", () => {
     it("should parse simple numbers", () => {
-      expect(normalizeCollectorNumber("123")).toBe(123);
+      expect(normalizeCollectorNumber("123")).toBe("123");
     });
 
     it("should remove leading zeros", () => {
-      expect(normalizeCollectorNumber("007")).toBe(7);
+      expect(normalizeCollectorNumber("007")).toBe("7");
     });
 
     it("should remove 't' prefix", () => {
-      expect(normalizeCollectorNumber("t123")).toBe(123);
+      expect(normalizeCollectorNumber("t123")).toBe("123");
     });
 
     it("should remove fraction prefix", () => {
-      expect(normalizeCollectorNumber("123/456")).toBe(456);
+      expect(normalizeCollectorNumber("123/456")).toBe("456");
     });
 
     it("should handle spaces", () => {
-      expect(normalizeCollectorNumber("1 2 3")).toBe(123);
+      expect(normalizeCollectorNumber("1 2 3")).toBe("123");
     });
 
     it("should handle complex cases", () => {
-      expect(normalizeCollectorNumber("T 001/456")).toBe(456);
+      expect(normalizeCollectorNumber("T 001/456")).toBe("456");
     });
   });
 
@@ -150,7 +150,7 @@ describe("cardtrader", () => {
       expect(result.foilReverse).toBe(true);
       expect(result.signed).toBe(false);
       expect(result.altered).toBe(true);
-      expect(result.collectorNumber).toBe(123);
+      expect(result.collectorNumber).toBe("123");
     });
   });
 
@@ -171,7 +171,7 @@ describe("cardtrader", () => {
           signed: false,
           altered: false,
           firstEdition: "no",
-          collectorNumber: 123,
+          collectorNumber: "123",
         },
         {
           game: "mtg",
@@ -187,7 +187,7 @@ describe("cardtrader", () => {
           signed: false,
           altered: false,
           firstEdition: "no",
-          collectorNumber: 123,
+          collectorNumber: "123",
         },
       ];
 
@@ -216,7 +216,7 @@ describe("cardtrader", () => {
           signed: false,
           altered: false,
           firstEdition: "no",
-          collectorNumber: 123,
+          collectorNumber: "123",
         },
         {
           game: "mtg",
@@ -232,7 +232,7 @@ describe("cardtrader", () => {
           signed: false,
           altered: false,
           firstEdition: "no",
-          collectorNumber: 123,
+          collectorNumber: "123",
         },
       ];
 
@@ -269,7 +269,7 @@ describe("cardtrader", () => {
           signed: false,
           altered: false,
           firstEdition: "no",
-          collectorNumber: 123,
+          collectorNumber: "123",
         },
       ];
 

@@ -36,7 +36,7 @@ const fetchScryfall = createScryfallClient();
 
 export async function bySetAndNumber(
   setCode: string,
-  collectorNumber: number,
+  collectorNumber: string,
   language: Language,
 ): Promise<ScryfallCard.Any> {
   const URL = `${CARDS_URL}/${setCode}/${collectorNumber}/${language.toLowerCase()}`;

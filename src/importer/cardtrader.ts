@@ -31,11 +31,11 @@ export type OrderItem = {
   signed: boolean;
   altered: boolean;
   firstEdition: string;
-  collectorNumber: number;
+  collectorNumber: string;
 };
 
 export type AggregatedKey =
-  `${string}_${number}_${Language}_${boolean}_${Condition}`;
+  `${string}_${string}_${Language}_${boolean}_${Condition}`;
 
 export type AggregatedOrderItems = {
   [key: AggregatedKey]: {
@@ -98,7 +98,7 @@ export function normalizeBoolean(value: string): boolean {
   return value.toLowerCase() === "true";
 }
 
-export function normalizeCollectorNumber(collectorNumber: string): number {
+export function normalizeCollectorNumber(collectorNumber: string): string {
   const parsed = collectorNumber
     .toLowerCase()
     .replace(/\s+/g, "")
@@ -106,7 +106,7 @@ export function normalizeCollectorNumber(collectorNumber: string): number {
     .replace(/^\d+\//, "")
     .replace(/^0+/, "");
 
-  return parseInt(parsed, 10);
+  return parsed;
 }
 
 export function normalizeOrderItem(raw: OrderItemRaw): OrderItem {
