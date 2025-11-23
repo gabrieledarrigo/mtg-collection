@@ -34,7 +34,8 @@ export type OrderItem = {
   collectorNumber: number;
 };
 
-export type AggregatedKey = `${string}_${number}_${Language}`;
+export type AggregatedKey =
+  `${string}_${number}_${Language}_${boolean}_${Condition}`;
 
 export type AggregatedOrderItems = {
   [key: AggregatedKey]: {
@@ -125,7 +126,7 @@ export function normalizeOrderItem(raw: OrderItemRaw): OrderItem {
 
 export function aggregateOrderItems(items: OrderItem[]): AggregatedOrderItems {
   return items.reduce((aggregate, item) => {
-    const key: AggregatedKey = `${item.setCode}_${item.collectorNumber}_${item.language}`;
+    const key: AggregatedKey = `${item.setCode}_${item.collectorNumber}_${item.language}_${item.foilReverse}_${item.condition}`;
 
     if (!aggregate[key]) {
       aggregate[key] = {

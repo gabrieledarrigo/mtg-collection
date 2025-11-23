@@ -181,7 +181,7 @@ describe("cardtrader", () => {
           itemName: "Test Card",
           priceInEurCents: 150,
           quantity: 1,
-          condition: Condition.EXCELLENT,
+          condition: Condition.NEAR_MINT,
           language: Language.EN,
           foilReverse: false,
           signed: false,
@@ -191,8 +191,8 @@ describe("cardtrader", () => {
         },
       ];
 
+      const key = "tst_123_EN_false_NEAR_MINT";
       const result = aggregateOrderItems(items);
-      const key = "tst_123_EN";
 
       expect(result[key]).toBeDefined();
       expect(result[key]!.quantity).toBe(3);
@@ -236,16 +236,20 @@ describe("cardtrader", () => {
         },
       ];
 
+      const keyOne = "tst_123_EN_false_NEAR_MINT";
+      const keyTwo = "tst_123_FR_false_NEAR_MINT";
       const result = aggregateOrderItems(items);
 
-      expect(result["tst_123_EN"]).toBeDefined();
-      expect(result["tst_123_FR"]).toBeDefined();
-      expect(result["tst_123_EN"]!.quantity).toBe(1);
-      expect(result["tst_123_FR"]!.quantity).toBe(2);
+      expect(result[keyOne]).toBeDefined();
+      expect(result[keyOne]!.quantity).toBe(1);
+
+      expect(result[keyTwo]).toBeDefined();
+      expect(result[keyTwo]!.quantity).toBe(2);
     });
 
     it("should return empty object for an empty array", () => {
       const result = aggregateOrderItems([]);
+
       expect(result).toEqual({});
     });
 
@@ -269,8 +273,8 @@ describe("cardtrader", () => {
         },
       ];
 
+      const key = "tst_123_EN_false_NEAR_MINT";
       const result = aggregateOrderItems(items);
-      const key = "tst_123_EN";
 
       expect(Object.keys(result)).toHaveLength(1);
       expect(result[key]!.quantity).toBe(1);
