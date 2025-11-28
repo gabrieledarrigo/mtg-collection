@@ -1,8 +1,6 @@
 generator client {
-  provider               = "prisma-client"
-  output                 = "../src/prisma"
-  generatedFileExtension = "ts"
-  importFileExtension    = "ts"
+  provider = "prisma-client"
+  output   = "../src/prisma"
 }
 
 datasource db {
@@ -68,16 +66,16 @@ model User {
 model Card {
   id              String           @id @default(uuid(7))
   scryfallId      String           @map("scryfall_id") @db.Uuid()
-  oracleId        String           @map("oracle_id") @db.Uuid()
+  oracleId        String?          @map("oracle_id") @db.Uuid()
   name            String
   setCode         String           @map("set_code")
   collectorNumber String           @map("collector_number")
   rarity          Rarity
-  typeLine        String           @map("type_line")
-  imageUrl        String           @map("image_url")
-  oracleText      String           @map("oracle_text")
-  manaCost        String           @map("mana_cost")
-  cmc             Decimal
+  typeLine        String?          @map("type_line")
+  imageUrl        String?          @map("image_url")
+  oracleText      String?          @map("oracle_text")
+  manaCost        String?          @map("mana_cost")
+  cmc             Decimal          @default(0)
   colorIdentity   String[]         @default([]) @map("color_identity")
   layout          String           @default("normal")
   cardFaces       Json?            @map("card_faces")
