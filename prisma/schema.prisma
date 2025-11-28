@@ -44,6 +44,10 @@ enum Language {
   PX // Phyrexian
 }
 
+enum Currency {
+  EUR
+}
+
 enum Source {
   CARDTRADER
   DIRECT_PURCHASE
@@ -113,9 +117,9 @@ model Purchase {
   collectionItem   CollectionItem @relation(fields: [collectionItemId], references: [id], onDelete: Cascade)
   collectionItemId String         @map("collection_item_id")
 
-  quantity Int    @default(1)
-  price    Int    @map("price_per_card")
-  currency String @default("EUR")
+  quantity Int      @default(1)
+  price    Int      @map("price_per_card")
+  currency Currency @default(EUR)
 
   source        Source   @default(CARDTRADER)
   sourceOrderId String   @map("source_order_id")
