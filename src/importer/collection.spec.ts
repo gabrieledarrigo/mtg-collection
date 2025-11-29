@@ -24,8 +24,10 @@ describe("collection", () => {
       const scryfallCard = createMock<ScryfallCard.Normal>({
         id: "scryfall-card-123",
         name: "Lightning Bolt",
+        printed_name: "Lightning Bolt",
         set: "m21",
         collector_number: "199",
+        lang: "en",
         rarity: "common",
         layout: ScryfallLayout.Normal,
         mana_cost: "{R}",
@@ -33,8 +35,14 @@ describe("collection", () => {
         color_identity: ["R"],
         oracle_id: "oracle-123",
         type_line: "Instant",
+        printed_type_line: "Instant",
+        printed_text: "Lightning Bolt deals 3 damage to any target.",
         oracle_text: "Deal 3 damage to any target.",
-        image_uris: { normal: "https://example.com/image.jpg" },
+        image_uris: {
+          small: "https://example.com/image_small.jpg",
+          normal: "https://example.com/image_normal.jpg",
+          large: "https://example.com/image_large.jpg",
+        },
       });
 
       const card = createMock<Card>({
@@ -57,10 +65,16 @@ describe("collection", () => {
           name: scryfallCard.name,
           setCode: scryfallCard.set,
           collectorNumber: scryfallCard.collector_number,
+          language: "EN",
           rarity: "COMMON",
           typeLine: scryfallCard.type_line,
-          imageUrl: "https://example.com/image.jpg",
+          imageUrlSmall: "https://example.com/image_small.jpg",
+          imageUrlNormal: "https://example.com/image_normal.jpg",
+          imageUrlLarge: "https://example.com/image_large.jpg",
           oracleText: scryfallCard.oracle_text,
+          printedName: scryfallCard.printed_name,
+          printedTypeLine: scryfallCard.printed_type_line,
+          printedText: scryfallCard.printed_text,
           manaCost: scryfallCard.mana_cost,
           cmc: scryfallCard.cmc,
           colorIdentity: scryfallCard.color_identity,
@@ -76,6 +90,7 @@ describe("collection", () => {
         name: "Delver of Secrets // Insectile Aberration",
         set: "isd",
         collector_number: "51",
+        lang: "en",
         rarity: "common",
         layout: ScryfallLayout.Transform,
         mana_cost: "{U}",
@@ -84,8 +99,20 @@ describe("collection", () => {
         oracle_id: "oracle-456",
         type_line: "Creature — Human Wizard",
         card_faces: [
-          { image_uris: { normal: "https://example.com/front.jpg" } },
-          { image_uris: { normal: "https://example.com/back.jpg" } },
+          {
+            image_uris: {
+              small: "https://example.com/front_small.jpg",
+              normal: "https://example.com/front_normal.jpg",
+              large: "https://example.com/front_large.jpg",
+            },
+          },
+          {
+            image_uris: {
+              small: "https://example.com/back_small.jpg",
+              normal: "https://example.com/back_normal.jpg",
+              large: "https://example.com/back_large.jpg",
+            },
+          },
         ],
       });
 
@@ -107,7 +134,7 @@ describe("collection", () => {
       );
     });
 
-    it("should return null imageUrl when no image_uris is present", async () => {
+    it("should throw an error when the image URLs are missing", async () => {
       const scryfallCard = createMock<ScryfallCard.Any>({
         id: "scryfall-card-789",
         name: "Some Card",
@@ -126,14 +153,8 @@ describe("collection", () => {
 
       jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
 
-      await upsertCard(scryfallCard, transaction);
-
-      expect(transaction.card.upsert).toHaveBeenCalledWith(
-        expect.objectContaining({
-          create: expect.objectContaining({
-            imageUrl: null,
-          }),
-        }),
+      await expect(upsertCard(scryfallCard, transaction)).rejects.toThrow(
+        "No image found for card: Some Card (set1/1)",
       );
     });
 
@@ -143,6 +164,7 @@ describe("collection", () => {
         name: "Fire // Ice",
         set: "apc",
         collector_number: "128",
+        lang: "en",
         rarity: "uncommon",
         layout: ScryfallLayout.Split,
         mana_cost: "{1}{R} // {1}{U}",
@@ -151,7 +173,9 @@ describe("collection", () => {
         oracle_id: "oracle-split",
         type_line: "Instant // Instant",
         image_uris: {
-          normal: "https://example.com/split.jpg",
+          small: "https://example.com/split_small.jpg",
+          normal: "https://example.com/split_normal.jpg",
+          large: "https://example.com/split_large.jpg",
         },
       });
 
@@ -167,7 +191,9 @@ describe("collection", () => {
       expect(transaction.card.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           create: expect.objectContaining({
-            imageUrl: "https://example.com/split.jpg",
+            imageUrlSmall: "https://example.com/split_small.jpg",
+            imageUrlNormal: "https://example.com/split_normal.jpg",
+            imageUrlLarge: "https://example.com/split_large.jpg",
           }),
         }),
       );
@@ -209,7 +235,6 @@ describe("collection", () => {
           unique_collection_item: {
             userId: data.userId,
             cardId: card.id,
-            language: data.language,
             foil: data.foil,
             condition: data.condition,
           },
@@ -218,7 +243,6 @@ describe("collection", () => {
         create: {
           userId: data.userId,
           cardId: card.id,
-          language: data.language,
           foil: data.foil,
           condition: data.condition,
           quantity: data.quantity,

@@ -41,7 +41,7 @@ enum Language {
   GRC // Ancient Greek
   AR // Arabic
   SA // Sanskrit
-  PX // Phyrexian
+  PH // Phyrexian
 }
 
 enum Currency {
@@ -74,10 +74,16 @@ model Card {
   name            String
   setCode         String           @map("set_code")
   collectorNumber String           @map("collector_number")
+  language        Language
   rarity          Rarity
   typeLine        String?          @map("type_line")
-  imageUrl        String?          @map("image_url")
+  imageUrlSmall   String?          @map("image_url_small")
+  imageUrlNormal  String?          @map("image_url_normal")
+  imageUrlLarge   String?          @map("image_url_large")
   oracleText      String?          @map("oracle_text")
+  printedName     String?          @map("printed_name")
+  printedTypeLine String?          @map("printed_type_line")
+  printedText     String?          @map("printed_text")
   manaCost        String?          @map("mana_cost")
   cmc             Decimal          @default(0) @db.Decimal(4, 2)
   colorIdentity   String[]         @default([]) @map("color_identity")
@@ -87,6 +93,7 @@ model Card {
   updatedAt       DateTime         @updatedAt @map("updated_at")
   collectionItems CollectionItem[]
 
+  @@unique([setCode, collectorNumber, language], name: "unique_card_printing")
   @@index([setCode], name: "idx_set_code")
   @@map("cards")
 }
@@ -97,7 +104,6 @@ model CollectionItem {
   userId    String     @map("user_id")
   card      Card       @relation(fields: [cardId], references: [id], onDelete: Cascade)
   cardId    String     @map("card_id")
-  language  Language
   foil      Boolean
   condition Condition
   quantity  Int
@@ -105,7 +111,7 @@ model CollectionItem {
   updatedAt DateTime   @updatedAt @map("updated_at")
   purchases Purchase[]
 
-  @@unique([userId, cardId, language, foil, condition], name: "unique_collection_item")
+  @@unique([userId, cardId, foil, condition], name: "unique_collection_item")
   @@index([userId], name: "idx_user_id")
   @@index([cardId], name: "idx_card_id")
   @@map("collection_items")

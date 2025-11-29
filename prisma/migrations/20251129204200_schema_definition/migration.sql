@@ -5,7 +5,10 @@ CREATE TYPE "Rarity" AS ENUM ('COMMON', 'UNCOMMON', 'RARE', 'MYTHIC');
 CREATE TYPE "Condition" AS ENUM ('MINT', 'NEAR_MINT', 'EXCELLENT', 'GOOD', 'LIGHT_PLAYED', 'PLAYED', 'POOR');
 
 -- CreateEnum
-CREATE TYPE "Language" AS ENUM ('EN', 'ES', 'FR', 'DE', 'IT', 'PT', 'JA', 'KO', 'RU', 'ZHS', 'ZHT', 'HE', 'LA', 'GRC', 'AR', 'SA', 'PX');
+CREATE TYPE "Language" AS ENUM ('EN', 'ES', 'FR', 'DE', 'IT', 'PT', 'JA', 'KO', 'RU', 'ZHS', 'ZHT', 'HE', 'LA', 'GRC', 'AR', 'SA', 'PH');
+
+-- CreateEnum
+CREATE TYPE "Currency" AS ENUM ('EUR');
 
 -- CreateEnum
 CREATE TYPE "Source" AS ENUM ('CARDTRADER', 'DIRECT_PURCHASE', 'TRADE', 'GIFT', 'OTHER');
@@ -25,16 +28,22 @@ CREATE TABLE "users" (
 CREATE TABLE "cards" (
     "id" TEXT NOT NULL,
     "scryfall_id" UUID NOT NULL,
-    "oracle_id" UUID NOT NULL,
+    "oracle_id" UUID,
     "name" TEXT NOT NULL,
     "set_code" TEXT NOT NULL,
     "collector_number" TEXT NOT NULL,
+    "language" "Language" NOT NULL,
     "rarity" "Rarity" NOT NULL,
-    "type_line" TEXT NOT NULL,
-    "image_url" TEXT NOT NULL,
-    "oracle_text" TEXT NOT NULL,
-    "mana_cost" TEXT NOT NULL,
-    "cmc" DECIMAL(65,30) NOT NULL,
+    "type_line" TEXT,
+    "image_url_small" TEXT,
+    "image_url_normal" TEXT,
+    "image_url_large" TEXT,
+    "oracle_text" TEXT,
+    "printed_name" TEXT,
+    "printed_type_line" TEXT,
+    "printed_text" TEXT,
+    "mana_cost" TEXT,
+    "cmc" DECIMAL(4,2) NOT NULL DEFAULT 0,
     "color_identity" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "layout" TEXT NOT NULL DEFAULT 'normal',
     "card_faces" JSONB,
@@ -49,7 +58,6 @@ CREATE TABLE "collection_items" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "card_id" TEXT NOT NULL,
-    "language" "Language" NOT NULL,
     "foil" BOOLEAN NOT NULL,
     "condition" "Condition" NOT NULL,
     "quantity" INTEGER NOT NULL,
@@ -65,7 +73,7 @@ CREATE TABLE "purchases" (
     "collection_item_id" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     "price_per_card" INTEGER NOT NULL,
-    "currency" TEXT NOT NULL DEFAULT 'EUR',
+    "currency" "Currency" NOT NULL DEFAULT 'EUR',
     "source" "Source" NOT NULL DEFAULT 'CARDTRADER',
     "source_order_id" TEXT NOT NULL,
     "purchased_at" TIMESTAMP(3) NOT NULL,
@@ -82,10 +90,13 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "cards_scryfall_id_key" ON "cards"("scryfall_id");
+
+-- CreateIndex
 CREATE INDEX "idx_set_code" ON "cards"("set_code");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "cards_scryfall_id_key" ON "cards"("scryfall_id");
+CREATE UNIQUE INDEX "cards_set_code_collector_number_language_key" ON "cards"("set_code", "collector_number", "language");
 
 -- CreateIndex
 CREATE INDEX "idx_user_id" ON "collection_items"("user_id");
@@ -94,7 +105,7 @@ CREATE INDEX "idx_user_id" ON "collection_items"("user_id");
 CREATE INDEX "idx_card_id" ON "collection_items"("card_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "collection_items_user_id_card_id_language_foil_condition_key" ON "collection_items"("user_id", "card_id", "language", "foil", "condition");
+CREATE UNIQUE INDEX "collection_items_user_id_card_id_foil_condition_key" ON "collection_items"("user_id", "card_id", "foil", "condition");
 
 -- CreateIndex
 CREATE INDEX "purchases_collection_item_id_idx" ON "purchases"("collection_item_id");

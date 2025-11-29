@@ -1,8 +1,4 @@
-import {
-  ScryfallCard,
-  ScryfallImageUris,
-  ScryfallLayout,
-} from "@scryfall/api-types";
+import { ScryfallCard, ScryfallLayout } from "@scryfall/api-types";
 import {
   Card,
   Rarity,
@@ -13,37 +9,69 @@ import {
   Source,
   Prisma,
 } from "../prisma";
+import assert from "node:assert";
 
-function getCardImageUrl(card: ScryfallCard.Any): ScryfallImageUris | null {
-  if (
-    card.layout === ScryfallLayout.Normal ||
-    card.layout === ScryfallLayout.Leveler ||
-    card.layout === ScryfallLayout.Class
-  ) {
-    return card.image_uris ?? null;
+function getCardImageUris(card: ScryfallCard.Any): {
+  small: string;
+  normal: string;
+  large: string;
+} {
+  const withoutCardFaces: ScryfallLayout[] = [
+    ScryfallLayout.Normal,
+    ScryfallLayout.Meld,
+    ScryfallLayout.Leveler,
+    ScryfallLayout.Class,
+    ScryfallLayout.Saga,
+    ScryfallLayout.Mutate,
+    ScryfallLayout.Prototype,
+    ScryfallLayout.Battle,
+    ScryfallLayout.Planar,
+    ScryfallLayout.Scheme,
+    ScryfallLayout.Vanguard,
+    ScryfallLayout.Token,
+    ScryfallLayout.Emblem,
+    ScryfallLayout.Augment,
+    ScryfallLayout.Host,
+    ScryfallLayout.Split,
+    ScryfallLayout.Flip,
+    ScryfallLayout.Adventure,
+  ];
+
+  const withCardFaces: ScryfallLayout[] = [
+    ScryfallLayout.Transform,
+    ScryfallLayout.ModalDfc,
+    ScryfallLayout.DoubleFacedToken,
+    ScryfallLayout.ArtSeries,
+    ScryfallLayout.ReversibleCard,
+  ];
+
+  if (withoutCardFaces.includes(card.layout as ScryfallLayout)) {
+    const singleFaced = card as ScryfallCard.AnySingleFaced;
+
+    assert(
+      singleFaced.image_uris !== undefined,
+      `No image found for card: ${card.name} (${card.set}/${card.collector_number})`,
+    );
+
+    return singleFaced.image_uris;
   }
 
-  if (
-    card.layout === ScryfallLayout.Split ||
-    card.layout === ScryfallLayout.Flip ||
-    card.layout === ScryfallLayout.Adventure
-  ) {
-    return card.image_uris ?? null;
+  if (withCardFaces.includes(card.layout as ScryfallLayout)) {
+    const doubleFaced = card as ScryfallCard.AnyDoubleSidedSplit;
+
+    const frontFaceImageUris = doubleFaced.card_faces?.[0]?.image_uris;
+
+    assert(
+      frontFaceImageUris !== undefined,
+      `No image found for card: ${card.name} (${card.set}/${card.collector_number})`,
+    );
+
+    return frontFaceImageUris;
   }
 
-  if (
-    card.layout === ScryfallLayout.Transform ||
-    card.layout === ScryfallLayout.ModalDfc ||
-    card.layout === ScryfallLayout.DoubleFacedToken ||
-    card.layout === ScryfallLayout.ReversibleCard ||
-    card.layout === ScryfallLayout.ArtSeries
-  ) {
-    if (card.card_faces && card.card_faces.length > 0) {
-      return card.card_faces[0]?.image_uris ?? null;
-    }
-  }
-
-  return null;
+  throw new Error(
+    `No image found for card: ${card.name} (${card.set}/${card.collector_number})`,
+  );
 }
 
 function getOracleId(card: ScryfallCard.Any): string | null {
@@ -54,20 +82,44 @@ function getOracleId(card: ScryfallCard.Any): string | null {
   return card.oracle_id;
 }
 
-function getTypeLine(card: ScryfallCard.Any): string | null {
-  if ("type_line" in card === false) {
-    return null;
-  }
-
-  return card.type_line;
-}
-
 function getOracleText(card: ScryfallCard.Any): string | null {
   if ("oracle_text" in card === false) {
     return null;
   }
 
   return card.oracle_text;
+}
+
+function getPrintedName(card: ScryfallCard.Any): string | null {
+  if ("printed_name" in card === false) {
+    return null;
+  }
+
+  return card?.printed_name ?? null;
+}
+
+function getPrintedText(card: ScryfallCard.Any): string | null {
+  if ("printed_text" in card === false) {
+    return null;
+  }
+
+  return card?.printed_text ?? null;
+}
+
+function getPrintedTypeLine(card: ScryfallCard.Any): string | null {
+  if ("printed_type_line" in card === false) {
+    return null;
+  }
+
+  return card?.printed_type_line ?? null;
+}
+
+function getTypeLine(card: ScryfallCard.Any): string | null {
+  if ("type_line" in card === false) {
+    return null;
+  }
+
+  return card.type_line;
 }
 
 function getCardFaces(card: ScryfallCard.Any): string | null {
@@ -90,10 +142,13 @@ export async function upsertCard(
   card: ScryfallCard.Any,
   transaction: Prisma.TransactionClient,
 ): Promise<Card> {
-  const imageUrl = getCardImageUrl(card)?.normal ?? null;
+  const imageUris = getCardImageUris(card);
   const oracleId = getOracleId(card);
-  const typeLine = getTypeLine(card);
   const oracleText = getOracleText(card);
+  const typeLine = getTypeLine(card);
+  const printedName = getPrintedName(card);
+  const printedTypeLine = getPrintedTypeLine(card);
+  const printedText = getPrintedText(card);
   const cardFaces = getCardFaces(card);
   const cmc = getCmc(card);
 
@@ -106,12 +161,18 @@ export async function upsertCard(
       scryfallId: card.id,
       oracleId,
       name: card.name,
+      printedName,
       setCode: card.set,
       collectorNumber: card.collector_number,
+      language: card.lang.toUpperCase() as Language,
       rarity: card.rarity.toUpperCase() as Rarity,
       typeLine,
-      imageUrl,
+      printedTypeLine,
+      imageUrlSmall: imageUris?.small ?? null,
+      imageUrlNormal: imageUris?.normal ?? null,
+      imageUrlLarge: imageUris?.large ?? null,
       oracleText,
+      printedText,
       manaCost: card.mana_cost ?? null,
       cmc,
       colorIdentity: card.color_identity,
@@ -127,7 +188,6 @@ export async function upsertCollectionItem(
   card: Card,
   data: {
     userId: string;
-    language: Language;
     foil: boolean;
     condition: Condition;
     quantity: number;
@@ -135,14 +195,13 @@ export async function upsertCollectionItem(
   transaction: Prisma.TransactionClient,
 ): Promise<CollectionItem> {
   const cardId = card.id;
-  const { userId, language, foil, condition, quantity } = data;
+  const { userId, foil, condition, quantity } = data;
 
   const collectionItem = await transaction.collectionItem.upsert({
     where: {
       unique_collection_item: {
         userId,
         cardId,
-        language,
         foil,
         condition,
       },
@@ -153,7 +212,6 @@ export async function upsertCollectionItem(
     create: {
       userId,
       cardId,
-      language,
       foil,
       condition,
       quantity,
