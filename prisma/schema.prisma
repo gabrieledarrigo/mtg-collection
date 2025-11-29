@@ -79,7 +79,7 @@ model Card {
   imageUrl        String?          @map("image_url")
   oracleText      String?          @map("oracle_text")
   manaCost        String?          @map("mana_cost")
-  cmc             Decimal          @default(0)
+  cmc             Decimal          @default(0) @db.Decimal(4, 2)
   colorIdentity   String[]         @default([]) @map("color_identity")
   layout          String           @default("normal")
   cardFaces       Json?            @map("card_faces")
