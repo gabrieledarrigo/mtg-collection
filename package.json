@@ -20,7 +20,6 @@
     "name": "Gabriele D'Arrigo",
     "email": "darrigo.g@gmail.com"
   },
-  "main": "src/index.ts",
   "scripts": {
     "check": "prettier . --check",
     "format": "prettier . --write",
@@ -30,7 +29,7 @@
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate",
     "test": "jest",
-    "import": "ts-node src/importer/index.ts"
+    "import": "tsx src/importer/index.ts"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
@@ -39,7 +38,7 @@
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.5",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
   "dependencies": {
