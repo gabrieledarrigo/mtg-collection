@@ -2,23 +2,24 @@ import { describe, it, expect, jest } from "@jest/globals";
 import type { ScryfallCard, ScryfallList } from "@scryfall/api-types";
 import { bySetAndNumber, search, type SearchParams } from "./scryfall";
 import { Language } from "../prisma/enums";
+import { createMock } from "../../test/helpers";
 
 global.fetch = jest.fn() as jest.MockedFunction<typeof fetch>;
 
 describe("scryfall", () => {
   describe("bySetAndNumber", () => {
     it("should fetch a card successfully", async () => {
-      const card = {
+      const card = createMock<ScryfallCard.Any>({
         id: "123",
         name: "Test Card",
-      } as ScryfallCard.Any;
+      });
 
       (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: true,
         json: async () => card,
       } as Response);
 
-      const result = await bySetAndNumber("khm", "123", Language.EN);
+      const actual = await bySetAndNumber("khm", "123", Language.EN);
 
       expect(fetch).toHaveBeenCalledWith(
         "https://api.scryfall.com/cards/khm/123/en",
@@ -29,7 +30,7 @@ describe("scryfall", () => {
           },
         },
       );
-      expect(result).toEqual(card);
+      expect(actual).toEqual(card);
     });
 
     it("should throw error when fetch fails", async () => {
@@ -49,10 +50,10 @@ describe("scryfall", () => {
 
   describe("search", () => {
     it("should search for cards successfully", async () => {
-      const list = {
+      const list = createMock<ScryfallList.Cards>({
         data: [],
         has_more: false,
-      } as unknown as ScryfallList.Cards;
+      });
 
       (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: true,
@@ -63,7 +64,8 @@ describe("scryfall", () => {
         name: "Lightning Bolt",
         language: Language.EN,
       };
-      const result = await search(params);
+
+      const actual = await search(params);
 
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(
@@ -76,7 +78,7 @@ describe("scryfall", () => {
           },
         },
       );
-      expect(result).toEqual(list);
+      expect(actual).toEqual(list);
     });
 
     it("should throw error when search fails", async () => {

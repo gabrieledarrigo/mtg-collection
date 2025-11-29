@@ -2,6 +2,7 @@ import { jest, describe, it, expect } from "@jest/globals";
 import fs from "fs";
 import * as csv from "fast-csv";
 import { parseCSV, writeCsv } from "./csv";
+import { createMock } from "../../test/helpers";
 
 jest.mock("fs");
 jest.mock("fast-csv");
@@ -13,7 +14,7 @@ describe("parseCSV", () => {
       { name: "Card2", count: "2" },
     ];
 
-    const stream = {
+    const readStream = createMock<fs.ReadStream>({
       pipe: jest.fn().mockReturnThis(),
       on: jest.fn().mockImplementation(function (
         this: any,
@@ -28,23 +29,28 @@ describe("parseCSV", () => {
 
         return this;
       } as any),
-    };
+    });
 
-    (fs.createReadStream as jest.Mock).mockReturnValue(stream);
-    (csv.parse as jest.Mock).mockReturnValue(stream);
+    const csvStream = createMock<
+      csv.CsvParserStream<(typeof data)[0], (typeof data)[0]>
+    >({});
 
-    const result = await parseCSV("/path/to/file.csv", {
+    jest.spyOn(fs, "createReadStream").mockReturnValue(readStream);
+    jest.spyOn(csv, "parse").mockReturnValue(csvStream);
+
+    const actual = await parseCSV("/path/to/file.csv", {
       headers: ["name", "count"],
     });
 
-    expect(result).toEqual(data);
+    expect(actual).toEqual(data);
     expect(fs.createReadStream).toHaveBeenCalledWith("/path/to/file.csv");
     expect(csv.parse).toHaveBeenCalledWith({ headers: ["name", "count"] });
   });
 
   it("should reject on error", async () => {
     const error = new Error("Read error");
-    const stream = {
+
+    const readStream = createMock<fs.ReadStream>({
       pipe: jest.fn().mockReturnThis(),
       on: jest.fn().mockImplementation(function (
         this: any,
@@ -56,14 +62,13 @@ describe("parseCSV", () => {
         }
         return this;
       } as any),
-    };
+    });
 
-    (fs.createReadStream as jest.Mock).mockReturnValue(stream);
-    (csv.parse as jest.Mock).mockReturnValue(stream);
+    jest.spyOn(fs, "createReadStream").mockReturnValue(readStream);
 
     await expect(
       parseCSV("/path/to/file.csv", { headers: ["name"] }),
-    ).rejects.toThrow("Read error");
+    ).rejects.toThrow(error);
   });
 });
 
@@ -74,7 +79,7 @@ describe("writeCsv", () => {
       { name: "Card2", count: 2 },
     ];
 
-    const stream = {
+    const stream = createMock<fs.WriteStream>({
       on: jest.fn().mockImplementation(function (
         this: any,
         event: string,
@@ -85,9 +90,9 @@ describe("writeCsv", () => {
         }
         return this;
       } as any),
-    };
+    });
 
-    (csv.writeToPath as jest.Mock).mockReturnValue(stream);
+    jest.spyOn(csv, "writeToPath").mockReturnValue(stream);
 
     await writeCsv("/path/to/output.csv", data);
 
@@ -98,7 +103,8 @@ describe("writeCsv", () => {
 
   it("should reject on error", async () => {
     const error = new Error("Write error");
-    const stream = {
+
+    const stream = createMock<fs.WriteStream>({
       on: jest.fn().mockImplementation(function (
         this: any,
         event: string,
@@ -109,9 +115,9 @@ describe("writeCsv", () => {
         }
         return this;
       } as any),
-    };
+    });
 
-    (csv.writeToPath as jest.Mock).mockReturnValue(stream);
+    jest.spyOn(csv, "writeToPath").mockReturnValue(stream);
 
     await expect(writeCsv("/path/to/output.csv", [])).rejects.toThrow(
       "Write error",
