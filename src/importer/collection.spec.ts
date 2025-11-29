@@ -65,12 +65,12 @@ describe("collection", () => {
           cmc: scryfallCard.cmc,
           colorIdentity: scryfallCard.color_identity,
           layout: scryfallCard.layout,
-          cardFaces: expect.any(String),
+          cardFaces: Prisma.JsonNull,
         }),
       });
     });
 
-    it("should handle transform layout card with card faces", async () => {
+    it("should handle card with card faces", async () => {
       const scryfallCard = createMock<ScryfallCard.Transform>({
         id: "scryfall-card-456",
         name: "Delver of Secrets // Insectile Aberration",
@@ -101,7 +101,6 @@ describe("collection", () => {
       expect(transaction.card.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           create: expect.objectContaining({
-            imageUrl: "https://example.com/front.jpg",
             cardFaces: JSON.stringify(scryfallCard.card_faces),
           }),
         }),

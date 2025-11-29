@@ -1,4 +1,8 @@
-import { ScryfallCard, ScryfallLayout } from "@scryfall/api-types";
+import {
+  ScryfallCard,
+  ScryfallImageUris,
+  ScryfallLayout,
+} from "@scryfall/api-types";
 import {
   Card,
   Rarity,
@@ -10,13 +14,13 @@ import {
   Prisma,
 } from "../prisma";
 
-function getCardImageUrl(card: ScryfallCard.Any): string | null {
+function getCardImageUrl(card: ScryfallCard.Any): ScryfallImageUris | null {
   if (
     card.layout === ScryfallLayout.Normal ||
     card.layout === ScryfallLayout.Leveler ||
     card.layout === ScryfallLayout.Class
   ) {
-    return card.image_uris?.normal ?? null;
+    return card.image_uris ?? null;
   }
 
   if (
@@ -24,7 +28,7 @@ function getCardImageUrl(card: ScryfallCard.Any): string | null {
     card.layout === ScryfallLayout.Flip ||
     card.layout === ScryfallLayout.Adventure
   ) {
-    return card.image_uris?.normal ?? null;
+    return card.image_uris ?? null;
   }
 
   if (
@@ -35,7 +39,7 @@ function getCardImageUrl(card: ScryfallCard.Any): string | null {
     card.layout === ScryfallLayout.ArtSeries
   ) {
     if (card.card_faces && card.card_faces.length > 0) {
-      return card.card_faces[0]?.image_uris?.normal ?? null;
+      return card.card_faces[0]?.image_uris ?? null;
     }
   }
 
@@ -66,9 +70,9 @@ function getOracleText(card: ScryfallCard.Any): string | null {
   return card.oracle_text;
 }
 
-function getCardFaces(card: ScryfallCard.Any): string {
+function getCardFaces(card: ScryfallCard.Any): string | null {
   if ("card_faces" in card === false) {
-    return "null";
+    return null;
   }
 
   return JSON.stringify(card.card_faces);
@@ -86,7 +90,7 @@ export async function upsertCard(
   card: ScryfallCard.Any,
   transaction: Prisma.TransactionClient,
 ): Promise<Card> {
-  const imageUrl = getCardImageUrl(card);
+  const imageUrl = getCardImageUrl(card)?.normal ?? null;
   const oracleId = getOracleId(card);
   const typeLine = getTypeLine(card);
   const oracleText = getOracleText(card);
@@ -108,11 +112,11 @@ export async function upsertCard(
       typeLine,
       imageUrl,
       oracleText,
-      manaCost: card.mana_cost ?? "",
+      manaCost: card.mana_cost ?? null,
       cmc,
       colorIdentity: card.color_identity,
       layout: card.layout,
-      cardFaces,
+      cardFaces: cardFaces ?? Prisma.JsonNull,
     },
   });
 
