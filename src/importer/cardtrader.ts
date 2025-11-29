@@ -68,6 +68,23 @@ export const CONDITION_MAP = {
   poor: Condition.POOR,
 };
 
+export const CARDTRADER_CSV_HEADERS = [
+  "game",
+  "setReleasedAt",
+  "setName",
+  "setCode",
+  "itemName",
+  "priceInEurCents",
+  "quantity",
+  "condition",
+  "language",
+  "foilReverse",
+  "signed",
+  "altered",
+  "firstEdition",
+  "collectorNumber",
+];
+
 export function toSnakeCase(input: string): string {
   return input.trim().toLowerCase().replace(/\s+/g, "_");
 }
