@@ -1,0 +1,270 @@
+import { describe, it, expect, jest } from "@jest/globals";
+import { ScryfallCard, ScryfallLayout } from "@scryfall/api-types";
+import { upsertCard, upsertCollectionItem, createPurchase } from "./collection";
+import {
+  Language,
+  Condition,
+  Source,
+  Prisma,
+  Card,
+  CollectionItem,
+  Purchase,
+} from "../prisma";
+import { createMock } from "../../test/helpers";
+
+describe("collection", () => {
+  describe("upsertCard", () => {
+    const transaction = createMock<Prisma.TransactionClient>({
+      card: {
+        upsert: jest.fn(),
+      },
+    });
+
+    it("should upsert a normal layout card", async () => {
+      const scryfallCard = createMock<ScryfallCard.Normal>({
+        id: "scryfall-card-123",
+        name: "Lightning Bolt",
+        set: "m21",
+        collector_number: "199",
+        rarity: "common",
+        layout: ScryfallLayout.Normal,
+        mana_cost: "{R}",
+        cmc: 1,
+        color_identity: ["R"],
+        oracle_id: "oracle-123",
+        type_line: "Instant",
+        oracle_text: "Deal 3 damage to any target.",
+        image_uris: { normal: "https://example.com/image.jpg" },
+      });
+
+      const card = createMock<Card>({
+        id: "card-123",
+        scryfallId: scryfallCard.id,
+      });
+
+      jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
+
+      await upsertCard(scryfallCard, transaction);
+
+      expect(transaction.card.upsert).toHaveBeenCalledWith({
+        where: {
+          scryfallId: scryfallCard.id,
+        },
+        update: {},
+        create: expect.objectContaining({
+          scryfallId: scryfallCard.id,
+          oracleId: scryfallCard.oracle_id,
+          name: scryfallCard.name,
+          setCode: scryfallCard.set,
+          collectorNumber: scryfallCard.collector_number,
+          rarity: "COMMON",
+          typeLine: scryfallCard.type_line,
+          imageUrl: "https://example.com/image.jpg",
+          oracleText: scryfallCard.oracle_text,
+          manaCost: scryfallCard.mana_cost,
+          cmc: scryfallCard.cmc,
+          colorIdentity: scryfallCard.color_identity,
+          layout: scryfallCard.layout,
+          cardFaces: expect.any(String),
+        }),
+      });
+    });
+
+    it("should handle transform layout card with card faces", async () => {
+      const scryfallCard = createMock<ScryfallCard.Transform>({
+        id: "scryfall-card-456",
+        name: "Delver of Secrets // Insectile Aberration",
+        set: "isd",
+        collector_number: "51",
+        rarity: "common",
+        layout: ScryfallLayout.Transform,
+        mana_cost: "{U}",
+        cmc: 1,
+        color_identity: ["U"],
+        oracle_id: "oracle-456",
+        type_line: "Creature — Human Wizard",
+        card_faces: [
+          { image_uris: { normal: "https://example.com/front.jpg" } },
+          { image_uris: { normal: "https://example.com/back.jpg" } },
+        ],
+      });
+
+      const card = createMock<Card>({
+        id: "card-123",
+        scryfallId: scryfallCard.id,
+      });
+
+      jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
+
+      await upsertCard(scryfallCard, transaction);
+
+      expect(transaction.card.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            imageUrl: "https://example.com/front.jpg",
+            cardFaces: JSON.stringify(scryfallCard.card_faces),
+          }),
+        }),
+      );
+    });
+
+    it("should return null imageUrl when no image_uris is present", async () => {
+      const scryfallCard = createMock<ScryfallCard.Any>({
+        id: "scryfall-card-789",
+        name: "Some Card",
+        set: "set1",
+        collector_number: "1",
+        rarity: "rare",
+        layout: ScryfallLayout.Normal,
+        cmc: 2,
+        color_identity: [],
+      });
+
+      const card = createMock<Card>({
+        id: "card-123",
+        scryfallId: "scryfall-card-789",
+      });
+
+      jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
+
+      await upsertCard(scryfallCard, transaction);
+
+      expect(transaction.card.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            imageUrl: null,
+          }),
+        }),
+      );
+    });
+
+    it("should handle split layout card", async () => {
+      const scryfallCard = createMock<ScryfallCard.Split>({
+        id: "scryfall-card-split",
+        name: "Fire // Ice",
+        set: "apc",
+        collector_number: "128",
+        rarity: "uncommon",
+        layout: ScryfallLayout.Split,
+        mana_cost: "{1}{R} // {1}{U}",
+        cmc: 4,
+        color_identity: ["R", "U"],
+        oracle_id: "oracle-split",
+        type_line: "Instant // Instant",
+        image_uris: {
+          normal: "https://example.com/split.jpg",
+        },
+      });
+
+      const card = createMock<Card>({
+        id: "card-split",
+        scryfallId: scryfallCard.id,
+      });
+
+      jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
+
+      await upsertCard(scryfallCard, transaction);
+
+      expect(transaction.card.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            imageUrl: "https://example.com/split.jpg",
+          }),
+        }),
+      );
+    });
+  });
+
+  describe("upsertCollectionItem", () => {
+    const transaction = createMock<Prisma.TransactionClient>({
+      collectionItem: {
+        upsert: jest.fn(),
+      },
+    });
+
+    it("should upsert a collection item", async () => {
+      const card = createMock<Card>({
+        id: "card-1",
+      });
+
+      const data = {
+        userId: "user-123",
+        language: Language.EN,
+        foil: false,
+        condition: Condition.NEAR_MINT,
+        quantity: 4,
+      };
+
+      const collectionItem = createMock<CollectionItem>({
+        id: "collection-item-123",
+      });
+
+      jest
+        .spyOn(transaction.collectionItem, "upsert")
+        .mockResolvedValue(collectionItem);
+
+      await upsertCollectionItem(card, data, transaction);
+
+      expect(transaction.collectionItem.upsert).toHaveBeenCalledWith({
+        where: {
+          unique_collection_item: {
+            userId: data.userId,
+            cardId: card.id,
+            language: data.language,
+            foil: data.foil,
+            condition: data.condition,
+          },
+        },
+        update: { quantity: { increment: data.quantity } },
+        create: {
+          userId: data.userId,
+          cardId: card.id,
+          language: data.language,
+          foil: data.foil,
+          condition: data.condition,
+          quantity: data.quantity,
+        },
+      });
+    });
+  });
+
+  describe("createPurchase", () => {
+    const transaction = createMock<Prisma.TransactionClient>({
+      purchase: {
+        create: jest.fn(),
+      },
+    });
+
+    it("should create a purchase record", async () => {
+      const collectionItem = createMock<CollectionItem>({
+        id: "collection-item-1",
+      });
+
+      const data = {
+        orderId: "order-123",
+        quantity: 2,
+        price: 9.99,
+        source: Source.CARDTRADER,
+      };
+
+      const purchase = createMock<Purchase>({
+        id: "purchase-123",
+      });
+
+      jest.spyOn(transaction.purchase, "create").mockResolvedValue(purchase);
+
+      await createPurchase(collectionItem, data, transaction);
+
+      expect(transaction.purchase.create).toHaveBeenCalledWith({
+        data: {
+          collectionItemId: collectionItem.id,
+          quantity: data.quantity,
+          price: data.price,
+          source: data.source,
+          sourceOrderId: data.orderId,
+          purchasedAt: expect.any(Date),
+        },
+      });
+    });
+  });
+});
