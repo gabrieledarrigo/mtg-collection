@@ -1,5 +1,5 @@
-import { DEFAULT_USER } from "../config";
-import { prisma } from "./prisma";
+import { DEFAULT_USER } from "@config/index";
+import { prisma } from ".";
 
 async function main() {
   console.log("Seeding database.");

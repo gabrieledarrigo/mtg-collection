@@ -9,7 +9,7 @@ import {
   Card,
   CollectionItem,
   Purchase,
-} from "../database/prisma";
+} from "../database";
 import { createMock } from "../../test/helpers";
 
 describe("collection", () => {

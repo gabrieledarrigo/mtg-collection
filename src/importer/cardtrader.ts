@@ -1,4 +1,4 @@
-import { Condition, Language } from "@database/prisma";
+import { Condition, Language } from "@database/index";
 
 export type OrderItemRaw = {
   game: string;

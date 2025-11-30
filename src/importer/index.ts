@@ -1,7 +1,7 @@
 import { join } from "path";
 import fs from "node:fs";
 import { ScryfallCard } from "@scryfall/api-types";
-import { Card, prisma, Source } from "@database/prisma";
+import { Card, prisma, Source } from "@database/index";
 import { DEFAULT_USER } from "@config/index";
 import {
   aggregateOrderItems,

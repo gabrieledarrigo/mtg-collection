@@ -1,7 +1,7 @@
 import { describe, it, expect, jest } from "@jest/globals";
 import type { ScryfallCard, ScryfallList } from "@scryfall/api-types";
 import { bySetAndNumber, search, type SearchParams } from "./scryfall";
-import { Language } from "@database/prisma";
+import { Language } from "@database/index";
 import { createMock } from "@test/helpers";
 
 global.fetch = jest.fn() as jest.MockedFunction<typeof fetch>;
