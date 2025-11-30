@@ -2,7 +2,7 @@ import { join } from "path";
 import fs from "node:fs";
 import { ScryfallCard } from "@scryfall/api-types";
 import { Card, prisma, Source } from "@database/prisma";
-import { defaultUser } from "@config/index";
+import { DEFAULT_USER } from "@config/index";
 import {
   aggregateOrderItems,
   CARDTRADER_CSV_HEADERS,
@@ -76,7 +76,7 @@ async function main() {
         const collectionItem = await upsertCollectionItem(
           card,
           {
-            userId: defaultUser.id!,
+            userId: DEFAULT_USER.id!,
             foil: item.foilReverse,
             condition: item.condition,
             quantity,

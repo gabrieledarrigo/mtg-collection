@@ -1,4 +1,4 @@
-import { defaultUser } from "../config";
+import { DEFAULT_USER } from "../config";
 import { prisma } from "./prisma";
 
 async function main() {
@@ -6,11 +6,11 @@ async function main() {
 
   await prisma.user.upsert({
     where: {
-      id: defaultUser.id,
+      id: DEFAULT_USER.id,
     },
     update: {},
     create: {
-      ...defaultUser,
+      ...DEFAULT_USER,
     },
   });
 }
