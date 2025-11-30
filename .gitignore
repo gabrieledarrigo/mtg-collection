@@ -19,7 +19,7 @@ yarn-error.log*
 .env
 
 # Prisma
-src/prisma
+src/**/generated
 
 # Docker
 db_data

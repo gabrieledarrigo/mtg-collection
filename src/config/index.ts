@@ -1,4 +1,4 @@
-import { UserCreateInput } from "../prisma/models";
+import { UserCreateInput } from "@database/prisma";
 
 export const defaultUser: UserCreateInput = {
   id: "019acf2b-a2d9-7df2-977f-deedce810c56",

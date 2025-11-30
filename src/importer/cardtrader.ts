@@ -1,4 +1,4 @@
-import { Condition, Language } from "../prisma/enums";
+import { Condition, Language } from "@database/prisma";
 
 export type OrderItemRaw = {
   game: string;

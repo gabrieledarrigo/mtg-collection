@@ -8,7 +8,7 @@ import {
   Purchase,
   Source,
   Prisma,
-} from "../prisma";
+} from "../database/prisma";
 import assert from "node:assert";
 
 function getCardImageUris(card: ScryfallCard.Any): {

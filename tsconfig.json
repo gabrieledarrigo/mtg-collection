@@ -1,32 +1,25 @@
 {
   "compilerOptions": {
-    // File Layout
     "rootDirs": ["./src", "./tests"],
     "outDir": "./dist",
-
-    // Environment Settings
     "module": "commonjs",
     "target": "esnext",
-
     "lib": ["esnext"],
     "types": ["node"],
-
-    // Other Outputs
     "sourceMap": true,
     "noEmit": true,
-
-    // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-
-    // Style Options
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
-
-    // Recommended Options
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    "paths": {
+      "@database/*": ["./src/database/*"],
+      "@config/*": ["./src/config/*"],
+      "@test/*": ["./test/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "prisma.config.ts"]
 }

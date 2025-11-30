@@ -1,5 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import { Condition, Language } from "../prisma/enums";
+import { Condition, Language } from "@database/prisma";
 import {
   toSnakeCase,
   normalizeLanguage,

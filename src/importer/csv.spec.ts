@@ -2,7 +2,7 @@ import { jest, describe, it, expect } from "@jest/globals";
 import fs from "fs";
 import * as csv from "fast-csv";
 import { parseCSV, writeCsv } from "./csv";
-import { createMock } from "../../test/helpers";
+import { createMock } from "@test/helpers";
 
 jest.mock("fs");
 jest.mock("fast-csv");

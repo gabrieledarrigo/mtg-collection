@@ -1,5 +1,8 @@
 import { join } from "path";
 import fs from "node:fs";
+import { ScryfallCard } from "@scryfall/api-types";
+import { Card, prisma, Source } from "@database/prisma";
+import { defaultUser } from "@config/index";
 import {
   aggregateOrderItems,
   CARDTRADER_CSV_HEADERS,
@@ -8,11 +11,8 @@ import {
   OrderItemRaw,
 } from "./cardtrader";
 import { bySetAndNumber } from "./scryfall";
-import { ScryfallCard } from "@scryfall/api-types";
 import { parseCSV, writeCsv } from "./csv";
 import { createPurchase, upsertCard, upsertCollectionItem } from "./collection";
-import { Card, prisma, Source } from "../prisma";
-import { defaultUser } from "../config";
 
 type ImportError = {
   item: OrderItem;

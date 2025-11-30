@@ -1,4 +1,4 @@
-import { defaultUser } from "./config";
+import { defaultUser } from "../config";
 import { prisma } from "./prisma";
 
 async function main() {

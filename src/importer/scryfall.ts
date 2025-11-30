@@ -1,5 +1,5 @@
 import type { ScryfallCard, ScryfallList } from "@scryfall/api-types";
-import type { Language } from "../prisma/enums";
+import type { Language } from "@database/prisma";
 
 export type SearchParams = {
   name: string;
