@@ -110,10 +110,14 @@ async function main() {
   console.log(`Successfully stored ${results.length} cards in collection.`);
 
   if (errors.length > 0) {
-    console.log(`${errors.length} errors. Writing a CSV with the results...`);
+    const csvErrorFilename = `scryfall_errors_${Date.now()}.csv`;
+
+    console.log(
+      `${errors.length} errors. Writing a CSV with the results to data/${csvErrorFilename}`,
+    );
 
     await writeCsv(
-      join(__dirname, `../../data/scryfall_errors_${Date.now()}.csv`),
+      join(__dirname, `../../data/${csvErrorFilename}`),
       errors.map(({ item, error }) => ({
         ...item,
         error,
