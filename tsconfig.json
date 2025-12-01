@@ -18,6 +18,7 @@
     "paths": {
       "@database/*": ["./src/database/*"],
       "@config/*": ["./src/config/*"],
+      "@importer/*": ["./src/importer/*"],
       "@test/*": ["./test/*"]
     }
   },

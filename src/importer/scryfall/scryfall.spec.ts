@@ -1,6 +1,6 @@
 import { describe, it, expect, jest } from "@jest/globals";
 import type { ScryfallCard, ScryfallList } from "@scryfall/api-types";
-import { bySetAndNumber, search, type SearchParams } from "./scryfall";
+import { bySetAndNumber, search, type SearchParams } from "./scryfall/client";
 import { Language } from "@database/index";
 import { createMock } from "@test/helpers";
 

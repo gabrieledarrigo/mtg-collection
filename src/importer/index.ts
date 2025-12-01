@@ -10,7 +10,7 @@ import {
   OrderItem,
   OrderItemRaw,
 } from "./cardtrader";
-import { bySetAndNumber } from "./scryfall";
+import { bySetAndNumber, toCardData } from "./scryfall/index";
 import { parseCSV, writeCsv } from "./csv";
 import { createPurchase, upsertCard, upsertCollectionItem } from "./collection";
 
@@ -71,7 +71,7 @@ async function main() {
       );
 
       await prisma.$transaction(async (transaction) => {
-        const card = await upsertCard(scryfallCard, transaction);
+        const card = await upsertCard(toCardData(scryfallCard), transaction);
 
         const collectionItem = await upsertCollectionItem(
           card,
