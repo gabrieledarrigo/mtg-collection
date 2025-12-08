@@ -11,7 +11,9 @@ enum Rarity {
   COMMON
   UNCOMMON
   RARE
+  SPECIAL
   MYTHIC
+  BONUS
 }
 
 enum Condition {

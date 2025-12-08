@@ -29,7 +29,7 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "migrate:reset": "prisma migrate reset",
-    "generate": "prisma generate",
+    "client:generate": "prisma generate",
     "test": "jest",
     "import": "tsx src/importer/index.ts"
   },
