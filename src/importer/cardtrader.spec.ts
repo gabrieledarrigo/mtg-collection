@@ -10,6 +10,7 @@ import {
   OrderItemRaw,
   aggregateOrderItems,
   OrderItem,
+  extractOrderId,
 } from "./cardtrader";
 
 describe("cardtrader", () => {
@@ -279,6 +280,38 @@ describe("cardtrader", () => {
       expect(Object.keys(result)).toHaveLength(1);
       expect(result[key]!.quantity).toBe(1);
       expect(result[key]!.totalPrice).toBe(100);
+    });
+  });
+
+  describe("extractOrderId", () => {
+    it("should extract order id from string", () => {
+      expect(extractOrderId("order_abc123")).toBe("order_abc123");
+    });
+
+    it("should extract order id from a longer string", () => {
+      expect(extractOrderId("file_order_abc123_data.csv")).toBe("order_abc123");
+    });
+
+    it("should be case insensitive", () => {
+      expect(extractOrderId("ORDER_ABC123")).toBe("ORDER_ABC123");
+    });
+
+    it("should extract first order id when multiple exist", () => {
+      expect(extractOrderId("order_first123_order_second456")).toBe(
+        "order_first123",
+      );
+    });
+
+    it("should throw an error when no order id is found", () => {
+      expect(() => extractOrderId("no_match_here")).toThrow(
+        "Cannot extract order id from string: no_match_here",
+      );
+    });
+
+    it("should throw an error for empty string", () => {
+      expect(() => extractOrderId("")).toThrow(
+        "Cannot extract order id from string: ",
+      );
     });
   });
 });

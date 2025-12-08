@@ -159,3 +159,13 @@ export function aggregateOrderItems(items: OrderItem[]): AggregatedOrderItems {
     return aggregate;
   }, {} as AggregatedOrderItems);
 }
+
+export function extractOrderId(str: string): string {
+  const match = str.match(/order_[a-z0-9]+/gi);
+
+  if (!match) {
+    throw new Error(`Cannot extract order id from string: ${str}`);
+  }
+
+  return match[0];
+}

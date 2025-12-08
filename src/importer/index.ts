@@ -6,6 +6,7 @@ import { DEFAULT_USER } from "@config/index";
 import {
   aggregateOrderItems,
   CARDTRADER_CSV_HEADERS,
+  extractOrderId,
   normalizeOrderItem,
   OrderItem,
   OrderItemRaw,
@@ -49,6 +50,7 @@ async function main() {
     throw new Error("CSV is empty or invalid");
   }
 
+  const orderId = extractOrderId(filename);
   const aggregatedItems = aggregateOrderItems(items.map(normalizeOrderItem));
 
   const total = Object.keys(aggregatedItems).length;
@@ -87,7 +89,7 @@ async function main() {
         await createPurchase(
           collectionItem,
           {
-            orderId: Date.now().toString(),
+            orderId,
             quantity,
             price: totalPrice,
             source: Source.CARDTRADER,
@@ -110,7 +112,7 @@ async function main() {
   console.log(`Successfully stored ${results.length} cards in collection.`);
 
   if (errors.length > 0) {
-    const csvErrorFilename = `scryfall_errors_${Date.now()}.csv`;
+    const csvErrorFilename = `scryfall_errors_${orderId}.csv`;
 
     console.log(
       `${errors.length} errors. Writing a CSV with the results to data/${csvErrorFilename}`,
