@@ -4,10 +4,11 @@
     "outDir": "./dist",
     "module": "commonjs",
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["node"],
     "sourceMap": true,
     "noEmit": true,
+    "allowJs": false,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
@@ -15,6 +16,16 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleDetection": "force",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@database/*": ["./src/database/*"],
       "@config/*": ["./src/config/*"],
@@ -22,5 +33,13 @@
       "@test/*": ["./test/*"]
     }
   },
-  "exclude": ["node_modules", "dist", "prisma.config.ts"]
+  "exclude": ["node_modules", "dist", "prisma.config.ts"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "test/**/*.ts"
+  ]
 }

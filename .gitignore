@@ -6,7 +6,7 @@ node_modules
 
 # Build output
 dist
-tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # Logs
 logs
@@ -28,3 +28,7 @@ db_data
 !data/.gitkeep
 data/*.csv
 data/*.json
+
+# Next.js
+next-env.d.ts
+.next
