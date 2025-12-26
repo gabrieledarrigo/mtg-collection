@@ -72,9 +72,11 @@ model User {
 model Card {
   id              String           @id @default(uuid(7))
   scryfallId      String           @unique @map("scryfall_id") @db.Uuid()
+  scryfallUri     String           @map("scryfall_uri")
   oracleId        String?          @map("oracle_id") @db.Uuid()
   name            String
   setCode         String           @map("set_code")
+  setName         String           @map("set_name")
   collectorNumber String           @map("collector_number")
   language        Language
   rarity          Rarity
@@ -83,9 +85,11 @@ model Card {
   imageUrlNormal  String?          @map("image_url_normal")
   imageUrlLarge   String?          @map("image_url_large")
   oracleText      String?          @map("oracle_text")
+  flavorText      String?          @map("flavor_text")
   printedName     String?          @map("printed_name")
   printedTypeLine String?          @map("printed_type_line")
   printedText     String?          @map("printed_text")
+  artist          String?          @map("artist")
   manaCost        String?          @map("mana_cost")
   cmc             Decimal          @default(0) @db.Decimal(4, 2)
   colorIdentity   String[]         @default([]) @map("color_identity")

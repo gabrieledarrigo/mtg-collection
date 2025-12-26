@@ -1,8 +1,13 @@
 import { describe, it, expect, jest } from "@jest/globals";
-import { ScryfallCard, ScryfallLayout } from "@scryfall/api-types";
-import { upsertCard, upsertCollectionItem, createPurchase } from "./collection";
+import {
+  upsertCard,
+  upsertCollectionItem,
+  createPurchase,
+  CardData,
+} from "./collection";
 import {
   Language,
+  Rarity,
   Condition,
   Source,
   Prisma,
@@ -21,172 +26,231 @@ describe("collection", () => {
     });
 
     it("should upsert a normal layout card", async () => {
-      const scryfallCard = createMock<ScryfallCard.Normal>({
-        id: "scryfall-card-123",
+      const cardData = createMock<CardData>({
+        scryfallId: "scryfall-card-123",
+        scryfallUri:
+          "https://scryfall.com/card/m21/199/lightning-bolt?utm_source=api",
         name: "Lightning Bolt",
-        printed_name: "Lightning Bolt",
-        set: "m21",
-        collector_number: "199",
-        lang: "en",
-        rarity: "common",
-        layout: ScryfallLayout.Normal,
-        mana_cost: "{R}",
+        printedName: "Lightning Bolt",
+        setCode: "m21",
+        setName: "Core Set 2021",
+        collectorNumber: "199",
+        language: Language.EN,
+        rarity: Rarity.COMMON,
+        layout: "normal",
+        manaCost: "{R}",
         cmc: 1,
-        color_identity: ["R"],
-        oracle_id: "oracle-123",
-        type_line: "Instant",
-        printed_type_line: "Instant",
-        printed_text: "Lightning Bolt deals 3 damage to any target.",
-        oracle_text: "Deal 3 damage to any target.",
-        image_uris: {
-          small: "https://example.com/image_small.jpg",
-          normal: "https://example.com/image_normal.jpg",
-          large: "https://example.com/image_large.jpg",
-        },
+        colorIdentity: ["R"],
+        oracleId: "oracle-123",
+        typeLine: "Instant",
+        printedTypeLine: "Instant",
+        printedText: "Lightning Bolt deals 3 damage to any target.",
+        oracleText: "Deal 3 damage to any target.",
+        flavorText: "The spark of life is also the spark of destruction.",
+        artist: "Christopher Moeller",
+        imageUrlSmall: "https://example.com/image_small.jpg",
+        imageUrlNormal: "https://example.com/image_normal.jpg",
+        imageUrlLarge: "https://example.com/image_large.jpg",
+        cardFaces: null,
       });
 
       const card = createMock<Card>({
         id: "card-123",
-        scryfallId: scryfallCard.id,
+        scryfallId: cardData.scryfallId,
       });
 
       jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
 
-      await upsertCard(scryfallCard, transaction);
+      await upsertCard(cardData, transaction);
 
       expect(transaction.card.upsert).toHaveBeenCalledWith({
         where: {
-          scryfallId: scryfallCard.id,
+          scryfallId: cardData.scryfallId,
         },
         update: {},
         create: expect.objectContaining({
-          scryfallId: scryfallCard.id,
-          oracleId: scryfallCard.oracle_id,
-          name: scryfallCard.name,
-          setCode: scryfallCard.set,
-          collectorNumber: scryfallCard.collector_number,
-          language: "EN",
-          rarity: "COMMON",
-          typeLine: scryfallCard.type_line,
+          scryfallId: cardData.scryfallId,
+          scryfallUri: cardData.scryfallUri,
+          oracleId: cardData.oracleId,
+          name: cardData.name,
+          setCode: cardData.setCode,
+          setName: cardData.setName,
+          collectorNumber: cardData.collectorNumber,
+          language: Language.EN,
+          rarity: Rarity.COMMON,
+          typeLine: cardData.typeLine,
           imageUrlSmall: "https://example.com/image_small.jpg",
           imageUrlNormal: "https://example.com/image_normal.jpg",
           imageUrlLarge: "https://example.com/image_large.jpg",
-          oracleText: scryfallCard.oracle_text,
-          printedName: scryfallCard.printed_name,
-          printedTypeLine: scryfallCard.printed_type_line,
-          printedText: scryfallCard.printed_text,
-          manaCost: scryfallCard.mana_cost,
-          cmc: scryfallCard.cmc,
-          colorIdentity: scryfallCard.color_identity,
-          layout: scryfallCard.layout,
+          oracleText: cardData.oracleText,
+          flavorText: cardData.flavorText,
+          artist: cardData.artist,
+          printedName: cardData.printedName,
+          printedTypeLine: cardData.printedTypeLine,
+          printedText: cardData.printedText,
+          manaCost: cardData.manaCost,
+          cmc: cardData.cmc,
+          colorIdentity: cardData.colorIdentity,
+          layout: cardData.layout,
           cardFaces: Prisma.JsonNull,
         }),
       });
     });
 
     it("should handle card with card faces", async () => {
-      const scryfallCard = createMock<ScryfallCard.Transform>({
-        id: "scryfall-card-456",
+      const cardFaces = JSON.stringify([
+        {
+          image_uris: {
+            small: "https://example.com/front_small.jpg",
+            normal: "https://example.com/front_normal.jpg",
+            large: "https://example.com/front_large.jpg",
+          },
+        },
+        {
+          image_uris: {
+            small: "https://example.com/back_small.jpg",
+            normal: "https://example.com/back_normal.jpg",
+            large: "https://example.com/back_large.jpg",
+          },
+        },
+      ]);
+
+      const cardData = createMock<CardData>({
+        scryfallId: "scryfall-card-456",
+        scryfallUri: "https://scryfall.com/card/isd/51",
         name: "Delver of Secrets // Insectile Aberration",
-        set: "isd",
-        collector_number: "51",
-        lang: "en",
-        rarity: "common",
-        layout: ScryfallLayout.Transform,
-        mana_cost: "{U}",
+        printedName: null,
+        setCode: "isd",
+        setName: "Innistrad",
+        collectorNumber: "51",
+        language: Language.EN,
+        rarity: Rarity.COMMON,
+        layout: "transform",
+        manaCost: "{U}",
         cmc: 1,
-        color_identity: ["U"],
-        oracle_id: "oracle-456",
-        type_line: "Creature — Human Wizard",
-        card_faces: [
-          {
-            image_uris: {
-              small: "https://example.com/front_small.jpg",
-              normal: "https://example.com/front_normal.jpg",
-              large: "https://example.com/front_large.jpg",
-            },
-          },
-          {
-            image_uris: {
-              small: "https://example.com/back_small.jpg",
-              normal: "https://example.com/back_normal.jpg",
-              large: "https://example.com/back_large.jpg",
-            },
-          },
-        ],
+        colorIdentity: ["U"],
+        oracleId: "oracle-456",
+        typeLine: "Creature — Human Wizard",
+        printedTypeLine: null,
+        printedText: null,
+        oracleText: null,
+        flavorText: null,
+        artist: null,
+        imageUrlSmall: "https://example.com/front_small.jpg",
+        imageUrlNormal: "https://example.com/front_normal.jpg",
+        imageUrlLarge: "https://example.com/front_large.jpg",
+        cardFaces,
       });
 
       const card = createMock<Card>({
         id: "card-123",
-        scryfallId: scryfallCard.id,
+        scryfallId: cardData.scryfallId,
       });
 
       jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
 
-      await upsertCard(scryfallCard, transaction);
+      await upsertCard(cardData, transaction);
 
       expect(transaction.card.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           create: expect.objectContaining({
-            cardFaces: JSON.stringify(scryfallCard.card_faces),
+            cardFaces,
           }),
         }),
       );
     });
 
-    it("should throw an error when the image URLs are missing", async () => {
-      const scryfallCard = createMock<ScryfallCard.Any>({
-        id: "scryfall-card-789",
+    it("should store card with null optional fields", async () => {
+      const cardData = createMock<CardData>({
+        scryfallId: "scryfall-card-789",
+        scryfallUri: "https://scryfall.com/card/set1/1",
         name: "Some Card",
-        set: "set1",
-        collector_number: "1",
-        rarity: "rare",
-        layout: ScryfallLayout.Normal,
+        printedName: null,
+        setCode: "set1",
+        setName: "Set One",
+        collectorNumber: "1",
+        language: Language.EN,
+        rarity: Rarity.RARE,
+        layout: "normal",
+        manaCost: null,
         cmc: 2,
-        color_identity: [],
+        colorIdentity: [],
+        oracleId: null,
+        typeLine: null,
+        printedTypeLine: null,
+        printedText: null,
+        oracleText: null,
+        flavorText: null,
+        artist: null,
+        imageUrlSmall: "https://example.com/image_small.jpg",
+        imageUrlNormal: "https://example.com/image_normal.jpg",
+        imageUrlLarge: "https://example.com/image_large.jpg",
+        cardFaces: null,
       });
 
       const card = createMock<Card>({
         id: "card-123",
-        scryfallId: "scryfall-card-789",
+        scryfallId: cardData.scryfallId,
       });
 
       jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
 
-      await expect(upsertCard(scryfallCard, transaction)).rejects.toThrow(
-        "No image found for card: Some Card (set1/1)",
+      const result = await upsertCard(cardData, transaction);
+
+      expect(result).toEqual(card);
+      expect(transaction.card.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            oracleId: null,
+            typeLine: null,
+            printedName: null,
+            printedTypeLine: null,
+            printedText: null,
+            oracleText: null,
+            flavorText: null,
+            artist: null,
+            manaCost: null,
+          }),
+        }),
       );
     });
 
     it("should handle split layout card", async () => {
-      const scryfallCard = createMock<ScryfallCard.Split>({
-        id: "scryfall-card-split",
+      const cardData = createMock<CardData>({
+        scryfallId: "scryfall-card-split",
+        scryfallUri: "https://scryfall.com/card/apc/128",
         name: "Fire // Ice",
-        set: "apc",
-        collector_number: "128",
-        lang: "en",
-        rarity: "uncommon",
-        layout: ScryfallLayout.Split,
-        mana_cost: "{1}{R} // {1}{U}",
+        printedName: null,
+        setCode: "apc",
+        setName: "Apocalypse",
+        collectorNumber: "128",
+        language: Language.EN,
+        rarity: Rarity.UNCOMMON,
+        layout: "split",
+        manaCost: "{1}{R} // {1}{U}",
         cmc: 4,
-        color_identity: ["R", "U"],
-        oracle_id: "oracle-split",
-        type_line: "Instant // Instant",
-        image_uris: {
-          small: "https://example.com/split_small.jpg",
-          normal: "https://example.com/split_normal.jpg",
-          large: "https://example.com/split_large.jpg",
-        },
+        colorIdentity: ["R", "U"],
+        oracleId: "oracle-split",
+        typeLine: "Instant // Instant",
+        printedTypeLine: null,
+        printedText: null,
+        oracleText: null,
+        flavorText: null,
+        artist: null,
+        imageUrlSmall: "https://example.com/split_small.jpg",
+        imageUrlNormal: "https://example.com/split_normal.jpg",
+        imageUrlLarge: "https://example.com/split_large.jpg",
+        cardFaces: null,
       });
 
       const card = createMock<Card>({
         id: "card-split",
-        scryfallId: scryfallCard.id,
+        scryfallId: cardData.scryfallId,
       });
 
       jest.spyOn(transaction.card, "upsert").mockResolvedValue(card);
 
-      await upsertCard(scryfallCard, transaction);
+      await upsertCard(cardData, transaction);
 
       expect(transaction.card.upsert).toHaveBeenCalledWith(
         expect.objectContaining({

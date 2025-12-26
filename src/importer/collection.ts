@@ -11,10 +11,12 @@ import {
 
 export type CardData = {
   scryfallId: string;
+  scryfallUri: string;
   oracleId: string | null;
   name: string;
   printedName: string | null;
   setCode: string;
+  setName: string;
   collectorNumber: string;
   language: Language;
   rarity: Rarity;
@@ -24,7 +26,9 @@ export type CardData = {
   imageUrlNormal: string;
   imageUrlLarge: string;
   oracleText: string | null;
+  flavorText: string | null;
   printedText: string | null;
+  artist: string | null;
   manaCost: string | null;
   cmc: number;
   colorIdentity: string[];
@@ -43,10 +47,12 @@ export async function upsertCard(
     update: {},
     create: {
       scryfallId: data.scryfallId,
+      scryfallUri: data.scryfallUri,
       oracleId: data.oracleId,
       name: data.name,
       printedName: data.printedName,
       setCode: data.setCode,
+      setName: data.setName,
       collectorNumber: data.collectorNumber,
       language: data.language,
       rarity: data.rarity,
@@ -56,7 +62,9 @@ export async function upsertCard(
       imageUrlNormal: data.imageUrlNormal,
       imageUrlLarge: data.imageUrlLarge,
       oracleText: data.oracleText,
+      flavorText: data.flavorText,
       printedText: data.printedText,
+      artist: data.artist,
       manaCost: data.manaCost,
       cmc: data.cmc,
       colorIdentity: data.colorIdentity,

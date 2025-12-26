@@ -82,6 +82,14 @@ function getOracleText(card: ScryfallCard.Any): string | null {
   return card.oracle_text;
 }
 
+function getFlavorText(card: ScryfallCard.Any): string | null {
+  if ("flavor_text" in card === false) {
+    return null;
+  }
+
+  return card.flavor_text ?? null;
+}
+
 function getPrintedName(card: ScryfallCard.Any): string | null {
   if ("printed_name" in card === false) {
     return null;
@@ -134,6 +142,7 @@ export function toCardData(card: ScryfallCard.Any): CardData {
   const imageUris = getCardImageUris(card);
   const oracleId = getOracleId(card);
   const oracleText = getOracleText(card);
+  const flavorText = getFlavorText(card);
   const typeLine = getTypeLine(card);
   const printedName = getPrintedName(card);
   const printedTypeLine = getPrintedTypeLine(card);
@@ -143,10 +152,12 @@ export function toCardData(card: ScryfallCard.Any): CardData {
 
   return {
     scryfallId: card.id,
+    scryfallUri: card.scryfall_uri,
     oracleId,
     name: card.name,
     printedName,
     setCode: card.set,
+    setName: card.set_name,
     collectorNumber: card.collector_number,
     language: card.lang.toUpperCase() as Language,
     rarity: card.rarity.toUpperCase() as Rarity,
@@ -156,7 +167,9 @@ export function toCardData(card: ScryfallCard.Any): CardData {
     imageUrlNormal: imageUris?.normal ?? null,
     imageUrlLarge: imageUris?.large ?? null,
     oracleText,
+    flavorText,
     printedText,
+    artist: card.artist ?? null,
     manaCost: card.mana_cost ?? null,
     cmc,
     colorIdentity: card.color_identity,
