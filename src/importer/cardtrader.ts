@@ -32,6 +32,7 @@ export type OrderItem = {
   altered: boolean;
   firstEdition: string;
   collectorNumber: string;
+  rawItem: OrderItemRaw;
 };
 
 export type AggregatedKey =
@@ -138,6 +139,7 @@ export function normalizeOrderItem(raw: OrderItemRaw): OrderItem {
     signed: normalizeBoolean(raw.signed),
     altered: normalizeBoolean(raw.altered),
     collectorNumber: normalizeCollectorNumber(raw.collectorNumber),
+    rawItem: raw,
   };
 }
 

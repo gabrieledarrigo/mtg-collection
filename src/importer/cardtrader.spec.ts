@@ -173,6 +173,7 @@ describe("cardtrader", () => {
           altered: false,
           firstEdition: "no",
           collectorNumber: "123",
+          rawItem: {} as OrderItemRaw,
         },
         {
           game: "mtg",
@@ -189,6 +190,7 @@ describe("cardtrader", () => {
           altered: false,
           firstEdition: "no",
           collectorNumber: "123",
+          rawItem: {} as OrderItemRaw,
         },
       ];
 
@@ -218,6 +220,7 @@ describe("cardtrader", () => {
           altered: false,
           firstEdition: "no",
           collectorNumber: "123",
+          rawItem: {} as OrderItemRaw,
         },
         {
           game: "mtg",
@@ -234,6 +237,7 @@ describe("cardtrader", () => {
           altered: false,
           firstEdition: "no",
           collectorNumber: "123",
+          rawItem: {} as OrderItemRaw,
         },
       ];
 
@@ -255,7 +259,7 @@ describe("cardtrader", () => {
     });
 
     it("should handle a single order item", () => {
-      const items = [
+      const items: OrderItem[] = [
         {
           game: "mtg",
           setReleasedAt: "2023-01-01",
@@ -271,6 +275,7 @@ describe("cardtrader", () => {
           altered: false,
           firstEdition: "no",
           collectorNumber: "123",
+          rawItem: {} as OrderItemRaw,
         },
       ];
 

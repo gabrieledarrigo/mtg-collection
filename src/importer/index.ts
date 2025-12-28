@@ -16,7 +16,7 @@ import { parseCSV, writeCsv } from "./csv";
 import { createPurchase, upsertCard, upsertCollectionItem } from "./collection";
 
 type ImportError = {
-  item: OrderItem;
+  item: OrderItemRaw;
   error: Error;
 };
 
@@ -101,7 +101,7 @@ async function main() {
       });
     } catch (err: any) {
       console.error(`Error fetching card for ${item.itemName}: ${err.message}`);
-      errors.push({ item, error: err });
+      errors.push({ item: item.rawItem, error: err });
     }
 
     console.log(
