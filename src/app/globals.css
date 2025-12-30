@@ -1,0 +1,71 @@
+:root {
+  --color-primary: #b032b8;
+  --color-white: #ffffff;
+  --color-info: #378ad7;
+  --color-success: #0da018;
+  --color-warning: #efb325;
+  --color-danger: #e51d1d;
+
+  --color-neutral-800: #333333;
+  --color-neutral-600: #878787;
+  --color-neutral-400: #b2b2b2;
+  --color-neutral-200: #efefef;
+
+  --color-mtg-w: #f8f6d8;
+  --color-mtg-u: #c1d7e9;
+  --color-mtg-g: #a3c095;
+  --color-mtg-r: #e49977;
+  --color-mtg-b: #bab1ab;
+
+  --font-family: "Open Sans", sans-serif;
+  --size-16: 16;
+  --size-19: 19.2px;
+  --size-23: 23.04px;
+  --size-27: 27.65px;
+  --size-33: 33.18px;
+  --size-39: 39.81px;
+  --size-47: 47.78px;
+  --size-small: 13.33;
+
+  --border-radius-sm: 5px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-white);
+  color: var(--color-neutral-800);
+}
+
+h1 {
+  font-size: var(--size-47);
+}
+
+h2 {
+  font-size: var(--size-39);
+}
+
+h3 {
+  font-size: var(--size-33);
+}
+
+h4 {
+  font-size: var(--size-27);
+}
+
+h5 {
+  font-size: var(--size-23);
+}
+
+h6 {
+  font-size: var(--size-19);
+}
+
+p {
+  font-size: var(--size-16);
+  line-height: 1.5;
+}
+
+small {
+  font-size: var(--size-small);
+}
