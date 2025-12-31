@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans as OpenSans } from "next/font/google";
 import "./globals.css";
 import "../../public/styles/mtg-font.css";
+import Header from "./components/Header";
 
 const openSans = OpenSans({
   weight: ["300", "400", "600", "700", "800"],
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={openSans.className}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
