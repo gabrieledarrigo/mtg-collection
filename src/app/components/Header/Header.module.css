@@ -19,5 +19,5 @@
 .header__title {
   margin: 0;
   font-size: var(--size-19);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
 }

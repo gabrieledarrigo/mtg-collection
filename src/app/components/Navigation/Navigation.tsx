@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./Navigation.module.css";
+import { usePathname } from "next/navigation";
 
 export type NavigationProps = {
   items: {
@@ -9,16 +12,28 @@ export type NavigationProps = {
 };
 
 export default function Navigation({ items }: NavigationProps) {
+  const pathname = usePathname();
+
+  console.log("Current pathname:", pathname);
+
   return (
     <nav className={styles.navigation}>
       <ul className={styles.navigation__list}>
-        {items.map((item) => (
-          <li key={item.href} className={styles.navigation__item}>
-            <Link href={item.href} className={styles.navigation__link}>
-              {item.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((item) => {
+          const isActive =
+            pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+          return (
+            <li key={item.href} className={styles.navigation__item}>
+              <Link
+                href={item.href}
+                className={`${styles.navigation__link} ${isActive ? styles["navigation__link--active"] : ""}`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
