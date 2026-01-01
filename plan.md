@@ -16,24 +16,50 @@ src/
 │   ├── globals.css
 │   │
 │   ├── components/                   # Componenti condivisi app-wide
-│   │   ├── Header.tsx
-│   │   └── Navigation.tsx
+│   │   ├── Header/
+│   │   │   ├── Header.tsx
+│   │   │   └── Header.module.css
+│   │   └── Navigation/
+│   │       ├── Navigation.tsx
+│   │       └── Navigation.module.css
 │   │
 │   ├── collection/
 │   │   ├── page.tsx
 │   │   ├── loading.tsx
 │   │   └── components/
-│   │       ├── CollectionView.tsx
-│   │       ├── CardGrid.tsx
-│   │       ├── CardList.tsx
-│   │       ├── CardTile.tsx
-│   │       ├── CardRow.tsx
-│   │       ├── FilterBar.tsx
-│   │       ├── FilterModal.tsx
-│   │       ├── ColorFilter.tsx
-│   │       ├── SearchBox.tsx
-│   │       ├── ViewToggle.tsx
-│   │       └── Pagination.tsx
+│   │       ├── CollectionView/
+│   │       │   ├── CollectionView.tsx
+│   │       │   └── CollectionView.module.css
+│   │       ├── CardGrid/
+│   │       │   ├── CardGrid.tsx
+│   │       │   └── CardGrid.module.css
+│   │       ├── CardList/
+│   │       │   ├── CardList.tsx
+│   │       │   └── CardList.module.css
+│   │       ├── CardTile/
+│   │       │   ├── CardTile.tsx
+│   │       │   └── CardTile.module.css
+│   │       ├── CardRow/
+│   │       │   ├── CardRow.tsx
+│   │       │   └── CardRow.module.css
+│   │       ├── FilterBar/
+│   │       │   ├── FilterBar.tsx
+│   │       │   └── FilterBar.module.css
+│   │       ├── FilterModal/
+│   │       │   ├── FilterModal.tsx
+│   │       │   └── FilterModal.module.css
+│   │       ├── ColorFilter/
+│   │       │   ├── ColorFilter.tsx
+│   │       │   └── ColorFilter.module.css
+│   │       ├── SearchBox/
+│   │       │   ├── SearchBox.tsx
+│   │       │   └── SearchBox.module.css
+│   │       ├── ViewToggle/
+│   │       │   ├── ViewToggle.tsx
+│   │       │   └── ViewToggle.module.css
+│   │       └── Pagination/
+│   │           ├── Pagination.tsx
+│   │           └── Pagination.module.css
 │   │
 │   └── cards/
 │       └── [set]/
@@ -43,16 +69,32 @@ src/
 │                   ├── loading.tsx
 │                   ├── not-found.tsx
 │                   └── components/
-│                       └── CardDetail.tsx
+│                       └── CardDetail/
+│                           ├── CardDetail.tsx
+│                           └── CardDetail.module.css
 │
 ├── components/                       # UI primitives (Base UI wrappers)
-│   ├── Button.tsx
-│   ├── Input.tsx
-│   ├── Select.tsx
-│   ├── Modal.tsx
-│   ├── Badge.tsx
-│   ├── Checkbox.tsx
-│   ├── ManaSymbol.tsx
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   └── Button.module.css
+│   ├── Input/
+│   │   ├── Input.tsx
+│   │   └── Input.module.css
+│   ├── Select/
+│   │   ├── Select.tsx
+│   │   └── Select.module.css
+│   ├── Modal/
+│   │   ├── Modal.tsx
+│   │   └── Modal.module.css
+│   ├── Badge/
+│   │   ├── Badge.tsx
+│   │   └── Badge.module.css
+│   ├── Checkbox/
+│   │   ├── Checkbox.tsx
+│   │   └── Checkbox.module.css
+│   ├── ManaSymbol/
+│   │   ├── ManaSymbol.tsx
+│   │   └── ManaSymbol.module.css
 │   └── index.ts
 │
 ├── hooks/
@@ -68,6 +110,47 @@ src/
 ├── database/
 └── importer/
 ```
+
+---
+
+## Convenzioni
+
+- **Componenti React**: Ogni cartella componente include `.tsx`, `.module.css`, `.test.tsx`
+- **Hooks**: Ogni hook include `.ts` e `.test.ts`
+- **Nei subtask**: I file `.module.css` e `.test.tsx` sono impliciti e non elencati separatamente
+- **Test**: Usare React Testing Library + Jest. Indicare il tipo di test nel subtask (es. "test rendering", "test interazione")
+
+---
+
+## US-000: Configurazione Test React
+
+### Descrizione
+
+Configurare l'ambiente di test per i componenti React usando Jest con jsdom e React Testing Library.
+
+### Criteri di Accettazione
+
+- [ ] Jest configurato con ambiente `jsdom` per test React
+- [ ] React Testing Library installata e funzionante
+- [ ] CSS modules mockati correttamente nei test
+- [ ] `npm test` esegue sia test node che test React
+- [ ] Test di esempio funzionante
+
+### Dettagli Tecnici
+
+**Dipendenze:**
+
+```bash
+npm install -D @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom identity-obj-proxy
+```
+
+**Subtask:**
+
+1. Installare dipendenze testing React
+2. Aggiornare `jest.config.js` con progetto `jsdom` per test React
+3. Configurare `identity-obj-proxy` per mockare CSS modules
+4. Creare `test/setup-react.ts` con setup `@testing-library/jest-dom`
+5. Creare test di esempio per verificare configurazione
 
 ---
 
@@ -114,10 +197,10 @@ Header con navigazione per accedere alle diverse sezioni dell'app.
 
 **Subtask:**
 
-1. Creare `src/app/components/Header.tsx`
-2. Creare `src/app/components/Navigation.tsx`
+1. Creare `src/app/components/Header/Header.tsx` - test rendering logo e contenuto
+2. Creare `src/app/components/Navigation/Navigation.tsx` - test rendering link
 3. Integrare in `src/app/layout.tsx`
-4. Aggiungere stili base in `globals.css`
+4. Aggiungere stili base e variabili CSS in `globals.css`
 
 ---
 
@@ -141,12 +224,12 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 **Subtask:**
 
 1. Installare `@base-ui-components/react`
-2. Creare `src/components/Button.tsx`
-3. Creare `src/components/Input.tsx`
-4. Creare `src/components/Select.tsx`
-5. Creare `src/components/Modal.tsx`
-6. Creare `src/components/Badge.tsx`
-7. Creare `src/components/Checkbox.tsx`
+2. Creare `src/components/Button/Button.tsx` - test varianti e click
+3. Creare `src/components/Input/Input.tsx` - test onChange e placeholder
+4. Creare `src/components/Select/Select.tsx` - test selezione opzioni
+5. Creare `src/components/Modal/Modal.tsx` - test apertura/chiusura
+6. Creare `src/components/Badge/Badge.tsx` - test rendering varianti
+7. Creare `src/components/Checkbox/Checkbox.tsx` - test toggle stato
 8. Creare `src/components/index.ts` (barrel export)
 
 ---
@@ -169,13 +252,13 @@ Pagina base della collezione con visualizzazione a griglia.
 
 **Subtask:**
 
-1. Creare `src/lib/queries.ts` con `getCollectionItems()` (senza filtri)
+1. Creare `src/lib/queries.ts` con `getCollectionItems()` (senza filtri) - test unitari query
 2. Definire tipo `CollectionItemWithCard` in `src/lib/types.ts`
 3. Creare `src/app/collection/page.tsx` (Server Component)
 4. Creare `src/app/collection/loading.tsx`
-5. Creare `src/app/collection/components/CollectionView.tsx` (Client Component)
-6. Creare `src/app/collection/components/CardGrid.tsx` (Client)
-7. Creare `src/app/collection/components/CardTile.tsx` (senza link, solo visualizzazione)
+5. Creare `src/app/collection/components/CollectionView/CollectionView.tsx` (Client) - test rendering griglia
+6. Creare `src/app/collection/components/CardGrid/CardGrid.tsx` (Client) - test rendering items
+7. Creare `src/app/collection/components/CardTile/CardTile.tsx` (senza link) - test rendering immagine e badge
 8. Usare `next/image` per immagini ottimizzate
 9. Empty state con messaggio descrittivo
 
@@ -200,10 +283,10 @@ Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
 
 **Subtask:**
 
-1. Creare `src/hooks/useUpdateURL.ts`
-2. Creare `src/app/collection/components/ViewToggle.tsx` (Client)
-3. Creare `src/app/collection/components/CardList.tsx` (Client)
-4. Creare `src/app/collection/components/CardRow.tsx`
+1. Creare `src/hooks/useUpdateURL.ts` - test aggiornamento parametri URL
+2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/list
+3. Creare `src/app/collection/components/CardList/CardList.tsx` (Client) - test rendering righe
+4. Creare `src/app/collection/components/CardRow/CardRow.tsx` - test rendering colonne
 5. Aggiornare `CollectionView.tsx` per renderizzare Grid/List in base a `?view`
 6. Usare `useRouter`, `useSearchParams`, `usePathname`
 7. Usare `useTransition` per loading state durante cambio vista
@@ -228,15 +311,15 @@ Barra con filtri rapidi per set, colore e ricerca.
 
 **Subtask:**
 
-1. Estendere `getCollectionItems(filters)` in `src/lib/queries.ts` per supportare filtri
+1. Estendere `getCollectionItems(filters)` in `src/lib/queries.ts` per supportare filtri - test filtri
 2. Definire tipo `CollectionFilters` in `src/lib/types.ts`
 3. Aggiornare `src/app/collection/page.tsx` per leggere `searchParams`
-4. Creare `src/components/ManaSymbol.tsx` (usa mtg-font da `public/styles/mtg-font.css`)
-5. Aggiungere `getAvailableSets()` a `src/lib/queries.ts`
-6. Creare `src/app/collection/components/FilterBar.tsx` (Client)
-7. Creare `src/app/collection/components/ColorFilter.tsx` (Client) - usa `ManaSymbol`
-8. Creare `src/app/collection/components/SearchBox.tsx` (Client)
-9. Creare `src/hooks/useDebounce.ts`
+4. Creare `src/components/ManaSymbol/ManaSymbol.tsx` (usa mtg-font) - test rendering simboli WUBRG
+5. Aggiungere `getAvailableSets()` a `src/lib/queries.ts` - test query
+6. Creare `src/app/collection/components/FilterBar/FilterBar.tsx` (Client) - integration test filtri
+7. Creare `src/app/collection/components/ColorFilter/ColorFilter.tsx` (Client) - test selezione colori
+8. Creare `src/app/collection/components/SearchBox/SearchBox.tsx` (Client) - test input e debounce
+9. Creare `src/hooks/useDebounce.ts` - test debounce timing
 10. Integrare con `useUpdateURL()`
 
 **Filtri supportati:**
@@ -270,7 +353,7 @@ Modal con tutti i filtri disponibili per ricerche precise.
 
 **Subtask:**
 
-1. Creare `src/app/collection/components/FilterModal.tsx` (Client)
+1. Creare `src/app/collection/components/FilterModal/FilterModal.tsx` (Client) - test apertura, selezione filtri, submit/cancel
 2. Usare `Modal` da `@/components`
 3. Stato locale per filtri pending
 4. On submit: `onApply(pendingFilters)` → aggiorna URL
@@ -293,11 +376,11 @@ Navigazione tra le pagine della collezione.
 
 **Subtask:**
 
-1. Estendere `getCollectionItems()` per supportare paginazione (`page`, `limit`)
+1. Estendere `getCollectionItems()` per supportare paginazione (`page`, `limit`) - test paginazione
 2. Aggiornare `src/app/collection/page.tsx` per leggere `page` da searchParams
-3. Creare `src/app/collection/components/Pagination.tsx` (Client)
+3. Creare `src/app/collection/components/Pagination/Pagination.tsx` (Client) - test navigazione pagine
 4. Calcolare `totalPages = Math.ceil(total / limit)`
-5. On click: `updateURL({ page: newPage })``
+5. On click: `updateURL({ page: newPage })`
 
 ---
 
@@ -321,11 +404,11 @@ Dettagli completi di una carta specifica.
 
 **Subtask:**
 
-1. Aggiungere `getCardBySetNumberLanguage(set, number, language)` a `src/lib/queries.ts`
+1. Aggiungere `getCardBySetNumberLanguage(set, number, language)` a `src/lib/queries.ts` - test query
 2. Creare `src/app/cards/[set]/[number]/[language]/page.tsx` (Server)
 3. Creare `src/app/cards/[set]/[number]/[language]/loading.tsx`
 4. Creare `src/app/cards/[set]/[number]/[language]/not-found.tsx`
-5. Creare `src/app/cards/[set]/[number]/[language]/components/CardDetail.tsx` - usa `ManaSymbol` per mana cost
+5. Creare `src/app/cards/[set]/[number]/[language]/components/CardDetail/CardDetail.tsx` - test rendering dettagli
 6. Chiamare `getCardBySetNumberLanguage(set, number, language)`
 7. Implementare `generateMetadata()` per SEO
 8. Aggiornare `CardTile.tsx` per linkare a `/cards/:set/:number/:language`
@@ -336,6 +419,8 @@ Dettagli completi di una carta specifica.
 ## Ordine di Implementazione
 
 ```
+US-000 (Test Config)
+        ↓
 US-001 → US-002 → US-003
                     ↓
          US-004 (Collection Page + Grid)
@@ -349,7 +434,7 @@ US-001 → US-002 → US-003
          US-009 (Card Detail + Link)
 ```
 
-**Milestone 1 (Setup):** US-001, US-002, US-003
+**Milestone 1 (Setup):** US-000, US-001, US-002, US-003
 **Milestone 2 (Collection Page - MVP):** US-004, US-005
 **Milestone 3 (Filtri):** US-006, US-007
 **Milestone 4 (Paginazione):** US-008
