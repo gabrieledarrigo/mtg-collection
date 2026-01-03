@@ -27,6 +27,8 @@
       }
     ],
     "paths": {
+      "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/app/components/*"],
       "@database/*": ["./src/database/*"],
       "@config/*": ["./src/config/*"],
       "@importer/*": ["./src/importer/*"],
@@ -36,6 +38,7 @@
   "exclude": ["node_modules", "dist", "prisma.config.ts"],
   "include": [
     "next-env.d.ts",
+    "jest-dom.d.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "src/**/*.ts",
