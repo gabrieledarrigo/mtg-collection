@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Open_Sans as OpenSans } from "next/font/google";
+import Header from "@app/components/Header/Header";
+import Navigation, {
+  NavigationProps,
+} from "@app/components/Navigation/Navigation";
 import "./globals.css";
 import "../../public/styles/mtg-font.css";
 
@@ -8,9 +12,17 @@ const openSans = OpenSans({
   style: ["normal", "italic"],
 });
 
+export const title = "MTG collection";
+
+export const description = "Track the collection of my MTG cards";
+
+export const navigationItems: NavigationProps["items"] = [
+  { label: "Collection", href: "/collection" },
+];
+
 export const metadata: Metadata = {
-  title: "MTG collection",
-  description: "Track the collection of my MTG cards",
+  title,
+  description,
 };
 
 export default function RootLayout({
@@ -20,7 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={openSans.className}>
-      <body>{children}</body>
+      <body>
+        <Header title={title}>
+          <Navigation items={navigationItems} />
+        </Header>
+        {children}
+      </body>
     </html>
   );
 }

@@ -27,6 +27,20 @@
   --size-47: 47.78px;
   --size-small: 13.33;
 
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extra-bold: 800;
+
+  --spacing-0-5: 0.5rem;
+  --spacing-1: 1rem;
+  --spacing-1-5: 1.5rem;
+  --spacing-2: 2rem;
+  --spacing-2-5: 2.5rem;
+  --spacing-3: 3rem;
+
   --border-radius-sm: 5px;
 }
 
@@ -68,4 +82,14 @@ p {
 
 small {
   font-size: var(--size-small);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-1);
+
+  @media screen and (min-width: 769px) {
+    padding: var(--spacing-2-5);
+  }
 }
