@@ -74,6 +74,9 @@ src/
 │                           └── CardDetail.module.css
 │
 ├── components/                       # UI primitives (Base UI wrappers)
+│   ├── Icon/
+│   │   ├── Icon.tsx
+│   │   └── Icon.module.css
 │   ├── Button/
 │   │   ├── Button.tsx
 │   │   └── Button.module.css
@@ -89,9 +92,9 @@ src/
 │   ├── Badge/
 │   │   ├── Badge.tsx
 │   │   └── Badge.module.css
-│   ├── Checkbox/
-│   │   ├── Checkbox.tsx
-│   │   └── Checkbox.module.css
+│   ├── Toggle/
+│   │   ├── Toggle.tsx
+│   │   └── Toggle.module.css
 │   ├── ManaSymbol/
 │   │   ├── ManaSymbol.tsx
 │   │   └── ManaSymbol.module.css
@@ -212,25 +215,34 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 
 ### Criteri di Accettazione
 
-- [ ] Button con varianti (primary, secondary, ghost)
-- [ ] Input text
-- [ ] Select dropdown
+- [ ] Button con varianti (primary, secondary, icon)
+- [ ] Icon component per icone SVG
+- [ ] Input text con label opzionale
+- [ ] Select dropdown con label
 - [ ] Modal/Dialog
-- [ ] Badge
-- [ ] Checkbox
+- [x] Badge
+- [ ] Toggle (per grid/list view e yes/no)
 
 ### Dettagli Tecnici
 
 **Subtask:**
 
 1. Installare `@base-ui-components/react`
-2. Creare `src/components/Button/Button.tsx` - test varianti e click
-3. Creare `src/components/Input/Input.tsx` - test onChange e placeholder
-4. Creare `src/components/Select/Select.tsx` - test selezione opzioni
-5. Creare `src/components/Modal/Modal.tsx` - test apertura/chiusura
-6. Creare `src/components/Badge/Badge.tsx` - test rendering varianti
-7. Creare `src/components/Checkbox/Checkbox.tsx` - test toggle stato
+2. Creare `src/components/Icon/Icon.tsx` - test rendering icone
+3. Creare `src/components/Button/Button.tsx` - test varianti (primary, secondary, icon) e click
+4. Creare `src/components/Input/Input.tsx` - test onChange, placeholder e label
+5. Creare `src/components/Select/Select.tsx` - test selezione opzioni e label
+6. Creare `src/components/Modal/Modal.tsx` - test apertura/chiusura
+7. Creare `src/components/Toggle/Toggle.tsx` - test toggle stato e varianti
 8. Creare `src/components/index.ts` (barrel export)
+
+**Base UI components:**
+
+- Button → `@base-ui-components/react/button`
+- Input → `@base-ui-components/react/field`
+- Select → `@base-ui-components/react/select`
+- Modal → `@base-ui-components/react/dialog`
+- Toggle → `@base-ui-components/react/toggle-group`
 
 ---
 

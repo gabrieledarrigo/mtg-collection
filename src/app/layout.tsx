@@ -18,6 +18,7 @@ export const description = "Track the collection of my MTG cards";
 
 export const navigationItems: NavigationProps["items"] = [
   { label: "Collection", href: "/collection" },
+  { label: "Components", href: "/components" },
 ];
 
 export const metadata: Metadata = {
