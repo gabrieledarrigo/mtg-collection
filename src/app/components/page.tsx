@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Badge, BadgeVariant } from "./Badge/Badge";
 import { Button, ButtonVariant } from "./Button/Button";
+import { Icon, IconName } from "./Icon/Icon";
 
 export default function Home() {
   return (
@@ -84,6 +85,20 @@ export default function Home() {
           <Button variant={ButtonVariant.PRIMARY} disabled>
             Disabled Button
           </Button>
+        </div>
+
+        <h2>Icon</h2>
+
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <Icon name={IconName.SEARCH} size={30} />
+          <Icon name={IconName.FILTER} size={30} />
+          <Icon name={IconName.FILTER_OFF} size={30} />
+          <Icon name={IconName.CLOSE} size={30} />
+          <Icon name={IconName.ARROW_BACK} size={30} />
+          <Icon name={IconName.ARROW_DROP_DOWN} size={30} />
+          <Icon name={IconName.GRID} size={30} />
+          <Icon name={IconName.LIST} size={30} />
+          <Icon name={IconName.B} size={30} />
         </div>
       </section>
     </main>
