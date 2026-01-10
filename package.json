@@ -55,6 +55,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@base-ui/react": "^1.0.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@scryfall/api-types": "^1.0.0-alpha.4",

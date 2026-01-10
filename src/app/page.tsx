@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Badge, BadgeVariant } from "./components/Badge/Badge";
 
 export default function Home() {
   return (
@@ -38,6 +39,19 @@ export default function Home() {
         <i className="mi mi-2x mi-mana mi-g"></i>
         <i className="mi mi-2x mi-mana mi-r"></i>
         <i className="mi mi-2x mi-mana mi-b"></i>
+      </section>
+
+      <section>
+        <h1>Components</h1>
+
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <Badge text="Primary" variant={BadgeVariant.PRIMARY} />
+          <Badge text="Secondary" variant={BadgeVariant.SECONDARY} />
+          <Badge text="Info" variant={BadgeVariant.INFO} />
+          <Badge text="Success" variant={BadgeVariant.SUCCESS} />
+          <Badge text="Danger" variant={BadgeVariant.DANGER} />
+          <Badge text="Warning" variant={BadgeVariant.WARNING} />
+        </div>
       </section>
     </main>
   );
