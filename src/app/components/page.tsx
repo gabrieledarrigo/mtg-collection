@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Badge, BadgeVariant } from "./Badge/Badge";
 import { Button, ButtonVariant } from "./Button/Button";
 import { Icon, IconName } from "./Icon/Icon";
+import { Toggle, ToggleVariant } from "./Toggle/Toggle";
 
 export default function Home() {
   return (
@@ -47,7 +48,6 @@ export default function Home() {
 
       <section>
         <h1>Components</h1>
-
         <h2>Badge</h2>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <Badge text="Primary" variant={BadgeVariant.PRIMARY} />
@@ -57,7 +57,6 @@ export default function Home() {
           <Badge text="Danger" variant={BadgeVariant.DANGER} />
           <Badge text="Warning" variant={BadgeVariant.WARNING} />
         </div>
-
         <h2>Button</h2>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <Button
@@ -86,9 +85,7 @@ export default function Home() {
             Disabled Button
           </Button>
         </div>
-
         <h2>Icon</h2>
-
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <Icon name={IconName.SEARCH} size={30} />
           <Icon name={IconName.FILTER} size={30} />
@@ -99,6 +96,46 @@ export default function Home() {
           <Icon name={IconName.GRID} size={30} />
           <Icon name={IconName.LIST} size={30} />
           <Icon name={IconName.B} size={30} />
+        </div>
+
+        <h2>Toggle</h2>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <Toggle
+            options={[
+              { value: "grid", icon: IconName.GRID, label: "Grid view" },
+              { value: "list", icon: IconName.LIST, label: "List view" },
+            ]}
+            variant={ToggleVariant.PRIMARY}
+            value={"grid"}
+            onChange={(value) => {
+              alert(`Value: ${value}`);
+            }}
+          />
+
+          <Toggle
+            options={[
+              { value: "ON", label: "ON" },
+              { value: "OFF", label: "OFF" },
+            ]}
+            variant={ToggleVariant.NEUTRAL}
+            value={"ON"}
+            onChange={(value) => {
+              alert(`Value: ${value}`);
+            }}
+          />
+
+          <Toggle
+            options={[
+              { value: "ON", label: "ON" },
+              { value: "OFF", label: "OFF" },
+            ]}
+            variant={ToggleVariant.NEUTRAL}
+            value={"ON"}
+            onChange={(value) => {
+              alert(`Value: ${value}`);
+            }}
+            disabled
+          />
         </div>
       </section>
     </main>
