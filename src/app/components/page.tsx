@@ -114,12 +114,34 @@ export default function Home() {
             open={modalOpen}
             onOpenChange={setModalOpen}
             title="Example Modal"
+            footer={
+              <>
+                <Button
+                  variant={ButtonVariant.SECONDARY}
+                  onClick={() => setModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant={ButtonVariant.PRIMARY}
+                  onClick={() => {
+                    alert("Submitted!");
+                    setModalOpen(false);
+                  }}
+                >
+                  Submit
+                </Button>
+              </>
+            }
           >
             <p>
               This is an example modal dialog. It can contain any content you
               want to display.
             </p>
-            <p>Click outside the modal or press ESC to close it.</p>
+            <p>
+              Click the X button, outside the modal, press ESC, or use the
+              footer buttons to close it.
+            </p>
           </Modal>
         </div>
 

@@ -1,5 +1,5 @@
 import { jest, describe, it, expect } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { Modal } from "./Modal";
 
 describe("Modal", () => {
@@ -33,7 +33,17 @@ describe("Modal", () => {
     expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
 
-  it("does not render title when not provided", () => {
+  it("renders the close button when title is provided", () => {
+    render(
+      <Modal open={true} onOpenChange={() => {}} title="Test Title">
+        Modal Content
+      </Modal>,
+    );
+
+    expect(screen.getByTestId("icon-close")).toBeInTheDocument();
+  });
+
+  it("does not render title or close button when title not provided", () => {
     render(
       <Modal open={true} onOpenChange={() => {}}>
         Modal Content
@@ -42,16 +52,54 @@ describe("Modal", () => {
 
     const titleElement = screen.queryByRole("heading");
     expect(titleElement).not.toBeInTheDocument();
+    const closeIcon = screen.queryByTestId("icon-close");
+    expect(closeIcon).not.toBeInTheDocument();
   });
 
-  it("passes the onOpenChange callback correctly", () => {
-    const onOpenChange = jest.fn();
+  it("renders the footer when provided", () => {
     render(
-      <Modal open={true} onOpenChange={onOpenChange}>
+      <Modal
+        open={true}
+        onOpenChange={() => {}}
+        title="Test Title"
+        footer={<button>Submit</button>}
+      >
         Modal Content
       </Modal>,
     );
 
-    expect(screen.getByText("Modal Content")).toBeInTheDocument();
+    expect(screen.getByText("Submit")).toBeInTheDocument();
+  });
+
+  it("does not render footer when not provided", () => {
+    const { container } = render(
+      <Modal open={true} onOpenChange={() => {}} title="Test Title">
+        Modal Content
+      </Modal>,
+    );
+
+    const footer = container.querySelector(`.footer`);
+    expect(footer).not.toBeInTheDocument();
+  });
+
+  it("calls onOpenChange when close button is clicked", () => {
+    const onOpenChange = jest.fn();
+    render(
+      <Modal open={true} onOpenChange={onOpenChange} title="Test Title">
+        Modal Content
+      </Modal>,
+    );
+
+    const closeIcon = screen.getByTestId("icon-close");
+    const closeButton = closeIcon.closest("button");
+    if (closeButton) {
+      closeButton.click();
+    }
+
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.any(Object),
+    );
   });
 });
