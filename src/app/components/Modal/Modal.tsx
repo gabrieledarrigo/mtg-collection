@@ -19,9 +19,7 @@ export function Modal({ open, onOpenChange, title, children }: ModalProps) {
           {title && (
             <Dialog.Title className={styles.title}>{title}</Dialog.Title>
           )}
-          <Dialog.Description className={styles.content}>
-            {children}
-          </Dialog.Description>
+          <div className={styles.content}>{children}</div>
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
