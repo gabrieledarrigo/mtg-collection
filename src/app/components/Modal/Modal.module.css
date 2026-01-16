@@ -1,0 +1,38 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+.title {
+  font-size: var(--size-27);
+  font-weight: var(--weight-semibold);
+  margin: 0 0 var(--spacing-1) 0;
+  color: var(--color-neutral-800);
+}
+
+.content {
+  font-size: var(--size-16);
+  line-height: 1.5;
+  color: var(--color-neutral-800);
+}
