@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Badge, BadgeVariant } from "./Badge/Badge";
 import { Button, ButtonVariant } from "./Button/Button";
 import { Icon, IconName } from "./Icon/Icon";
+import { Modal } from "./Modal/Modal";
 import { Toggle, ToggleVariant } from "./Toggle/Toggle";
 
 export default function Home() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <main>
       <section>
@@ -96,6 +100,49 @@ export default function Home() {
           <Icon name={IconName.GRID} size={30} />
           <Icon name={IconName.LIST} size={30} />
           <Icon name={IconName.B} size={30} />
+        </div>
+
+        <h2>Modal</h2>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <Button
+            variant={ButtonVariant.PRIMARY}
+            onClick={() => setModalOpen(true)}
+          >
+            Open Modal
+          </Button>
+          <Modal
+            open={modalOpen}
+            onOpenChange={setModalOpen}
+            title="Example Modal"
+            footer={
+              <>
+                <Button
+                  variant={ButtonVariant.SECONDARY}
+                  onClick={() => setModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant={ButtonVariant.PRIMARY}
+                  onClick={() => {
+                    alert("Submitted!");
+                    setModalOpen(false);
+                  }}
+                >
+                  Submit
+                </Button>
+              </>
+            }
+          >
+            <p>
+              This is an example modal dialog. It can contain any content you
+              want to display.
+            </p>
+            <p>
+              Click the X button, outside the modal, press ESC, or use the
+              footer buttons to close it.
+            </p>
+          </Modal>
         </div>
 
         <h2>Toggle</h2>
