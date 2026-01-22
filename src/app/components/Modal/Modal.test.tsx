@@ -1,5 +1,5 @@
 import { jest, describe, it, expect } from "@jest/globals";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Modal } from "./Modal";
 
 describe("Modal", () => {
@@ -33,7 +33,7 @@ describe("Modal", () => {
     expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
 
-  it("renders the close button when title is provided", () => {
+  it("renders the close button", () => {
     render(
       <Modal open={true} onOpenChange={() => {}} title="Test Title">
         Modal Content
@@ -41,19 +41,6 @@ describe("Modal", () => {
     );
 
     expect(screen.getByTestId("icon-close")).toBeInTheDocument();
-  });
-
-  it("does not render title or close button when title not provided", () => {
-    render(
-      <Modal open={true} onOpenChange={() => {}}>
-        Modal Content
-      </Modal>,
-    );
-
-    const titleElement = screen.queryByRole("heading");
-    expect(titleElement).not.toBeInTheDocument();
-    const closeIcon = screen.queryByTestId("icon-close");
-    expect(closeIcon).not.toBeInTheDocument();
   });
 
   it("renders the footer when provided", () => {
@@ -103,9 +90,6 @@ describe("Modal", () => {
     }
 
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(
-      false,
-      expect.any(Object),
-    );
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Object));
   });
 });

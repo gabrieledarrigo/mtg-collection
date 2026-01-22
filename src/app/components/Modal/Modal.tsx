@@ -22,18 +22,20 @@ export function Modal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.backdrop} />
-        <Dialog.Popup className={styles.popup}>
-          {title && (
-            <div className={styles.header}>
-              <Dialog.Title className={styles.title}>{title}</Dialog.Title>
-              <Dialog.Close className={styles.close}>
-                <Icon name={IconName.CLOSE} size={24} />
-              </Dialog.Close>
-            </div>
-          )}
-          <div className={styles.content}>{children}</div>
-          {footer && <div className={styles.footer}>{footer}</div>}
+        <Dialog.Backdrop className={styles.modal__backdrop} />
+        <Dialog.Popup className={styles.modal__popup}>
+          <div className={styles.modal__header}>
+            {title && (
+              <Dialog.Title className={styles.modal__title}>
+                {title}
+              </Dialog.Title>
+            )}
+            <Dialog.Close className={styles.modal__close}>
+              <Icon name={IconName.CLOSE} size={24} />
+            </Dialog.Close>
+          </div>
+          <div className={styles.modal__content}>{children}</div>
+          {footer && <div className={styles.modal__footer}>{footer}</div>}
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
