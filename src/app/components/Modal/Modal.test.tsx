@@ -1,5 +1,5 @@
 import { jest, describe, it, expect } from "@jest/globals";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Modal } from "./Modal";
 
 describe("Modal", () => {
