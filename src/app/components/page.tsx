@@ -7,9 +7,11 @@ import { Button, ButtonVariant } from "./Button/Button";
 import { Icon, IconName } from "./Icon/Icon";
 import { Modal } from "./Modal/Modal";
 import { Toggle, ToggleVariant } from "./Toggle/Toggle";
+import { Select } from "./Select/Select";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSet, setSelectedSet] = useState("m21");
 
   return (
     <main>
@@ -181,6 +183,46 @@ export default function Home() {
             onChange={(value) => {
               alert(`Value: ${value}`);
             }}
+            disabled
+          />
+        </div>
+
+        <h2>Select</h2>
+        <div style={{ display: "flex", gap: "1rem", flexDirection: "column", maxWidth: "300px" }}>
+          <Select
+            options={[
+              { value: "m21", label: "Core Set 2021" },
+              { value: "znr", label: "Zendikar Rising" },
+              { value: "khm", label: "Kaldheim" },
+              { value: "stx", label: "Strixhaven" },
+            ]}
+            value={selectedSet}
+            onChange={setSelectedSet}
+            label="Select a Set"
+          />
+
+          <Select
+            options={[
+              { value: "en", label: "English" },
+              { value: "it", label: "Italian" },
+              { value: "es", label: "Spanish" },
+              { value: "fr", label: "French" },
+            ]}
+            value="en"
+            onChange={(value) => alert(`Language: ${value}`)}
+            placeholder="Choose a language"
+          />
+
+          <Select
+            options={[
+              { value: "common", label: "Common" },
+              { value: "uncommon", label: "Uncommon" },
+              { value: "rare", label: "Rare" },
+              { value: "mythic", label: "Mythic" },
+            ]}
+            value="rare"
+            onChange={() => {}}
+            label="Rarity"
             disabled
           />
         </div>
