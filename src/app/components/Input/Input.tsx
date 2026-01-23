@@ -21,7 +21,7 @@ export function Input({
   type = "text",
 }: InputProps) {
   const handleValueChange = (newValue: string) => {
-    if (onChange && !disabled) {
+    if (onChange) {
       onChange(newValue);
     }
   };
