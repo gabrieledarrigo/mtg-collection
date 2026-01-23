@@ -27,8 +27,6 @@ export function Select({
   placeholder = "Select an option",
   disabled = false,
 }: SelectProps) {
-  const selectedOption = options.find((option) => option.value === value);
-
   const handleValueChange = (newValue: string | null) => {
     if (newValue && !disabled) {
       onChange(newValue);
