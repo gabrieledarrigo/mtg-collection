@@ -1,16 +1,16 @@
-.field {
+.select__field {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-0-25);
 }
 
-.label {
+.select__label {
   font-size: var(--size-16);
   font-weight: var(--weight-medium);
   color: var(--color-neutral-800);
 }
 
-.trigger {
+.select__trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,39 +23,39 @@
   cursor: pointer;
   font-size: var(--size-16);
   color: var(--color-neutral-800);
+
+  &:hover {
+    border-color: var(--color-neutral-600);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: var(--color-neutral-200);
+  }
 }
 
-.trigger:hover {
-  border-color: var(--color-neutral-600);
-}
-
-.trigger:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-.trigger[data-disabled] {
-  cursor: not-allowed;
-  opacity: 0.6;
-  background-color: var(--color-neutral-200);
-}
-
-.value {
+.select__value {
   flex: 1;
   text-align: left;
 }
 
-.icon {
+.select__icon {
   display: flex;
   align-items: center;
   color: var(--color-neutral-600);
 }
 
-.positioner {
+.select__positioner {
   z-index: 1000;
 }
 
-.popup {
+.select__popup {
   background-color: var(--color-white);
   border: 1px solid var(--color-neutral-400);
   border-radius: var(--border-radius-sm);
@@ -64,13 +64,13 @@
   overflow-y: auto;
 }
 
-.list {
+.select__list {
   list-style: none;
   margin: 0;
   padding: var(--spacing-0-25);
 }
 
-.item {
+.select__option {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,27 +80,27 @@
   border-radius: var(--border-radius-sm);
   font-size: var(--size-16);
   color: var(--color-neutral-800);
+
+  &:hover {
+    background-color: var(--color-neutral-200);
+  }
+
+  &[data-highlighted] {
+    background-color: var(--color-neutral-200);
+  }
+
+  &[data-selected] {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
 }
 
-.item:hover {
-  background-color: var(--color-neutral-200);
-}
-
-.item[data-highlighted] {
-  background-color: var(--color-neutral-200);
-}
-
-.item[data-selected] {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-}
-
-.indicator {
+.select__indicator {
   display: flex;
   align-items: center;
   font-weight: var(--weight-bold);
 }
 
-.item:not([data-selected]) .indicator {
+.select__option:not([data-selected]) .select__indicator {
   visibility: hidden;
 }

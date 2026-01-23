@@ -36,33 +36,38 @@ export function Select({
   const selectedOption = options.find((option) => option.value === value);
 
   return (
-    <Field.Root className={styles.field}>
-      {label && <Field.Label className={styles.label}>{label}</Field.Label>}
+    <Field.Root className={styles.select__field}>
+      {label && (
+        <Field.Label className={styles.select__label}>{label}</Field.Label>
+      )}
       <BaseSelect.Root
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
       >
-        <BaseSelect.Trigger className={styles.trigger}>
-          <BaseSelect.Value className={styles.value}>
+        <BaseSelect.Trigger className={styles.select__trigger}>
+          <BaseSelect.Value className={styles.select__value}>
             {selectedOption ? selectedOption.label : placeholder}
           </BaseSelect.Value>
-          <BaseSelect.Icon className={styles.icon}>
+          <BaseSelect.Icon className={styles.select__icon}>
             <Icon name={IconName.ARROW_DROP_DOWN} size={16} />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
+
         <BaseSelect.Portal>
-          <BaseSelect.Positioner className={styles.positioner}>
-            <BaseSelect.Popup className={styles.popup}>
-              <BaseSelect.List className={styles.list}>
+          <BaseSelect.Positioner className={styles.select__positioner}>
+            <BaseSelect.Popup className={styles.select__popup}>
+              <BaseSelect.List className={styles.select__list}>
                 {options.map((option) => (
                   <BaseSelect.Item
                     key={option.value}
                     value={option.value}
-                    className={styles.item}
+                    className={styles.select__option}
                   >
                     <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
-                    <BaseSelect.ItemIndicator className={styles.indicator}>
+                    <BaseSelect.ItemIndicator
+                      className={styles.select__indicator}
+                    >
                       ✓
                     </BaseSelect.ItemIndicator>
                   </BaseSelect.Item>
