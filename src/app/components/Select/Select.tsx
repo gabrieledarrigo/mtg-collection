@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo, useRef } from "react";
 import { Combobox } from "@base-ui/react/combobox";
 import { Field } from "@base-ui/react/field";
 import { Icon, IconName } from "../Icon/Icon";
@@ -27,21 +28,63 @@ export function Select({
   placeholder = "Select an option",
   disabled = false,
 }: SelectProps) {
-  const handleValueChange = (newValue: string | null) => {
+  const [inputValue, setInputValue] = useState("");
+  const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const selectedOption = useMemo(
+    () => options.find((option) => option.value === value) ?? null,
+    [options, value],
+  );
+
+  const selectedLabel = selectedOption?.label ?? "";
+
+  const filteredOptions = useMemo(() => {
+    if (!inputValue || inputValue === selectedLabel) {
+      return options;
+    }
+
+    return options.filter((option) =>
+      option.label.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()),
+    );
+  }, [options, inputValue, selectedLabel]);
+
+  const onValueChange = (newValue: SelectOption | null) => {
     if (newValue && !disabled) {
-      onChange(newValue);
+      onChange(newValue.value);
     }
   };
 
+  const onInputValueChange = (newInputValue: string) => {
+    setInputValue(newInputValue);
+  };
+
+  const onOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+
+    if (isOpen) {
+      // Reset the input to show all options
+      setInputValue("");
+    }
+  };
+
+  // Ottieni la larghezza del trigger
+  const triggerWidth = triggerRef.current?.offsetWidth;
+
   return (
     <Field.Root className={styles.select}>
-      {label && <Field.Label className={styles.select__label}>{label}</Field.Label>}
-      <Combobox.Root
-        value={value}
-        onValueChange={handleValueChange}
+      {label && (
+        <Field.Label className={styles.select__label}>{label}</Field.Label>
+      )}
+      <Combobox.Root<SelectOption>
+        open={open}
+        value={selectedOption}
+        onValueChange={onValueChange}
+        onInputValueChange={onInputValueChange}
+        onOpenChange={onOpenChange}
         disabled={disabled}
       >
-        <Combobox.Trigger className={styles.select__trigger}>
+        <Combobox.Trigger ref={triggerRef} className={styles.select__trigger}>
           <Combobox.Input
             className={styles.select__input}
             placeholder={placeholder}
@@ -53,24 +96,37 @@ export function Select({
         </Combobox.Trigger>
 
         <Combobox.Portal>
-          <Combobox.Positioner className={styles.select__positioner} sideOffset={4}>
+          <Combobox.Positioner
+            className={styles.select__positioner}
+            side="bottom"
+            align="start"
+            sideOffset={12}
+            alignOffset={-16}
+            style={{ width: triggerWidth }}
+          >
             <Combobox.Popup className={styles.select__popup}>
               <Combobox.List className={styles.select__list}>
-                {options.map((option) => (
+                {filteredOptions.map((option) => (
                   <Combobox.Item
                     key={option.value}
-                    value={option.value}
+                    value={option}
                     className={styles.select__item}
                   >
-                    <span className={styles["select__item-text"]}>{option.label}</span>
-                    <Combobox.ItemIndicator className={styles["select__item-indicator"]}>
+                    <span className={styles["select__item-text"]}>
+                      {option.label}
+                    </span>
+                    <Combobox.ItemIndicator
+                      className={styles["select__item-indicator"]}
+                    >
                       ✓
                     </Combobox.ItemIndicator>
                   </Combobox.Item>
                 ))}
-                <Combobox.Empty className={styles.select__empty}>
-                  No options found
-                </Combobox.Empty>
+                {filteredOptions.length === 0 && (
+                  <Combobox.Empty className={styles.select__empty}>
+                    No options found
+                  </Combobox.Empty>
+                )}
               </Combobox.List>
             </Combobox.Popup>
           </Combobox.Positioner>

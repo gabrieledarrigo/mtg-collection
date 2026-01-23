@@ -12,11 +12,7 @@ describe("Select", () => {
 
   it("renders the select with input", () => {
     render(
-      <Select
-        options={defaultOptions}
-        value="option1"
-        onChange={() => {}}
-      />,
+      <Select options={defaultOptions} value="option1" onChange={() => {}} />,
     );
 
     const input = screen.getByRole("combobox");
@@ -26,16 +22,12 @@ describe("Select", () => {
 
   it("displays the selected option value in input", () => {
     render(
-      <Select
-        options={defaultOptions}
-        value="option2"
-        onChange={() => {}}
-      />,
+      <Select options={defaultOptions} value="option2" onChange={() => {}} />,
     );
 
     const input = screen.getByRole("combobox") as HTMLInputElement;
 
-    expect(input.value).toBe("option2");
+    expect(input.value).toBe("Option 2");
   });
 
   it("displays placeholder when no option is selected", () => {
@@ -78,7 +70,7 @@ describe("Select", () => {
     );
 
     const input = screen.getByRole("combobox") as HTMLInputElement;
-    
+
     // Clear and type
     await user.clear(input);
     await user.type(input, "Option");
@@ -90,26 +82,18 @@ describe("Select", () => {
   it("calls onChange when value changes", () => {
     const onChange = jest.fn();
     const { rerender } = render(
-      <Select
-        options={defaultOptions}
-        value="option1"
-        onChange={onChange}
-      />,
+      <Select options={defaultOptions} value="option1" onChange={onChange} />,
     );
 
     const input = screen.getByRole("combobox") as HTMLInputElement;
-    expect(input.value).toBe("option1");
+    expect(input.value).toBe("Option 1");
 
     // Simulate parent component updating the value
     rerender(
-      <Select
-        options={defaultOptions}
-        value="option2"
-        onChange={onChange}
-      />,
+      <Select options={defaultOptions} value="option2" onChange={onChange} />,
     );
 
-    expect(input.value).toBe("option2");
+    expect(input.value).toBe("Option 2");
   });
 
   it("should be disabled when disabled prop is true", () => {
@@ -129,13 +113,7 @@ describe("Select", () => {
 
   it("shows empty state when no options match filter", async () => {
     const user = userEvent.setup();
-    render(
-      <Select
-        options={defaultOptions}
-        value=""
-        onChange={() => {}}
-      />,
-    );
+    render(<Select options={defaultOptions} value="" onChange={() => {}} />);
 
     const input = screen.getByRole("combobox");
     await user.click(input);
