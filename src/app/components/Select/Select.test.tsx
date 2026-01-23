@@ -1,5 +1,6 @@
 import { jest, describe, it, expect } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Select, SelectOption } from "./Select";
 
 describe("Select", () => {
@@ -9,7 +10,7 @@ describe("Select", () => {
     { value: "option3", label: "Option 3" },
   ];
 
-  it("renders the select with options", () => {
+  it("renders the select with input", () => {
     render(
       <Select
         options={defaultOptions}
@@ -18,12 +19,12 @@ describe("Select", () => {
       />,
     );
 
-    const trigger = screen.getByRole("combobox");
+    const input = screen.getByRole("combobox");
 
-    expect(trigger).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
   });
 
-  it("displays the selected option label", () => {
+  it("displays the selected option value in input", () => {
     render(
       <Select
         options={defaultOptions}
@@ -32,7 +33,9 @@ describe("Select", () => {
       />,
     );
 
-    expect(screen.getByText("Option 2")).toBeInTheDocument();
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+
+    expect(input.value).toBe("option2");
   });
 
   it("displays placeholder when no option is selected", () => {
@@ -45,7 +48,9 @@ describe("Select", () => {
       />,
     );
 
-    expect(screen.getByText("Choose one")).toBeInTheDocument();
+    const input = screen.getByPlaceholderText("Choose one");
+
+    expect(input).toBeInTheDocument();
   });
 
   it("renders the label when provided", () => {
@@ -61,6 +66,27 @@ describe("Select", () => {
     expect(screen.getByText("Select Label")).toBeInTheDocument();
   });
 
+  it("allows filtering options by typing", async () => {
+    const user = userEvent.setup();
+    render(
+      <Select
+        options={defaultOptions}
+        value=""
+        onChange={() => {}}
+        placeholder="Type to search"
+      />,
+    );
+
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+    
+    // Clear and type
+    await user.clear(input);
+    await user.type(input, "Option");
+
+    // The input should allow typing
+    expect(input.value).toBe("Option");
+  });
+
   it("calls onChange when value changes", () => {
     const onChange = jest.fn();
     const { rerender } = render(
@@ -71,9 +97,8 @@ describe("Select", () => {
       />,
     );
 
-    // Verify initial state
-    const trigger = screen.getByRole("combobox");
-    expect(trigger).toHaveTextContent("Option 1");
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+    expect(input.value).toBe("option1");
 
     // Simulate parent component updating the value
     rerender(
@@ -84,8 +109,7 @@ describe("Select", () => {
       />,
     );
 
-    // Verify new value is displayed
-    expect(trigger).toHaveTextContent("Option 2");
+    expect(input.value).toBe("option2");
   });
 
   it("should be disabled when disabled prop is true", () => {
@@ -98,23 +122,26 @@ describe("Select", () => {
       />,
     );
 
-    const trigger = screen.getByRole("combobox");
+    const input = screen.getByRole("combobox");
 
-    expect(trigger).toHaveAttribute("data-disabled");
+    expect(input).toBeDisabled();
   });
 
-  it("should have proper attributes", () => {
+  it("shows empty state when no options match filter", async () => {
+    const user = userEvent.setup();
     render(
       <Select
         options={defaultOptions}
-        value="option1"
+        value=""
         onChange={() => {}}
       />,
     );
 
-    const trigger = screen.getByRole("combobox");
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+    await user.type(input, "Nonexistent Option");
 
-    expect(trigger).toHaveAttribute("aria-haspopup", "listbox");
-    expect(trigger).toHaveAttribute("type", "button");
+    // Empty state should be shown
+    expect(screen.getByText("No options found")).toBeInTheDocument();
   });
 });

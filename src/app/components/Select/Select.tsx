@@ -1,6 +1,6 @@
 "use client";
 
-import { Select as BaseSelect } from "@base-ui/react/select";
+import { Combobox } from "@base-ui/react/combobox";
 import { Field } from "@base-ui/react/field";
 import { Icon, IconName } from "../Icon/Icon";
 import styles from "./Select.module.css";
@@ -27,56 +27,57 @@ export function Select({
   placeholder = "Select an option",
   disabled = false,
 }: SelectProps) {
-  const onValueChange = (newValue: string | null) => {
+  const selectedOption = options.find((option) => option.value === value);
+
+  const handleValueChange = (newValue: string | null) => {
     if (newValue && !disabled) {
       onChange(newValue);
     }
   };
 
-  const selectedOption = options.find((option) => option.value === value);
-
   return (
-    <Field.Root className={styles.select__field}>
-      {label && (
-        <Field.Label className={styles.select__label}>{label}</Field.Label>
-      )}
-      <BaseSelect.Root
+    <Field.Root className={styles.select}>
+      {label && <Field.Label className={styles.select__label}>{label}</Field.Label>}
+      <Combobox.Root
         value={value}
-        onValueChange={onValueChange}
+        onValueChange={handleValueChange}
         disabled={disabled}
       >
-        <BaseSelect.Trigger className={styles.select__trigger}>
-          <BaseSelect.Value className={styles.select__value}>
-            {selectedOption ? selectedOption.label : placeholder}
-          </BaseSelect.Value>
-          <BaseSelect.Icon className={styles.select__icon}>
+        <Combobox.Trigger className={styles.select__trigger}>
+          <Combobox.Input
+            className={styles.select__input}
+            placeholder={placeholder}
+            aria-label={label || placeholder}
+          />
+          <Combobox.Icon className={styles.select__icon}>
             <Icon name={IconName.ARROW_DROP_DOWN} size={16} />
-          </BaseSelect.Icon>
-        </BaseSelect.Trigger>
+          </Combobox.Icon>
+        </Combobox.Trigger>
 
-        <BaseSelect.Portal>
-          <BaseSelect.Positioner className={styles.select__positioner}>
-            <BaseSelect.Popup className={styles.select__popup}>
-              <BaseSelect.List className={styles.select__list}>
+        <Combobox.Portal>
+          <Combobox.Positioner className={styles.select__positioner} sideOffset={4}>
+            <Combobox.Popup className={styles.select__popup}>
+              <Combobox.List className={styles.select__list}>
                 {options.map((option) => (
-                  <BaseSelect.Item
+                  <Combobox.Item
                     key={option.value}
                     value={option.value}
-                    className={styles.select__option}
+                    className={styles.select__item}
                   >
-                    <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
-                    <BaseSelect.ItemIndicator
-                      className={styles.select__indicator}
-                    >
+                    <span className={styles["select__item-text"]}>{option.label}</span>
+                    <Combobox.ItemIndicator className={styles["select__item-indicator"]}>
                       ✓
-                    </BaseSelect.ItemIndicator>
-                  </BaseSelect.Item>
+                    </Combobox.ItemIndicator>
+                  </Combobox.Item>
                 ))}
-              </BaseSelect.List>
-            </BaseSelect.Popup>
-          </BaseSelect.Positioner>
-        </BaseSelect.Portal>
-      </BaseSelect.Root>
+                <Combobox.Empty className={styles.select__empty}>
+                  No options found
+                </Combobox.Empty>
+              </Combobox.List>
+            </Combobox.Popup>
+          </Combobox.Positioner>
+        </Combobox.Portal>
+      </Combobox.Root>
     </Field.Root>
   );
 }
