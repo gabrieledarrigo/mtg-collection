@@ -20,6 +20,10 @@
     "name": "Gabriele D'Arrigo",
     "email": "darrigo.g@gmail.com"
   },
+  "engines": {
+    "node": ">=24",
+    "npm": "^11"
+  },
   "scripts": {
     "check": "prettier . --check",
     "format": "prettier . --write",
