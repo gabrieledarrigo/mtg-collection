@@ -228,6 +228,12 @@ export default function Home() {
             disabled
           />
 
+          <Input
+            label="Input with Error"
+            placeholder="Enter your username"
+            error="Username is required"
+          />
+
           <div>
             <p style={{ fontSize: "14px", marginTop: "8px" }}>
               Current values:

@@ -19,18 +19,24 @@
   color: var(--color-neutral-800);
   outline: none;
   transition: border-color 0.2s;
+
+  &:focus {
+    border-color: var(--color-primary);
+  }
+
+  &:disabled {
+    background-color: var(--color-neutral-200);
+    color: var(--color-neutral-600);
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: var(--color-neutral-600);
+  }
 }
 
-.input__control:focus {
-  border-color: var(--color-primary);
-}
-
-.input__control:disabled {
-  background-color: var(--color-neutral-200);
-  color: var(--color-neutral-600);
-  cursor: not-allowed;
-}
-
-.input__control::placeholder {
-  color: var(--color-neutral-600);
+.input__error {
+  margin-top: var(--spacing-0-25);
+  font-size: var(--size-small);
+  color: var(--color-danger);
 }

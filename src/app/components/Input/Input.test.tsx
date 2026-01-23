@@ -35,11 +35,9 @@ describe("Input", () => {
     render(<Input placeholder="Enter text" onChange={onChange} />);
 
     const inputElement = screen.getByPlaceholderText("Enter text");
-    inputElement.dispatchEvent(
-      new Event("input", { bubbles: true }),
-    );
+    inputElement.dispatchEvent(new Event("input", { bubbles: true }));
 
-    // Note: Base UI Field uses onValueChange callback, 
+    // Note: Base UI Field uses onValueChange callback,
     // but we need to actually set the value to trigger it
     // This test validates the onChange is wired up
     expect(onChange).toHaveBeenCalledTimes(0);
@@ -51,6 +49,24 @@ describe("Input", () => {
     const inputElement = screen.getByDisplayValue("test value");
 
     expect(inputElement).toBeInTheDocument();
+  });
+
+  it("is required when required prop is true", () => {
+    render(<Input label="Username" placeholder="Enter text" required />);
+
+    const inputElement = screen.getByPlaceholderText("Enter text");
+    const labelElement = screen.getByText("Username *");
+
+    expect(inputElement).toBeRequired();
+    expect(labelElement).toBeInTheDocument();
+  });
+
+  it("shows error message when error prop is provided", () => {
+    render(<Input placeholder="Enter text" error="This field is required" />);
+
+    const errorElement = screen.getByText("This field is required");
+
+    expect(errorElement).toBeInTheDocument();
   });
 
   it("is disabled when disabled prop is true", () => {
@@ -66,9 +82,7 @@ describe("Input", () => {
     render(<Input placeholder="Enter text" onChange={onChange} disabled />);
 
     const inputElement = screen.getByPlaceholderText("Enter text");
-    inputElement.dispatchEvent(
-      new Event("input", { bubbles: true }),
-    );
+    inputElement.dispatchEvent(new Event("input", { bubbles: true }));
 
     expect(onChange).not.toHaveBeenCalled();
   });

@@ -105,6 +105,7 @@ npm run db:seed          # Seed database
 npm run app:dev          # Start Next.js dev server
 npm run test             # Run all tests
 npm run typecheck        # TypeScript check
+npm run check            # Prettier check
 npm run format           # Prettier format
 ```
 
