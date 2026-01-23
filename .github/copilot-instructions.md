@@ -48,6 +48,20 @@ ComponentName/
 
 Icons are inline SVGs in [Icon.tsx](src/app/components/Icon/Icon.tsx). Add new icons to `IconName` enum and `iconPaths` record.
 
+### MTG Mana Symbols
+
+Custom font loaded from `public/styles/mtg-font.css` for mana cost display.
+
+## Styling
+
+### CSS Variables
+
+Global design tokens in [globals.css](src/app/globals.css):
+
+- Colors: `--color-primary`, `--color-neutral-{200,400,600,800}`, `--color-mtg-{w,u,g,r,b}`
+- Spacing: `--spacing-{0-25,0-5,1,1-5,2,2-5,3}`
+- Typography: `--size-{16..47}`, `--weight-{light..extra-bold}`
+
 ## Testing
 
 ### Two Jest Projects
@@ -65,6 +79,8 @@ import { render, screen } from "@testing-library/react";
 - Use `@testing-library/react` for component tests
 - Use `data-testid` attributes for querying non-semantic elements (e.g., icons)
 - CSS Modules are mocked via `identity-obj-proxy`
+- Write simple, readable tests focusing on behavior.
+- Don't nest `describe` blocks; Use a flat structure with clear `it` statements.
 
 ## Database
 
@@ -80,12 +96,16 @@ import { render, screen } from "@testing-library/react";
 - `CollectionItem` - User's owned cards (quantity, condition, foil status)
 - `Purchase` - Purchase history per collection item
 
-### Commands
+## Commands
 
 ```bash
 npm run migrate:dev      # Create/apply migrations
 npm run client:generate  # Regenerate Prisma client
 npm run db:seed          # Seed database
+npm run app:dev          # Start Next.js dev server
+npm run test             # Run all tests
+npm run typecheck        # TypeScript check
+npm run format           # Prettier format
 ```
 
 ## Importer CLI
@@ -95,26 +115,3 @@ npm run import <csv-file>  # Import CardTrader order CSV
 ```
 
 Fetches card data from Scryfall API with 150ms rate limiting. Errors logged to `data/scryfall_errors_*.csv`.
-
-## Styling
-
-### CSS Variables
-
-Global design tokens in [globals.css](src/app/globals.css):
-
-- Colors: `--color-primary`, `--color-neutral-{200,400,600,800}`, `--color-mtg-{w,u,g,r,b}`
-- Spacing: `--spacing-{0-25,0-5,1,1-5,2,2-5,3}`
-- Typography: `--size-{16..47}`, `--weight-{light..extra-bold}`
-
-### MTG Mana Symbols
-
-Custom font loaded from `public/styles/mtg-font.css` for mana cost display.
-
-## Development Commands
-
-```bash
-npm run app:dev          # Start Next.js dev server
-npm run test             # Run all tests
-npm run typecheck        # TypeScript check
-npm run format           # Prettier format
-```

@@ -14,8 +14,6 @@ export type NavigationProps = {
 export default function Navigation({ items }: NavigationProps) {
   const pathname = usePathname();
 
-  console.log("Current pathname:", pathname);
-
   return (
     <nav className={styles.navigation}>
       <ul className={styles.navigation__list}>
