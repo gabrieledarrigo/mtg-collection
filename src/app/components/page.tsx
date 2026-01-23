@@ -8,10 +8,14 @@ import { Icon, IconName } from "./Icon/Icon";
 import { Modal } from "./Modal/Modal";
 import { Toggle, ToggleVariant } from "./Toggle/Toggle";
 import { Select } from "./Select/Select";
+import { Input } from "./Input/Input";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState("m21");
+  const [inputValue, setInputValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   return (
     <main>
@@ -185,6 +189,56 @@ export default function Home() {
             }}
             disabled
           />
+        </div>
+
+        <h2>Input</h2>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexDirection: "column",
+            maxWidth: "300px",
+          }}
+        >
+          <Input
+            label="Username"
+            placeholder="Enter your username"
+            value={inputValue}
+            onChange={setInputValue}
+          />
+
+          <Input
+            type="email"
+            label="Email"
+            placeholder="your@email.com"
+            value={emailValue}
+            onChange={setEmailValue}
+          />
+
+          <Input
+            type="search"
+            placeholder="Search for cards..."
+            value={searchValue}
+            onChange={setSearchValue}
+          />
+
+          <Input
+            label="Disabled Input"
+            placeholder="This input is disabled"
+            disabled
+          />
+
+          <div>
+            <p style={{ fontSize: "14px", marginTop: "8px" }}>
+              Current values:
+              <br />
+              Username: <strong>{inputValue || "(empty)"}</strong>
+              <br />
+              Email: <strong>{emailValue || "(empty)"}</strong>
+              <br />
+              Search: <strong>{searchValue || "(empty)"}</strong>
+            </p>
+          </div>
         </div>
 
         <h2>Select</h2>
