@@ -9,6 +9,7 @@ import { Modal } from "./Modal/Modal";
 import { Toggle, ToggleVariant } from "./Toggle/Toggle";
 import { Select } from "./Select/Select";
 import { Input } from "./Input/Input";
+import { Checkbox } from "./Checkbox/Checkbox";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,6 +17,10 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(true);
+  const [checked3, setChecked3] = useState(false);
+  const [checked4, setChecked4] = useState(false);
 
   return (
     <main>
@@ -389,6 +394,49 @@ export default function Home() {
             label="Rarity"
             disabled
           />
+        </div>
+
+        <h2>Checkbox</h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div>
+            <h5>Basic Checkbox (unchecked)</h5>
+            <Checkbox
+              id="checkbox-1"
+              checked={checked1}
+              onChange={setChecked1}
+            />
+          </div>
+
+          <div>
+            <h5>Checkbox with Text Label (checked)</h5>
+            <Checkbox
+              id="checkbox-2"
+              checked={checked2}
+              onChange={setChecked2}
+              label="Label"
+            />
+          </div>
+
+          <div>
+            <h5>Checkbox with Icon and Label</h5>
+            <Checkbox
+              id="checkbox-3"
+              checked={checked3}
+              onChange={setChecked3}
+              icon={IconName.B}
+            />
+          </div>
+
+          <div>
+            <h5>Disabled Checkbox</h5>
+            <Checkbox
+              id="checkbox-4"
+              checked={checked4}
+              onChange={setChecked4}
+              label="Disabled"
+              disabled
+            />
+          </div>
         </div>
 
         <div style={{ marginTop: "4rem", height: "10rem" }}>
