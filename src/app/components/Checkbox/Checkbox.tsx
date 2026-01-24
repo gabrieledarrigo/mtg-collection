@@ -8,7 +8,7 @@ export type CheckboxProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   id?: string;
-  label?: string;
+  label?: string | React.ReactNode;
   icon?: IconName;
   required?: boolean;
   disabled?: boolean;

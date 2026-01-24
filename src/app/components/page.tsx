@@ -72,6 +72,7 @@ export default function Home() {
           <Badge text="Danger" variant={BadgeVariant.DANGER} />
           <Badge text="Warning" variant={BadgeVariant.WARNING} />
         </div>
+
         <h2>Button</h2>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <Button
@@ -100,6 +101,7 @@ export default function Home() {
             Disabled Button
           </Button>
         </div>
+
         <h2>Icon</h2>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <Icon name={IconName.SEARCH} size={30} />
@@ -111,6 +113,10 @@ export default function Home() {
           <Icon name={IconName.GRID} size={30} />
           <Icon name={IconName.LIST} size={30} />
           <Icon name={IconName.B} size={30} />
+          <Icon name={IconName.G} size={30} />
+          <Icon name={IconName.R} size={30} />
+          <Icon name={IconName.U} size={30} />
+          <Icon name={IconName.W} size={30} />
         </div>
 
         <h2>Modal</h2>
