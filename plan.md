@@ -95,6 +95,9 @@ src/
 │   ├── Toggle/
 │   │   ├── Toggle.tsx
 │   │   └── Toggle.module.css
+│   ├── Checkbox/
+│   │   ├── Checkbox.tsx
+│   │   └── Checkbox.module.css
 │   ├── ManaSymbol/
 │   │   ├── ManaSymbol.tsx
 │   │   └── ManaSymbol.module.css
@@ -222,6 +225,7 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 - [ ] Modal/Dialog
 - [x] Badge
 - [ ] Toggle (per grid/list view e yes/no)
+- [ ] Checkbox con label opzionale (testo o icona)
 
 ### Dettagli Tecnici
 
@@ -234,7 +238,8 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 5. Creare `src/components/Select/Select.tsx` - test selezione opzioni e label
 6. Creare `src/components/Modal/Modal.tsx` - test apertura/chiusura
 7. Creare `src/components/Toggle/Toggle.tsx` - test toggle stato e varianti
-8. Creare `src/components/index.ts` (barrel export)
+8. Creare `src/components/Checkbox/Checkbox.tsx` - test checked/unchecked, onChange, label opzionale
+9. Creare `src/components/index.ts` (barrel export)
 
 **Base UI components:**
 
@@ -243,6 +248,7 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 - Select → `@base-ui-components/react/select`
 - Modal → `@base-ui-components/react/dialog`
 - Toggle → `@base-ui-components/react/toggle-group`
+- Checkbox → `@base-ui-components/react/checkbox`
 
 ---
 
