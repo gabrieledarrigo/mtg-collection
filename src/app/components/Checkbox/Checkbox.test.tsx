@@ -20,7 +20,15 @@ describe("Checkbox", () => {
     expect(screen.getByText("Accept terms")).toBeInTheDocument();
   });
 
-  it("renders the checkbox with an icon label", () => {
+  it("renders the checkbox with an icon", () => {
+    render(
+      <Checkbox checked={false} onChange={() => {}} icon={IconName.FILTER} />,
+    );
+
+    expect(screen.getByTestId("icon-filter")).toBeInTheDocument();
+  });
+
+  it("renders the checkbox both with an icon and a label", () => {
     render(
       <Checkbox
         checked={false}
@@ -72,6 +80,14 @@ describe("Checkbox", () => {
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith(false);
+  });
+
+  it("should be required when required prop is true", () => {
+    render(<Checkbox checked={false} onChange={() => {}} required />);
+
+    const checkboxElement = screen.getByRole("checkbox");
+
+    expect(checkboxElement).toBeRequired();
   });
 
   it("should be disabled when disabled prop is true", () => {

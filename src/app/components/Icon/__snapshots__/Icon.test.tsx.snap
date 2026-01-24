@@ -55,7 +55,7 @@ exports[`Icon renders the check icon correctly 1`] = `
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
-    d="M10.6,20.4,5.2,15l2-2,3.4,3.4L20.8,6.2l2,2Z"
+    d="M12.37,22.53l-7-7,1.75-1.74L12.37,19,23.62,7.77l1.75,1.75Z"
   />
 </svg>
 `;
