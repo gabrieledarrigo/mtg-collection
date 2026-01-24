@@ -45,6 +45,21 @@ exports[`Icon renders the b icon correctly 1`] = `
 </svg>
 `;
 
+exports[`Icon renders the check icon correctly 1`] = `
+<svg
+  data-testid="icon-check"
+  fill="currentColor"
+  height="30"
+  viewBox="0 0 30 30"
+  width="30"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M10.6,20.4,5.2,15l2-2,3.4,3.4L20.8,6.2l2,2Z"
+  />
+</svg>
+`;
+
 exports[`Icon renders the close icon correctly 1`] = `
 <svg
   data-testid="icon-close"
