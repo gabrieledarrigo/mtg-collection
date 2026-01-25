@@ -58,6 +58,34 @@ describe("Select", () => {
     expect(screen.getByText("Select Label")).toBeInTheDocument();
   });
 
+  it("displays an asterisk when the required prop is true", () => {
+    render(
+      <Select
+        options={defaultOptions}
+        value="option1"
+        onChange={() => {}}
+        label="Required Field"
+        required
+      />,
+    );
+
+    expect(screen.getByText("Required Field *")).toBeInTheDocument();
+  });
+
+  it("displays an error message when the error prop is provided", () => {
+    render(
+      <Select
+        options={defaultOptions}
+        value=""
+        onChange={() => {}}
+        label="Select"
+        error="Please select an option"
+      />,
+    );
+
+    expect(screen.getByText("Please select an option")).toBeInTheDocument();
+  });
+
   it("allows filtering options by typing", async () => {
     const user = userEvent.setup();
     render(

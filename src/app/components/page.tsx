@@ -400,6 +400,20 @@ export default function Home() {
             label="Rarity"
             disabled
           />
+
+          <Select
+            options={[
+              { value: "nm", label: "Near Mint" },
+              { value: "lp", label: "Lightly Played" },
+              { value: "mp", label: "Moderately Played" },
+              { value: "hp", label: "Heavily Played" },
+            ]}
+            value=""
+            onChange={() => {}}
+            label="Condition"
+            required
+            error="Please select a condition"
+          />
         </div>
 
         <h2>Checkbox</h2>

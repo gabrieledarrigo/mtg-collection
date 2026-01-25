@@ -18,6 +18,8 @@ export type SelectProps = {
   label?: string;
   placeholder?: string;
   disabled?: boolean;
+  error?: string;
+  required?: boolean;
 };
 
 export function Select({
@@ -27,6 +29,8 @@ export function Select({
   label,
   placeholder = "Select an option",
   disabled = false,
+  error,
+  required = false,
 }: SelectProps) {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
@@ -74,7 +78,10 @@ export function Select({
   return (
     <Field.Root className={styles.select}>
       {label && (
-        <Field.Label className={styles.select__label}>{label}</Field.Label>
+        <Field.Label className={styles.select__label}>
+          {label}
+          {required && " *"}
+        </Field.Label>
       )}
       <Combobox.Root<SelectOption>
         open={open}
@@ -118,7 +125,7 @@ export function Select({
                     <Combobox.ItemIndicator
                       className={styles["select__item-indicator"]}
                     >
-                      ✓
+                      <Icon name={IconName.CHECK} size={16} />
                     </Combobox.ItemIndicator>
                   </Combobox.Item>
                 ))}
@@ -132,6 +139,11 @@ export function Select({
           </Combobox.Positioner>
         </Combobox.Portal>
       </Combobox.Root>
+      {error && (
+        <Field.Error className={styles.select__error} match={true}>
+          {error}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 }

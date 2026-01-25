@@ -128,3 +128,9 @@
   color: var(--color-neutral-600);
   font-size: var(--size-16);
 }
+
+.select__error {
+  margin-top: var(--spacing-0-25);
+  font-size: var(--size-small);
+  color: var(--color-danger);
+}
