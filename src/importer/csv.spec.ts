@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { jest, describe, it, expect } from "@jest/globals";
 import fs from "fs";
 import * as csv from "fast-csv";

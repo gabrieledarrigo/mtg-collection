@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Combobox } from "@base-ui/react/combobox";
 import { Field } from "@base-ui/react/field";
 import { Icon, IconName } from "../Icon/Icon";
@@ -34,6 +34,7 @@ export function Select({
 }: SelectProps) {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
+  const [triggerWidth, setTriggerWidth] = useState<number | undefined>();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const selectedOption = useMemo(
@@ -72,8 +73,12 @@ export function Select({
     }
   };
 
-  // Ottieni la larghezza del trigger
-  const triggerWidth = triggerRef.current?.offsetWidth;
+  // Update trigger width when the dropdown opens
+  useEffect(() => {
+    if (open && triggerRef.current) {
+      setTriggerWidth(triggerRef.current.offsetWidth);
+    }
+  }, [open]);
 
   return (
     <Field.Root className={styles.select}>

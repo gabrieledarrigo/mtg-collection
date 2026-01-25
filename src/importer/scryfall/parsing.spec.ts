@@ -437,10 +437,13 @@ describe("parsing", () => {
       expect(result.cardFaces).not.toBeNull();
       expect(typeof result.cardFaces).toBe("string");
 
-      const parsed = JSON.parse(result.cardFaces as string);
+      const parsed = JSON.parse(result.cardFaces as string) as {
+        name: string;
+      }[];
+
       expect(parsed).toHaveLength(2);
-      expect(parsed[0].name).toBe("Front");
-      expect(parsed[1].name).toBe("Back");
+      expect(parsed[0]?.name).toBe("Front");
+      expect(parsed[1]?.name).toBe("Back");
     });
   });
 });

@@ -99,9 +99,13 @@ async function main() {
 
         results.push({ scryfallCard, card, quantity, item, totalPrice });
       });
-    } catch (err: any) {
-      console.error(`Error fetching card for ${item.itemName}: ${err.message}`);
-      errors.push({ item: item.rawItem, error: err });
+    } catch (err: unknown) {
+      const error = err as Error;
+
+      console.error(
+        `Error fetching card for ${item.itemName}: ${error.message}`,
+      );
+      errors.push({ item: item.rawItem, error });
     }
 
     console.log(

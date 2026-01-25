@@ -16,7 +16,7 @@ describe("scryfall", () => {
 
       (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: true,
-        json: async () => card,
+        json: () => Promise.resolve(card),
       } as Response);
 
       const actual = await bySetAndNumber("khm", "123", Language.EN);
@@ -57,7 +57,7 @@ describe("scryfall", () => {
 
       (fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: true,
-        json: async () => list,
+        json: () => Promise.resolve(list),
       } as Response);
 
       const params: SearchParams = {
