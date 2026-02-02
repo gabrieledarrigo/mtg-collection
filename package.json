@@ -45,14 +45,14 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@jest/globals": "^30.2.0",
-    "@next/eslint-plugin-next": "^16.1.4",
+    "@next/eslint-plugin-next": "^16.1.6",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.16.0",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -66,7 +66,7 @@
     "ts-jest": "^29.4.6",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1"
+    "typescript-eslint": "^8.54.0"
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
@@ -75,10 +75,10 @@
     "@scryfall/api-types": "^1.0.0-alpha.4",
     "dotenv": "^17.2.3",
     "fast-csv": "^5.0.5",
-    "next": "^16.1.4",
-    "pg": "^8.17.2",
+    "next": "^16.1.6",
+    "pg": "^8.18.0",
     "prisma": "^7.3.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   }
 }
