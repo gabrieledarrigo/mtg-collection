@@ -1,9 +1,7 @@
 export default function Home() {
   return (
-    <main>
-      <section>
-        <h1>MTG Collection</h1>
-      </section>
-    </main>
+    <section id="home">
+      <h1>MTG Collection</h1>
+    </section>
   );
 }

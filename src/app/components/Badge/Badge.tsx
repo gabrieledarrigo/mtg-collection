@@ -10,7 +10,7 @@ export enum BadgeVariant {
 }
 
 export type BadgeProps = {
-  text: string;
+  text: string | number;
   variant?: BadgeVariant;
 };
 
