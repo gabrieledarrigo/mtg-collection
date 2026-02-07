@@ -14,7 +14,7 @@ export type Page<T> = {
   totalItems: number;
 };
 
-export type CollectionItemWithRelations = CollectionItemGetPayload<{
+export type CollectionItemWithCard = CollectionItemGetPayload<{
   include: {
     card: true;
     purchases: true;
@@ -26,7 +26,7 @@ export async function getCollectionItems(
     page: DEFAULT_PAGE,
     size: DEFAULT_PAGE_SIZE,
   },
-): Promise<Page<CollectionItemWithRelations>> {
+): Promise<Page<CollectionItemWithCard>> {
   const { page, size } = pagination;
 
   const skip = (page - 1) * size;

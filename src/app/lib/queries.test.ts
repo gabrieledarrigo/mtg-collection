@@ -1,6 +1,6 @@
 import { describe, it, jest, expect } from "@jest/globals";
 import {
-  CollectionItemWithRelations,
+  CollectionItemWithCard,
   DEFAULT_PAGE_SIZE,
   getCollectionItems,
   Pagination,
@@ -19,7 +19,7 @@ jest.mock("@database/index", () => ({
 
 describe("queries", () => {
   const count = 100;
-  const collectionItem = createMock<CollectionItemWithRelations>({
+  const collectionItem = createMock<CollectionItemWithCard>({
     id: "collection-item-1",
     card: {
       id: "card-id-1",
