@@ -1,0 +1,36 @@
+.card {
+  margin: 0 auto;
+}
+
+&--medium {
+  max-width: 146px;
+
+  @media screen and (min-width: 768px) {
+    max-width: 245px;
+  }
+}
+
+.card--large {
+  max-width: 336px;
+}
+
+.card__picture {
+  position: relative;
+  width: 146px;
+  height: 205px;
+  margin: 0;
+  padding: 0;
+
+  @media screen and (min-width: 768px) {
+    width: 245px;
+    height: 341px;
+  }
+}
+
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-0-25);
+  gap: var(--spacing-0-25);
+}
