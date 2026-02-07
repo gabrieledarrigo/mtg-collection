@@ -4,7 +4,7 @@ import {
   DEFAULT_PAGE_SIZE,
   getCollectionItems,
   Pagination,
-} from "./queries";
+} from "./collection";
 import { prisma } from "@database/index";
 import { createMock } from "@test/helpers";
 
@@ -17,7 +17,7 @@ jest.mock("@database/index", () => ({
   },
 }));
 
-describe("queries", () => {
+describe("collection", () => {
   const count = 100;
   const collectionItem = createMock<CollectionItemWithCard>({
     id: "collection-item-1",

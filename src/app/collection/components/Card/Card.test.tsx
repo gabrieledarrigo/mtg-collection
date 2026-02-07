@@ -1,4 +1,4 @@
-import { CollectionItemWithCard } from "@app/lib/queries";
+import { CollectionItemWithCard } from "@app/lib/collection";
 import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";

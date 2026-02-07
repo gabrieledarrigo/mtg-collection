@@ -1,4 +1,4 @@
-import { CollectionItemWithCard } from "@app/lib/queries";
+import { CollectionItemWithCard } from "@app/lib/collection";
 import { Card } from "../Card/Card";
 import styles from "./CardsGrid.module.css";
 import { Badge, BadgeVariant } from "@app/components/Badge/Badge";
@@ -10,7 +10,9 @@ export type CardsGridProps = {
 export function CardsGrid({ collectionItems }: CardsGridProps) {
   return (
     <div className={styles.grid}>
-      {collectionItems.length === 0 && <div>No cards in your collection!</div>}
+      {collectionItems.length === 0 && (
+        <div>There are no cards in your collection!</div>
+      )}
 
       {collectionItems.map((collectionItem) => (
         <Card

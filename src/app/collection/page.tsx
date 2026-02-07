@@ -2,7 +2,7 @@ import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
   getCollectionItems,
-} from "@app/lib/queries";
+} from "@app/lib/collection";
 import { CardsGrid } from "./components/CardsGrid/CardsGrid";
 
 export type SearchParams = {

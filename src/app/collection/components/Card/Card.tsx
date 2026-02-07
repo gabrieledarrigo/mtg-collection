@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CollectionItemWithCard } from "@app/lib/queries";
+import { CollectionItemWithCard } from "@app/lib/collection";
 import styles from "./Card.module.css";
 import React, { useMemo } from "react";
 

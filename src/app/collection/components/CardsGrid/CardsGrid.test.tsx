@@ -1,4 +1,4 @@
-import { CollectionItemWithCard } from "@app/lib/queries";
+import { CollectionItemWithCard } from "@app/lib/collection";
 import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
@@ -29,5 +29,13 @@ describe("CardsGrid", () => {
     const cardElements = screen.getAllByRole("article");
 
     expect(cardElements).toHaveLength(collectionItems.length);
+  });
+
+  it("should render a message when there are no cards in the collection", () => {
+    render(<CardsGrid collectionItems={[]} />);
+
+    const message = screen.getByText("There are no cards in your collection!");
+
+    expect(message).toBeInTheDocument();
   });
 });
