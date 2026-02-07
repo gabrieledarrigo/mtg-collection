@@ -35,7 +35,12 @@ export function Card({
       className={`${styles.card} ${styles[`card--${variant}`]}`}
     >
       <figure className={styles.card__picture}>
-        <Image src={imageUrl} alt={collectionItem.card.name} fill={true} />
+        <Image
+          src={imageUrl}
+          alt={collectionItem.card.name}
+          fill={true}
+          title={`${collectionItem.card.name} - ${collectionItem.card.setName} (${collectionItem.card.setCode.toUpperCase()}) #${collectionItem.card.collectorNumber}`}
+        />
       </figure>
 
       {footer && <footer className={styles.card__footer}>{footer}</footer>}

@@ -25,6 +25,10 @@
     width: 245px;
     height: 341px;
   }
+
+  img {
+    border-radius: 10px;
+  }
 }
 
 .card__footer {
