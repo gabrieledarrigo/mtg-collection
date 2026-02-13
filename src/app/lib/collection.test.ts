@@ -1,12 +1,8 @@
 import { describe, it, jest, expect } from "@jest/globals";
-import {
-  CollectionItemWithCard,
-  DEFAULT_PAGE_SIZE,
-  getCollectionItems,
-  Pagination,
-} from "./collection";
 import { prisma } from "@database/index";
 import { createMock } from "@test/helpers";
+import { CollectionItemWithCard, getCollectionItems } from "./collection";
+import { Pagination } from "./pagination";
 
 jest.mock("@database/index", () => ({
   prisma: {
@@ -29,16 +25,22 @@ describe("collection", () => {
 
   describe("getCollectionItems", () => {
     it("should query and paginate collection items with the given pagination parameters", async () => {
-      const pagination: Pagination = {
+      jest.spyOn(prisma.collectionItem, "count").mockResolvedValue(count);
+      jest
+        .spyOn(prisma.collectionItem, "findMany")
+        .mockResolvedValue([collectionItem]);
+
+      const pagination = createMock<Pagination>({
         page: 2,
-        size: 30,
-      };
+        size: 20,
+        skip: 30,
+      });
 
       await getCollectionItems(pagination);
 
       expect(prisma.collectionItem.count).toHaveBeenCalled();
       expect(prisma.collectionItem.findMany).toHaveBeenCalledWith({
-        skip: 30,
+        skip: pagination.skip,
         take: pagination.size,
         include: {
           card: true,
@@ -53,10 +55,12 @@ describe("collection", () => {
     it("should query and paginate collection items using the default pagination parameters", async () => {
       await getCollectionItems();
 
+      const expected = Pagination.default();
+
       expect(prisma.collectionItem.count).toHaveBeenCalled();
       expect(prisma.collectionItem.findMany).toHaveBeenCalledWith({
-        skip: 0,
-        take: DEFAULT_PAGE_SIZE,
+        skip: expected.skip,
+        take: expected.size,
         include: {
           card: true,
           purchases: true,

@@ -1,18 +1,5 @@
 import { CollectionItemGetPayload, prisma } from "@database/index";
-
-export const DEFAULT_PAGE = 1;
-export const DEFAULT_PAGE_SIZE = 20;
-
-export type Pagination = {
-  page: number;
-  size: number;
-};
-
-export type Page<T> = {
-  items: T[];
-  page: number;
-  totalItems: number;
-};
+import { Page, Pagination } from "./pagination";
 
 export type CollectionItemWithCard = CollectionItemGetPayload<{
   include: {
@@ -22,14 +9,10 @@ export type CollectionItemWithCard = CollectionItemGetPayload<{
 }>;
 
 export async function getCollectionItems(
-  pagination: Pagination = {
-    page: DEFAULT_PAGE,
-    size: DEFAULT_PAGE_SIZE,
-  },
+  pagination: Pagination = Pagination.default(),
 ): Promise<Page<CollectionItemWithCard>> {
-  const { page, size } = pagination;
+  const { page, size, skip } = pagination;
 
-  const skip = (page - 1) * size;
   const count = await prisma.collectionItem.count();
   const collectionItems = await prisma.collectionItem.findMany({
     take: size,
