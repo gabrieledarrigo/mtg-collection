@@ -11,18 +11,21 @@ describe("Card", () => {
     id: "collection-item-1",
     card: {
       id: "card-id-1",
+      name: "Card 1",
+      setName: "Set",
+      setCode: "set",
+      collectorNumber: "1",
       imageUrlNormal:
         "https://cards.scryfall.io/normal/front/e/5/e574e522-2632-4cd4-8545-c582ac3b641f.jpg?1562632572",
       imageUrlLarge:
         "https://cards.scryfall.io/large/front/e/5/e574e522-2632-4cd4-8545-c582ac3b641f.jpg?1562632572",
-      name: "Brainstorm",
     },
     quantity: 4,
     condition: Condition.NEAR_MINT,
     purchases: [],
   });
 
-  it("should a render card", () => {
+  it("should render a card", () => {
     render(<Card collectionItem={collectionItem} />);
 
     const cardElement = screen.getByRole("article");

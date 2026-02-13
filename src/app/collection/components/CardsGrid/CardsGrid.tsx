@@ -17,7 +17,7 @@ export function CardsGrid({ collectionItems }: CardsGridProps) {
 
       {collectionItems.map((collectionItem) => (
         <Card
-          key={collectionItem.cardId}
+          key={collectionItem.id}
           collectionItem={collectionItem}
           footer={
             <>

@@ -3,21 +3,34 @@ import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
 import { CardsGrid } from "./CardsGrid";
+import { Condition, Language } from "@database/index";
 
 describe("CardsGrid", () => {
   const collectionItemOne = createMock<CollectionItemWithCard>({
     id: "collection-item-1",
     card: {
       id: "card-id-1",
+      name: "Card 1",
+      setName: "Set",
+      setCode: "set",
+      collectorNumber: "1",
+      language: Language.IT,
     },
+    condition: Condition.MINT,
     purchases: [],
   });
 
   const collectionItemTwo = createMock<CollectionItemWithCard>({
-    id: "collection-item-1",
+    id: "collection-item-2",
     card: {
-      id: "card-id-1",
+      id: "card-id-2",
+      name: "Card 2",
+      setName: "Set",
+      setCode: "set",
+      collectorNumber: "2",
+      language: Language.IT,
     },
+    condition: Condition.MINT,
     purchases: [],
   });
 
@@ -37,5 +50,19 @@ describe("CardsGrid", () => {
     const message = screen.getByText("There are no cards in your collection!");
 
     expect(message).toBeInTheDocument();
+  });
+
+  it("should render the quantity, condition, language, and foil for each card", () => {
+    render(<CardsGrid collectionItems={collectionItems} />);
+
+    const quantity = screen.getAllByTitle(/Quantity/i);
+    const condition = screen.getAllByTitle(/Condition/i);
+    const language = screen.getAllByTitle(/Language/i);
+    const foil = screen.getAllByTitle(/Foil/i);
+
+    expect(quantity).toHaveLength(2);
+    expect(condition).toHaveLength(2);
+    expect(language).toHaveLength(2);
+    expect(foil).toHaveLength(2);
   });
 });

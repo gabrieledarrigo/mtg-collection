@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { CollectionItemWithCard } from "@app/lib/collection";
 import styles from "./Card.module.css";
-import React, { useMemo } from "react";
 
 export enum CardVariant {
   MEDIUM = "medium",
@@ -21,19 +20,13 @@ export function Card({
   variant = CardVariant.MEDIUM,
   footer,
 }: CardProps) {
-  const imageUrl = useMemo(() => {
-    if (variant === CardVariant.MEDIUM) {
-      return collectionItem.card.imageUrlNormal ?? NO_IMAGE_AVAILABLE;
-    }
-
-    return collectionItem.card.imageUrlLarge ?? NO_IMAGE_AVAILABLE;
-  }, [collectionItem.card, variant]);
+  const imageUrl =
+    variant === CardVariant.MEDIUM
+      ? (collectionItem.card.imageUrlNormal ?? NO_IMAGE_AVAILABLE)
+      : (collectionItem.card.imageUrlLarge ?? NO_IMAGE_AVAILABLE);
 
   return (
-    <article
-      key={collectionItem.cardId}
-      className={`${styles.card} ${styles[`card--${variant}`]}`}
-    >
+    <article className={`${styles.card} ${styles[`card--${variant}`]}`}>
       <figure className={styles.card__picture}>
         <Image
           src={imageUrl}

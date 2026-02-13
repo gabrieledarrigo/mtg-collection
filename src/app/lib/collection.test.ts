@@ -1,4 +1,4 @@
-import { describe, it, jest, expect } from "@jest/globals";
+import { describe, beforeEach, it, jest, expect } from "@jest/globals";
 import { prisma } from "@database/index";
 import { createMock } from "@test/helpers";
 import { CollectionItemWithCard, getCollectionItems } from "./collection";
@@ -6,6 +6,7 @@ import { Pagination } from "./pagination";
 
 jest.mock("@database/index", () => ({
   prisma: {
+    $transaction: jest.fn(),
     collectionItem: {
       count: jest.fn(),
       findMany: jest.fn(),
@@ -23,13 +24,14 @@ describe("collection", () => {
     purchases: [],
   });
 
+  beforeEach(() => {
+    jest
+      .spyOn(prisma, "$transaction")
+      .mockResolvedValue([count, [collectionItem]]);
+  });
+
   describe("getCollectionItems", () => {
     it("should query and paginate collection items with the given pagination parameters", async () => {
-      jest.spyOn(prisma.collectionItem, "count").mockResolvedValue(count);
-      jest
-        .spyOn(prisma.collectionItem, "findMany")
-        .mockResolvedValue([collectionItem]);
-
       const pagination = createMock<Pagination>({
         page: 2,
         size: 20,
@@ -72,11 +74,6 @@ describe("collection", () => {
     });
 
     it("should return a Page of collection items", async () => {
-      jest.spyOn(prisma.collectionItem, "count").mockResolvedValue(count);
-      jest
-        .spyOn(prisma.collectionItem, "findMany")
-        .mockResolvedValue([collectionItem]);
-
       const actual = await getCollectionItems();
 
       expect(actual).toEqual({
