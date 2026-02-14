@@ -10,13 +10,21 @@ export enum BadgeVariant {
 }
 
 export type BadgeProps = {
-  text: string;
+  text: string | number;
+  title?: string;
   variant?: BadgeVariant;
 };
 
-export function Badge({ text, variant = BadgeVariant.PRIMARY }: BadgeProps) {
+export function Badge({
+  text,
+  title,
+  variant = BadgeVariant.PRIMARY,
+}: BadgeProps) {
   return (
-    <span className={`${styles.badge} ${styles[`badge--${variant}`]}`}>
+    <span
+      className={`${styles.badge} ${styles[`badge--${variant}`]}`}
+      title={title}
+    >
       {text}
     </span>
   );

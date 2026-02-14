@@ -37,7 +37,8 @@ export default function RootLayout({
         <Header title={title}>
           <Navigation items={navigationItems} />
         </Header>
-        {children}
+
+        <main>{children}</main>
       </body>
     </html>
   );

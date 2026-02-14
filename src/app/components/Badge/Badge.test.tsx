@@ -18,4 +18,12 @@ describe("Badge", () => {
     expect(badgeElement).toBeInTheDocument();
     expect(badgeElement).toHaveClass(`badge--${variant}`);
   });
+
+  it("should render the optional title", () => {
+    render(<Badge text="Test Badge" title="Test Badge title" />);
+
+    const badgeElement = screen.getByTitle("Test Badge title");
+
+    expect(badgeElement).toBeInTheDocument();
+  });
 });

@@ -27,18 +27,15 @@ src/
 │   │   ├── page.tsx
 │   │   ├── loading.tsx
 │   │   └── components/
-│   │       ├── CollectionView/
-│   │       │   ├── CollectionView.tsx
-│   │       │   └── CollectionView.module.css
-│   │       ├── CardGrid/
-│   │       │   ├── CardGrid.tsx
-│   │       │   └── CardGrid.module.css
-│   │       ├── CardList/
-│   │       │   ├── CardList.tsx
-│   │       │   └── CardList.module.css
-│   │       ├── CardTile/
-│   │       │   ├── CardTile.tsx
-│   │       │   └── CardTile.module.css
+│   │       ├── CardsGrid/
+│   │       │   ├── CardsGrid.tsx
+│   │       │   └── CardsGrid.module.css
+│   │       ├── CardsList/
+│   │       │   ├── CardsList.tsx
+│   │       │   └── CardsList.module.css
+│   │       ├── Card/
+│   │       │   ├── Card.tsx
+│   │       │   └── Card.module.css
 │   │       ├── CardRow/
 │   │       │   ├── CardRow.tsx
 │   │       │   └── CardRow.module.css
@@ -275,8 +272,8 @@ Pagina base della collezione con visualizzazione a griglia.
 3. Creare `src/app/collection/page.tsx` (Server Component)
 4. Creare `src/app/collection/loading.tsx`
 5. Creare `src/app/collection/components/CollectionView/CollectionView.tsx` (Client) - test rendering griglia
-6. Creare `src/app/collection/components/CardGrid/CardGrid.tsx` (Client) - test rendering items
-7. Creare `src/app/collection/components/CardTile/CardTile.tsx` (senza link) - test rendering immagine e badge
+6. Creare `src/app/collection/components/CardsGrid/CardsGrid.tsx` (Client) - test rendering items
+7. Creare `src/app/collection/components/Card/Card.tsx` (senza link) - test rendering immagine e footer
 8. Usare `next/image` per immagini ottimizzate
 9. Empty state con messaggio descrittivo
 
@@ -303,7 +300,7 @@ Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
 
 1. Creare `src/hooks/useUpdateURL.ts` - test aggiornamento parametri URL
 2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/list
-3. Creare `src/app/collection/components/CardList/CardList.tsx` (Client) - test rendering righe
+3. Creare `src/app/collection/components/CardsList/CardsList.tsx` (Client) - test rendering righe
 4. Creare `src/app/collection/components/CardRow/CardRow.tsx` - test rendering colonne
 5. Aggiornare `CollectionView.tsx` per renderizzare Grid/List in base a `?view`
 6. Usare `useRouter`, `useSearchParams`, `usePathname`
