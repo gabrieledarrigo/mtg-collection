@@ -1,0 +1,16 @@
+.table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-radius: var(--border-radius-sm);
+  width: 100%;
+}
+
+.table thead {
+  background-color: var(--color-neutral-200);
+  font-weight: var(--weight-bold);
+}
+
+.table td {
+  border: 1px solid var(--color-neutral-400);
+  padding: 1rem;
+}

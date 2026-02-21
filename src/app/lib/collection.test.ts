@@ -1,10 +1,16 @@
 import { describe, beforeEach, it, jest, expect } from "@jest/globals";
-import { CollectionItemWithCard, prisma } from "@database/index";
+import {
+  CollectionItemWithCard,
+  Condition,
+  Language,
+  prisma,
+} from "@database/index";
 import { createMock } from "@test/helpers";
 import { getCollectionItems } from "./collection";
 import { Pagination } from "./pagination";
 
 jest.mock("@database/index", () => ({
+  ...(jest.requireActual("@database/index") as object),
   prisma: {
     $transaction: jest.fn(),
     collectionItem: {
@@ -20,8 +26,23 @@ describe("collection", () => {
     id: "collection-item-1",
     card: {
       id: "card-id-1",
+      name: "Card 1",
+      setName: "Set",
+      setCode: "set",
+      collectorNumber: "1",
+      language: Language.IT,
     },
-    purchases: [],
+    quantity: 12,
+    condition: Condition.MINT,
+    foil: true,
+    purchases: [
+      {
+        price: 1250,
+      },
+      {
+        price: 1370,
+      },
+    ],
   });
 
   beforeEach(() => {
