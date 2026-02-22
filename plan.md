@@ -298,13 +298,12 @@ Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
 
 **Subtask:**
 
-1. Creare `src/hooks/useUpdateURL.ts` - test aggiornamento parametri URL
-2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/list
-3. Creare `src/app/collection/components/CardsList/CardsList.tsx` (Client) - test rendering righe
-4. Creare `src/app/collection/components/CardRow/CardRow.tsx` - test rendering colonne
-5. Aggiornare `CollectionView.tsx` per renderizzare Grid/List in base a `?view`
-6. Usare `useRouter`, `useSearchParams`, `usePathname`
-7. Usare `useTransition` per loading state durante cambio vista
+1. Creare `src/hooks/useUpdateSearchParams.ts` - test aggiornamento parametri URL
+2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/table
+3. Creare `src/app/collection/components/CardsTable/CardsTable.tsx` (Client) - test rendering righe
+4. Aggiornare `CollectionView.tsx` per renderizzare Grid/Table in base a `?view`
+5. Usare `useRouter`, `useSearchParams`, `usePathname`
+6. Usare `useTransition` per loading state durante cambio vista
 
 ---
 
@@ -330,12 +329,12 @@ Barra con filtri rapidi per set, colore e ricerca.
 2. Definire tipo `CollectionFilters` in `src/lib/types.ts`
 3. Aggiornare `src/app/collection/page.tsx` per leggere `searchParams`
 4. Creare `src/components/ManaSymbol/ManaSymbol.tsx` (usa mtg-font) - test rendering simboli WUBRG
-5. Aggiungere `getAvailableSets()` a `src/lib/queries.ts` - test query
+5. Aggiungere `getAvailableSets()` a `src/lib/collection.ts` - test query
 6. Creare `src/app/collection/components/FilterBar/FilterBar.tsx` (Client) - integration test filtri
 7. Creare `src/app/collection/components/ColorFilter/ColorFilter.tsx` (Client) - test selezione colori
 8. Creare `src/app/collection/components/SearchBox/SearchBox.tsx` (Client) - test input e debounce
 9. Creare `src/hooks/useDebounce.ts` - test debounce timing
-10. Integrare con `useUpdateURL()`
+10. Integrare con `useUpdateSearchParams()`
 
 **Filtri supportati:**
 
