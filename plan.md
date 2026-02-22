@@ -30,15 +30,12 @@ src/
 │   │       ├── CardsGrid/
 │   │       │   ├── CardsGrid.tsx
 │   │       │   └── CardsGrid.module.css
-│   │       ├── CardsList/
-│   │       │   ├── CardsList.tsx
-│   │       │   └── CardsList.module.css
+│   │       ├── CardsTable/
+│   │       │   ├── CardsTable.tsx
+│   │       │   └── CardsTable.module.css
 │   │       ├── Card/
 │   │       │   ├── Card.tsx
 │   │       │   └── Card.module.css
-│   │       ├── CardRow/
-│   │       │   ├── CardRow.tsx
-│   │       │   └── CardRow.module.css
 │   │       ├── FilterBar/
 │   │       │   ├── FilterBar.tsx
 │   │       │   └── FilterBar.module.css
@@ -133,11 +130,11 @@ Configurare l'ambiente di test per i componenti React usando Jest con jsdom e Re
 
 ### Criteri di Accettazione
 
-- [ ] Jest configurato con ambiente `jsdom` per test React
-- [ ] React Testing Library installata e funzionante
-- [ ] CSS modules mockati correttamente nei test
-- [ ] `npm test` esegue sia test node che test React
-- [ ] Test di esempio funzionante
+- [x] Jest configurato con ambiente `jsdom` per test React
+- [x] React Testing Library installata e funzionante
+- [x] CSS modules mockati correttamente nei test
+- [x] `npm test` esegue sia test node che test React
+- [x] Test di esempio funzionante
 
 ### Dettagli Tecnici
 
@@ -165,10 +162,10 @@ Configurare Next.js nel progetto esistente per sviluppare l'interfaccia web.
 
 ### Criteri di Accettazione
 
-- [ ] Next.js configurato con App Router
-- [ ] TypeScript paths aggiornati
-- [ ] Immagini Scryfall abilitate
-- [ ] `npm run dev` avvia l'applicazione
+- [x] Next.js configurato con App Router
+- [x] TypeScript paths aggiornati
+- [x] Immagini Scryfall abilitate
+- [x] `npm run dev` avvia l'applicazione
 
 ### Dettagli Tecnici
 
@@ -191,10 +188,10 @@ Header con navigazione per accedere alle diverse sezioni dell'app.
 
 ### Criteri di Accettazione
 
-- [ ] Header con logo "MTG Collection"
-- [ ] Link navigazione: "Collection"
-- [ ] Layout responsive
-- [ ] Header presente in tutte le pagine
+- [x] Header con logo "MTG Collection"
+- [x] Link navigazione: "Collection"
+- [x] Layout responsive
+- [x] Header presente in tutte le pagine
 
 ### Dettagli Tecnici
 
@@ -215,14 +212,14 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 
 ### Criteri di Accettazione
 
-- [ ] Button con varianti (primary, secondary, icon)
-- [ ] Icon component per icone SVG
-- [ ] Input text con label opzionale
-- [ ] Select dropdown con label
-- [ ] Modal/Dialog
+- [x] Button con varianti (primary, secondary, icon)
+- [x] Icon component per icone SVG
+- [x] Input text con label opzionale
+- [x] Select dropdown con label
+- [x] Modal/Dialog
 - [x] Badge
-- [ ] Toggle (per grid/list view e yes/no)
-- [ ] Checkbox con label opzionale (testo o icona)
+- [x] Toggle (per grid/list view e yes/no)
+- [x] Checkbox con label opzionale (testo o icona)
 
 ### Dettagli Tecnici
 
@@ -257,11 +254,11 @@ Pagina base della collezione con visualizzazione a griglia.
 
 ### Criteri di Accettazione
 
-- [ ] URL: `/collection`
-- [ ] Mostra tutte le carte in griglia (4 colonne desktop, 2 mobile)
-- [ ] Ogni carta mostra immagine e badge quantità
-- [ ] Empty state se collezione vuota
-- [ ] Loading state durante fetch
+- [x] URL: `/collection`
+- [x] Mostra tutte le carte in griglia (4 colonne desktop, 2 mobile)
+- [x] Ogni carta mostra immagine e badge quantità
+- [x] Empty state se collezione vuota
+- [x] Loading state durante fetch
 
 ### Dettagli Tecnici
 
@@ -288,11 +285,11 @@ Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
 ### Criteri di Accettazione
 
 - [ ] Toggle Grid/List view (aggiorna URL con `?view=grid` o `?view=list`)
-- [ ] Vista tabella con colonne: Quantity, Name, Set, Condition, Language, Foil, Price
+- [x] Vista tabella con colonne: Quantity, Name, Set, Condition, Language, Foil, Price
 - [ ] Righe cliccabili (predisposizione, link aggiunto in US-009)
 - [ ] Responsive (scroll orizzontale su mobile)
 - [ ] Formattazione prezzo in EUR
-- [ ] Badge per Foil (YES/NO)
+- [x] Badge per Foil (YES/NO)
 
 ### Dettagli Tecnici
 
