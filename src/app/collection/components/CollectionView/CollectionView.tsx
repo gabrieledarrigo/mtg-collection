@@ -4,16 +4,16 @@ import { CollectionItemWithCard } from "@database/models";
 import { ViewToggle } from "../FilterBar/FilterBar";
 import { CardsGrid } from "../CardsGrid/CardsGrid";
 import { CardsTable } from "../CardsTable/CardsTable";
-import { useSearchParams } from "next/navigation";
 
 export type CollectionViewProps = {
   collectionItems: CollectionItemWithCard[];
+  view?: ViewToggle;
 };
 
-export function CollectionView({ collectionItems }: CollectionViewProps) {
-  const params = useSearchParams();
-  const view = (params.get("view") ?? ViewToggle.grid) as ViewToggle;
-
+export function CollectionView({
+  view = ViewToggle.grid,
+  collectionItems,
+}: CollectionViewProps) {
   return view === ViewToggle.grid ? (
     <CardsGrid collectionItems={collectionItems} />
   ) : (
