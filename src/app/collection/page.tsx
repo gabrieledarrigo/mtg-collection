@@ -1,22 +1,34 @@
 import { getCollectionItems } from "@app/lib/collection";
-import { CardsGrid } from "./components/CardsGrid/CardsGrid";
 import { Pagination } from "@app/lib/pagination";
+import { FilterBar } from "./components/FilterBar/FilterBar";
+import { CollectionView } from "./components/CollectionView/CollectionView";
+import { Suspense } from "react";
 
 export type SearchParams = {
   searchParams?: Promise<{
     page?: string;
+    view?: string;
   }>;
 };
 
 export default async function Collection({ searchParams }: SearchParams) {
   const params = await searchParams;
-  const pagination = Pagination.fromParams(params ?? {});
-
+  const pagination = Pagination.fromParams({ page: params?.page });
   const collectionItems = await getCollectionItems(pagination);
+
+  console.log("[page.tsx SERVER] view from searchParams:", params?.view);
 
   return (
     <section>
-      <CardsGrid collectionItems={collectionItems.items} />
+      <header>
+        <Suspense fallback={null}>
+          <FilterBar />
+        </Suspense>
+      </header>
+
+      <Suspense fallback={null}>
+        <CollectionView collectionItems={collectionItems.items} />
+      </Suspense>
     </section>
   );
 }

@@ -1,8 +1,8 @@
-import {
-  CollectionItemWithCard,
-  formatCollectionItemTotalPrice,
-} from "@app/lib/collection";
+"use client";
+
 import { ConditionLabel } from "@app/lib/types";
+import { formatCollectionItemTotalPrice } from "@app/lib/format";
+import { CollectionItemWithCard } from "@database/models";
 import styles from "./CardsTable.module.css";
 
 export type CardsTableProps = {

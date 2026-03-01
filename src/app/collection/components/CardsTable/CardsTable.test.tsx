@@ -1,8 +1,7 @@
 import { describe, it, expect } from "@jest/globals";
 import { render, screen, within } from "@testing-library/react";
 import { CardsTable } from "./CardsTable";
-import { CollectionItemWithCard } from "@app/lib/collection";
-import { Language, Condition } from "@database/index";
+import { Language, Condition, CollectionItemWithCard } from "@database/models";
 import { createMock } from "@test/helpers";
 import { ConditionLabel } from "@app/lib/types";
 
