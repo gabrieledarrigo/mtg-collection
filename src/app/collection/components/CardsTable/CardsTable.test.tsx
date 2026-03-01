@@ -91,10 +91,10 @@ describe("CardsTable", () => {
     expect(
       within(firstRow).getByText(ConditionLabel[collectionItemOne.condition]),
     ).toBeInTheDocument();
+    expect(within(firstRow).getByText("YES")).toBeInTheDocument();
     expect(
       within(firstRow).getByText(collectionItemOne.card.language),
     ).toBeInTheDocument();
-    expect(within(firstRow).getByText("YES")).toBeInTheDocument();
     expect(within(firstRow).getByText("12")).toBeInTheDocument();
     expect(within(firstRow).getByText("22,50 €")).toBeInTheDocument();
 
@@ -114,10 +114,10 @@ describe("CardsTable", () => {
     expect(
       within(secondRow).getByText(ConditionLabel[collectionItemTwo.condition]),
     ).toBeInTheDocument();
+    expect(within(secondRow).getByText("NO")).toBeInTheDocument();
     expect(
       within(secondRow).getByText(collectionItemTwo.card.language),
     ).toBeInTheDocument();
-    expect(within(secondRow).getByText("NO")).toBeInTheDocument();
     expect(within(secondRow).getByText("3")).toBeInTheDocument();
     expect(within(secondRow).getByText("86,45 €")).toBeInTheDocument();
   });

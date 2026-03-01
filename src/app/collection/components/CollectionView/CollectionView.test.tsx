@@ -3,7 +3,7 @@ import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
 import { CollectionView } from "./CollectionView";
-import { ViewToggle } from "../FilterBar/FilterBar";
+import { ViewToggle } from "@app/lib/view";
 
 describe("CollectionView", () => {
   const collectionItemOne = createMock<CollectionItemWithCard>({

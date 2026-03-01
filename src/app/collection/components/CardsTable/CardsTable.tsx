@@ -32,8 +32,8 @@ export function CardsTable({ collectionItems }: CardsTableProps) {
               {`${collectionItem.card.setCode.toUpperCase()} - #${collectionItem.card.collectorNumber}`}
             </td>
             <td>{ConditionLabel[collectionItem.condition]}</td>
-            <td>{collectionItem.card.language}</td>
             <td>{collectionItem.foil ? "YES" : "NO"}</td>
+            <td>{collectionItem.card.language}</td>
             <td>{formatCollectionItemTotalPrice(collectionItem)}</td>
           </tr>
         ))}

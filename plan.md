@@ -36,6 +36,9 @@ src/
 │   │       ├── Card/
 │   │       │   ├── Card.tsx
 │   │       │   └── Card.module.css
+│   │       ├── CollectionView/
+│   │       │   ├── CollectionView.tsx
+│   │       │   └── CollectionView.module.css
 │   │       ├── FilterBar/
 │   │       │   ├── FilterBar.tsx
 │   │       │   └── FilterBar.module.css
