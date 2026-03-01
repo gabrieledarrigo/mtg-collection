@@ -4,32 +4,26 @@ import { useSearchParams } from "next/navigation";
 import { IconName } from "@app/components/Icon/Icon";
 import { Toggle, ToggleVariant } from "@app/components/Toggle/Toggle";
 import { useUpdateSearchParams } from "@app/hooks/useUpdateSearchParams";
+import styles from "./FilterBar.module.css";
 
 export enum ViewToggle {
   grid = "grid",
   table = "table",
 }
 
-export type FilterBarProps = {
-  defaultView?: ViewToggle;
-};
-
-export function FilterBar({ defaultView = ViewToggle.grid }: FilterBarProps) {
+export function FilterBar() {
   const searchParams = useSearchParams();
   const setSearchParams = useUpdateSearchParams();
 
-  // Read view directly from URL to stay in sync
-  const viewToggle = (searchParams.get("view") ?? defaultView) as ViewToggle;
-
-  console.log("[FilterBar] viewToggle from useSearchParams:", viewToggle);
+  const viewToggle = (searchParams.get("view") ??
+    ViewToggle.grid) as ViewToggle;
 
   const onToggleChange = (value: ViewToggle) => {
-    console.log("[FilterBar] onToggleChange called with:", value);
     setSearchParams({ view: value });
   };
 
   return (
-    <header>
+    <div className={styles["filter-bar"]}>
       <Toggle
         options={[
           { value: ViewToggle.grid, icon: IconName.GRID, label: "Grid view" },
@@ -39,10 +33,10 @@ export function FilterBar({ defaultView = ViewToggle.grid }: FilterBarProps) {
             label: "Table view",
           },
         ]}
-        variant={ToggleVariant.PRIMARY}
+        variant={ToggleVariant.NEUTRAL}
         value={viewToggle}
         onChange={onToggleChange}
       />
-    </header>
+    </div>
   );
 }
