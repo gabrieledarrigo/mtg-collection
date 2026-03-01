@@ -1,12 +1,5 @@
-import { CollectionItemGetPayload, prisma } from "@database/index";
+import { CollectionItemWithCard, prisma } from "@database/index";
 import { Page, Pagination } from "./pagination";
-
-export type CollectionItemWithCard = CollectionItemGetPayload<{
-  include: {
-    card: true;
-    purchases: true;
-  };
-}>;
 
 /**
  * Retrieves a paginated list of collection items with their associated card and purchase data.

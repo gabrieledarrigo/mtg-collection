@@ -1,4 +1,4 @@
-import { CollectionItemWithCard } from "@app/lib/collection";
+import { CollectionItemWithCard } from "@database/models";
 import { Card } from "../Card/Card";
 import styles from "./CardsGrid.module.css";
 import { Badge, BadgeVariant } from "@app/components/Badge/Badge";

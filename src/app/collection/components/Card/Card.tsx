@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CollectionItemWithCard } from "@app/lib/collection";
+import { CollectionItemWithCard } from "@database/models";
 import styles from "./Card.module.css";
 
 export enum CardVariant {

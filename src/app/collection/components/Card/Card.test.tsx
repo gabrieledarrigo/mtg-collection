@@ -1,9 +1,8 @@
-import { CollectionItemWithCard } from "@app/lib/collection";
 import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
 import { Card, CardVariant, NO_IMAGE_AVAILABLE } from "./Card";
-import { Condition } from "@database/index";
+import { CollectionItemWithCard, Condition } from "@database/models";
 import { Badge } from "@app/components/Badge/Badge";
 
 describe("Card", () => {

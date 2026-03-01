@@ -1,7 +1,7 @@
 import { describe, beforeEach, it, jest, expect } from "@jest/globals";
-import { prisma } from "@database/index";
+import { CollectionItemWithCard, prisma } from "@database/index";
 import { createMock } from "@test/helpers";
-import { CollectionItemWithCard, getCollectionItems } from "./collection";
+import { getCollectionItems } from "./collection";
 import { Pagination } from "./pagination";
 
 jest.mock("@database/index", () => ({

@@ -1,9 +1,8 @@
-import { CollectionItemWithCard } from "@app/lib/collection";
 import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
 import { CardsGrid } from "./CardsGrid";
-import { Condition, Language } from "@database/index";
+import { CollectionItemWithCard, Condition, Language } from "@database/models";
 
 describe("CardsGrid", () => {
   const collectionItemOne = createMock<CollectionItemWithCard>({
