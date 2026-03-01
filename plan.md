@@ -276,19 +276,18 @@ Pagina base della collezione con visualizzazione a griglia.
 
 ---
 
-## US-005: Vista List + Toggle Grid/List
+## US-005: Vista Table + Toggle Grid/Table
 
 ### Descrizione
 
-Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
+Aggiunge la vista tabella e il toggle per alternare tra Grid e Table.
 
 ### Criteri di Accettazione
 
-- [ ] Toggle Grid/List view (aggiorna URL con `?view=grid` o `?view=list`)
+- [x] Toggle Grid/Table view (aggiorna URL con `?view=grid` o `?view=table`)
 - [x] Vista tabella con colonne: Quantity, Name, Set, Condition, Language, Foil, Price
-- [ ] Righe cliccabili (predisposizione, link aggiunto in US-009)
-- [ ] Responsive (scroll orizzontale su mobile)
-- [ ] Formattazione prezzo in EUR
+- [x] Responsive (scroll orizzontale su mobile)
+- [x] Formattazione prezzo in EUR
 - [x] Badge per Foil (YES/NO)
 
 ### Dettagli Tecnici
@@ -300,7 +299,6 @@ Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
 3. Creare `src/app/collection/components/CardsTable/CardsTable.tsx` (Client) - test rendering righe
 4. Aggiornare `CollectionView.tsx` per renderizzare Grid/Table in base a `?view`
 5. Usare `useRouter`, `useSearchParams`, `usePathname`
-6. Usare `useTransition` per loading state durante cambio vista
 
 ---
 

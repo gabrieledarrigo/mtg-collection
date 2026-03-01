@@ -9,11 +9,11 @@ export const ConditionTag = {
 } as const;
 
 export const ConditionLabel = {
-  MINT: "mint",
-  NEAR_MINT: "near mint",
-  EXCELLENT: "excellent",
-  GOOD: "good",
-  LIGHT_PLAYED: "light played",
-  PLAYED: "played",
-  POOR: "poor",
+  MINT: "Mint",
+  NEAR_MINT: "Near mint",
+  EXCELLENT: "Excellent",
+  GOOD: "Good",
+  LIGHT_PLAYED: "Light played",
+  PLAYED: "Played",
+  POOR: "Poor",
 } as const;
