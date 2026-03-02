@@ -1,5 +1,3 @@
-"use client";
-
 import { CollectionItemWithCard } from "@database/models";
 import { ViewToggle } from "@app/lib/view";
 import { CardsGrid } from "../CardsGrid/CardsGrid";
