@@ -1,3 +1,5 @@
+"use client";
+
 import { CollectionItemWithCard } from "@database/models";
 import { Card } from "../Card/Card";
 import styles from "./CardsGrid.module.css";

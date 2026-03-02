@@ -30,15 +30,15 @@ src/
 │   │       ├── CardsGrid/
 │   │       │   ├── CardsGrid.tsx
 │   │       │   └── CardsGrid.module.css
-│   │       ├── CardsList/
-│   │       │   ├── CardsList.tsx
-│   │       │   └── CardsList.module.css
+│   │       ├── CardsTable/
+│   │       │   ├── CardsTable.tsx
+│   │       │   └── CardsTable.module.css
 │   │       ├── Card/
 │   │       │   ├── Card.tsx
 │   │       │   └── Card.module.css
-│   │       ├── CardRow/
-│   │       │   ├── CardRow.tsx
-│   │       │   └── CardRow.module.css
+│   │       ├── CollectionView/
+│   │       │   ├── CollectionView.tsx
+│   │       │   └── CollectionView.module.css
 │   │       ├── FilterBar/
 │   │       │   ├── FilterBar.tsx
 │   │       │   └── FilterBar.module.css
@@ -133,11 +133,11 @@ Configurare l'ambiente di test per i componenti React usando Jest con jsdom e Re
 
 ### Criteri di Accettazione
 
-- [ ] Jest configurato con ambiente `jsdom` per test React
-- [ ] React Testing Library installata e funzionante
-- [ ] CSS modules mockati correttamente nei test
-- [ ] `npm test` esegue sia test node che test React
-- [ ] Test di esempio funzionante
+- [x] Jest configurato con ambiente `jsdom` per test React
+- [x] React Testing Library installata e funzionante
+- [x] CSS modules mockati correttamente nei test
+- [x] `npm test` esegue sia test node che test React
+- [x] Test di esempio funzionante
 
 ### Dettagli Tecnici
 
@@ -165,10 +165,10 @@ Configurare Next.js nel progetto esistente per sviluppare l'interfaccia web.
 
 ### Criteri di Accettazione
 
-- [ ] Next.js configurato con App Router
-- [ ] TypeScript paths aggiornati
-- [ ] Immagini Scryfall abilitate
-- [ ] `npm run dev` avvia l'applicazione
+- [x] Next.js configurato con App Router
+- [x] TypeScript paths aggiornati
+- [x] Immagini Scryfall abilitate
+- [x] `npm run dev` avvia l'applicazione
 
 ### Dettagli Tecnici
 
@@ -191,10 +191,10 @@ Header con navigazione per accedere alle diverse sezioni dell'app.
 
 ### Criteri di Accettazione
 
-- [ ] Header con logo "MTG Collection"
-- [ ] Link navigazione: "Collection"
-- [ ] Layout responsive
-- [ ] Header presente in tutte le pagine
+- [x] Header con logo "MTG Collection"
+- [x] Link navigazione: "Collection"
+- [x] Layout responsive
+- [x] Header presente in tutte le pagine
 
 ### Dettagli Tecnici
 
@@ -215,14 +215,14 @@ Componenti UI riutilizzabili per mantenere consistenza visiva.
 
 ### Criteri di Accettazione
 
-- [ ] Button con varianti (primary, secondary, icon)
-- [ ] Icon component per icone SVG
-- [ ] Input text con label opzionale
-- [ ] Select dropdown con label
-- [ ] Modal/Dialog
+- [x] Button con varianti (primary, secondary, icon)
+- [x] Icon component per icone SVG
+- [x] Input text con label opzionale
+- [x] Select dropdown con label
+- [x] Modal/Dialog
 - [x] Badge
-- [ ] Toggle (per grid/list view e yes/no)
-- [ ] Checkbox con label opzionale (testo o icona)
+- [x] Toggle (per grid/list view e yes/no)
+- [x] Checkbox con label opzionale (testo o icona)
 
 ### Dettagli Tecnici
 
@@ -257,11 +257,11 @@ Pagina base della collezione con visualizzazione a griglia.
 
 ### Criteri di Accettazione
 
-- [ ] URL: `/collection`
-- [ ] Mostra tutte le carte in griglia (4 colonne desktop, 2 mobile)
-- [ ] Ogni carta mostra immagine e badge quantità
-- [ ] Empty state se collezione vuota
-- [ ] Loading state durante fetch
+- [x] URL: `/collection`
+- [x] Mostra tutte le carte in griglia (4 colonne desktop, 2 mobile)
+- [x] Ogni carta mostra immagine e badge quantità
+- [x] Empty state se collezione vuota
+- [x] Loading state durante fetch
 
 ### Dettagli Tecnici
 
@@ -279,32 +279,29 @@ Pagina base della collezione con visualizzazione a griglia.
 
 ---
 
-## US-005: Vista List + Toggle Grid/List
+## US-005: Vista Table + Toggle Grid/Table
 
 ### Descrizione
 
-Aggiunge la vista tabella e il toggle per alternare tra Grid e List.
+Aggiunge la vista tabella e il toggle per alternare tra Grid e Table.
 
 ### Criteri di Accettazione
 
-- [ ] Toggle Grid/List view (aggiorna URL con `?view=grid` o `?view=list`)
-- [ ] Vista tabella con colonne: Quantity, Name, Set, Condition, Language, Foil, Price
-- [ ] Righe cliccabili (predisposizione, link aggiunto in US-009)
-- [ ] Responsive (scroll orizzontale su mobile)
-- [ ] Formattazione prezzo in EUR
-- [ ] Badge per Foil (YES/NO)
+- [x] Toggle Grid/Table view (aggiorna URL con `?view=grid` o `?view=table`)
+- [x] Vista tabella con colonne: Quantity, Name, Set, Condition, Language, Foil, Price
+- [x] Responsive (scroll orizzontale su mobile)
+- [x] Formattazione prezzo in EUR
+- [x] Badge per Foil (YES/NO)
 
 ### Dettagli Tecnici
 
 **Subtask:**
 
-1. Creare `src/hooks/useUpdateURL.ts` - test aggiornamento parametri URL
-2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/list
-3. Creare `src/app/collection/components/CardsList/CardsList.tsx` (Client) - test rendering righe
-4. Creare `src/app/collection/components/CardRow/CardRow.tsx` - test rendering colonne
-5. Aggiornare `CollectionView.tsx` per renderizzare Grid/List in base a `?view`
-6. Usare `useRouter`, `useSearchParams`, `usePathname`
-7. Usare `useTransition` per loading state durante cambio vista
+1. Creare `src/hooks/useUpdateSearchParams.ts` - test aggiornamento parametri URL
+2. Creare `src/app/collection/components/ViewToggle/ViewToggle.tsx` (Client) - test toggle grid/table
+3. Creare `src/app/collection/components/CardsTable/CardsTable.tsx` (Client) - test rendering righe
+4. Aggiornare `CollectionView.tsx` per renderizzare Grid/Table in base a `?view`
+5. Usare `useRouter`, `useSearchParams`, `usePathname`
 
 ---
 
@@ -330,12 +327,12 @@ Barra con filtri rapidi per set, colore e ricerca.
 2. Definire tipo `CollectionFilters` in `src/lib/types.ts`
 3. Aggiornare `src/app/collection/page.tsx` per leggere `searchParams`
 4. Creare `src/components/ManaSymbol/ManaSymbol.tsx` (usa mtg-font) - test rendering simboli WUBRG
-5. Aggiungere `getAvailableSets()` a `src/lib/queries.ts` - test query
+5. Aggiungere `getAvailableSets()` a `src/lib/collection.ts` - test query
 6. Creare `src/app/collection/components/FilterBar/FilterBar.tsx` (Client) - integration test filtri
 7. Creare `src/app/collection/components/ColorFilter/ColorFilter.tsx` (Client) - test selezione colori
 8. Creare `src/app/collection/components/SearchBox/SearchBox.tsx` (Client) - test input e debounce
 9. Creare `src/hooks/useDebounce.ts` - test debounce timing
-10. Integrare con `useUpdateURL()`
+10. Integrare con `useUpdateSearchParams()`
 
 **Filtri supportati:**
 

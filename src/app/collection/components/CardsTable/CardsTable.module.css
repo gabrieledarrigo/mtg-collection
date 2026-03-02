@@ -1,0 +1,27 @@
+.table {
+  display: block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid var(--color-neutral-400);
+  width: 100%;
+  overflow-x: auto;
+
+  @media screen and (min-width: 768px) {
+    display: table;
+    overflow: auto;
+  }
+}
+
+.table thead {
+  background-color: var(--color-neutral-200);
+  font-weight: var(--weight-bold);
+}
+
+.table th {
+  padding: 10px;
+}
+
+.table td {
+  border: 1px solid var(--color-neutral-400);
+  padding: 10px;
+}
