@@ -63,21 +63,21 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "prettier": "^3.8.1",
-    "ts-jest": "^29.4.6",
+    "ts-jest": "^29.4.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.1"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
-    "@prisma/adapter-pg": "^7.5.0",
-    "@prisma/client": "^7.5.0",
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.6.0",
     "@scryfall/api-types": "^1.0.0-alpha.4",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.0",
     "fast-csv": "^5.0.5",
-    "next": "^16.2.1",
+    "next": "^16.2.2",
     "pg": "^8.20.0",
-    "prisma": "^7.5.0",
+    "prisma": "^7.6.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   }
