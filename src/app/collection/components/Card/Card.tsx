@@ -33,6 +33,7 @@ export function Card({
           alt={collectionItem.card.name}
           fill={true}
           title={`${collectionItem.card.name} - ${collectionItem.card.setName} (${collectionItem.card.setCode.toUpperCase()}) #${collectionItem.card.collectorNumber}`}
+          sizes="100%"
         />
       </figure>
 
