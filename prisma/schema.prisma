@@ -91,7 +91,7 @@ model Card {
   printedText     String?          @map("printed_text")
   artist          String?          @map("artist")
   manaCost        String?          @map("mana_cost")
-  cmc             Decimal          @default(0) @db.Decimal(4, 2)
+  cmc             Float            @default(0)
   colorIdentity   String[]         @default([]) @map("color_identity")
   layout          String           @default("normal")
   cardFaces       Json?            @map("card_faces")
