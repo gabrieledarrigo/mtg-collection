@@ -1,13 +1,9 @@
 .card {
-  margin: 0 auto;
+  margin: 0;
 }
 
 .card--medium {
-  max-width: 146px;
-
-  @media (min-width: 768px) and (max-width: 1024px) {
-    max-width: 225px;
-  }
+  max-width: 225px;
 
   @media screen and (min-width: 768px) {
     max-width: 245px;
@@ -25,15 +21,10 @@
 
 .card__picture {
   position: relative;
-  width: 146px;
-  height: 205px;
+  width: 225px;
+  height: 313px;
   margin: 0;
   padding: 0;
-
-  @media (min-width: 768px) and (max-width: 1024px) {
-    width: 225px;
-    height: 313px;
-  }
 
   @media screen and (min-width: 1025px) {
     width: 245px;
