@@ -18,10 +18,16 @@
 }
 
 .table th {
-  padding: 10px;
+  padding: var(--spacing-0-5);
+  text-align: left;
+}
+
+.table tr:hover {
+  background-color: var(--color-neutral-200);
+  transition: all 0.2s;
 }
 
 .table td {
   border: 1px solid var(--color-neutral-400);
-  padding: 10px;
+  padding: var(--spacing-0-5);
 }
