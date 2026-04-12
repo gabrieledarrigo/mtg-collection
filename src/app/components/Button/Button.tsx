@@ -6,6 +6,7 @@ import styles from "./Button.module.css";
 export enum ButtonVariant {
   PRIMARY = "primary",
   SECONDARY = "secondary",
+  NEUTRAL = "neutral",
   ICON = "icon",
 }
 

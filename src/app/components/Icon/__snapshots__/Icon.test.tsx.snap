@@ -15,6 +15,21 @@ exports[`Icon renders the arrow-back icon correctly 1`] = `
 </svg>
 `;
 
+exports[`Icon renders the arrow-backward icon correctly 1`] = `
+<svg
+  data-testid="icon-arrow-backward"
+  fill="currentColor"
+  height="30"
+  viewBox="0 0 30 30"
+  width="30"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M8.48,16.56l8.75,8.75L15,27.5,2.5,15,15,2.5l2.23,2.19L8.48,13.44h19v3.12Z"
+  />
+</svg>
+`;
+
 exports[`Icon renders the arrow-drop-down icon correctly 1`] = `
 <svg
   data-testid="icon-arrow-drop-down"
@@ -26,6 +41,21 @@ exports[`Icon renders the arrow-drop-down icon correctly 1`] = `
 >
   <path
     d="M15,20,5,10H25Z"
+  />
+</svg>
+`;
+
+exports[`Icon renders the arrow-forward icon correctly 1`] = `
+<svg
+  data-testid="icon-arrow-forward"
+  fill="currentColor"
+  height="30"
+  viewBox="0 0 30 30"
+  width="30"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M21.5,13.4l-8.8-8.8L15,2.5L27.5,15L15,27.5l-2.2-2.2l8.8-8.7h-19v-3.1H21.5z"
   />
 </svg>
 `;

@@ -16,12 +16,30 @@
 .button--primary {
   background-color: var(--color-primary);
   color: var(--color-white);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
 }
 
 .button--secondary {
   background-color: var(--color-white);
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
+
+  &:hover {
+    border: 1px solid var(--color-primary-hover);
+  }
+}
+
+.button--neutral {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-neutral-400);
+  color: var(--color-neutral-800);
+
+  &:hover {
+    background-color: var(--color-neutral-200);
+  }
 }
 
 .button--disabled {
@@ -29,4 +47,9 @@
   border: 1px solid var(--color-neutral-400);
   color: var(--color-neutral-600);
   cursor: not-allowed;
+
+  &:hover {
+    background-color: var(--color-neutral-300);
+    border: 1px solid var(--color-neutral-400);
+  }
 }

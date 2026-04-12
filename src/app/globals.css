@@ -1,5 +1,6 @@
 :root {
   --color-primary: #b032b8;
+  --color-primary-hover: #a02ca0;
   --color-white: #ffffff;
   --color-info: #378ad7;
   --color-success: #0da018;
@@ -18,7 +19,7 @@
   --color-mtg-b: #bab1ab;
 
   --font-family: "Open Sans", sans-serif;
-  --size-16: 16;
+  --size-16: 16px;
   --size-19: 19.2px;
   --size-23: 23.04px;
   --size-27: 27.65px;

@@ -92,6 +92,14 @@ export default function Home() {
             Secondary Button
           </Button>
           <Button
+            variant={ButtonVariant.NEUTRAL}
+            onClick={() => {
+              alert("Neutral Button Clicked");
+            }}
+          >
+            Neutral Button
+          </Button>
+          <Button
             variant={ButtonVariant.ICON}
             onClick={() => alert("Icon Button Clicked")}
           >
@@ -108,7 +116,7 @@ export default function Home() {
           <Icon name={IconName.FILTER} size={30} />
           <Icon name={IconName.FILTER_OFF} size={30} />
           <Icon name={IconName.CLOSE} size={30} />
-          <Icon name={IconName.ARROW_BACK} size={30} />
+          <Icon name={IconName.ARROW_BACKWARD} size={30} />
           <Icon name={IconName.ARROW_DROP_DOWN} size={30} />
           <Icon name={IconName.GRID} size={30} />
           <Icon name={IconName.LIST} size={30} />

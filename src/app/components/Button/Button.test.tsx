@@ -11,16 +11,18 @@ describe("Button", () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  it.each([ButtonVariant.PRIMARY, ButtonVariant.SECONDARY, ButtonVariant.ICON])(
-    "should render the variant %s",
-    (variant) => {
-      render(<Button variant={variant}>Click Me</Button>);
+  it.each([
+    ButtonVariant.PRIMARY,
+    ButtonVariant.SECONDARY,
+    ButtonVariant.NEUTRAL,
+    ButtonVariant.ICON,
+  ])("should render the variant %s", (variant) => {
+    render(<Button variant={variant}>Click Me</Button>);
 
-      const buttonElement = screen.getByRole("button", { name: "Click Me" });
+    const buttonElement = screen.getByRole("button", { name: "Click Me" });
 
-      expect(buttonElement).toHaveClass(`button--${variant}`);
-    },
-  );
+    expect(buttonElement).toHaveClass(`button--${variant}`);
+  });
 
   it("should handle onClick events", () => {
     const onClick = jest.fn();
