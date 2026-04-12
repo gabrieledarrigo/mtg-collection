@@ -11,6 +11,14 @@ describe("Button", () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
+  it("should render the title", () => {
+    render(<Button title="A title">Click Me</Button>);
+
+    const buttonElement = screen.getByTitle("A title");
+
+    expect(buttonElement).toBeInTheDocument();
+  });
+
   it.each([
     ButtonVariant.PRIMARY,
     ButtonVariant.SECONDARY,
