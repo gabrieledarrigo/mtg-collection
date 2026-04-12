@@ -1,6 +1,7 @@
 export type Page<T> = {
   items: T[];
   page: number;
+  size: number;
   totalItems: number;
 };
 
@@ -12,8 +13,22 @@ export const DEFAULT_PAGE_SIZE = 20;
  * Provides page number, page size, and skip offset for database queries.
  */
 export class Pagination {
+  /**
+   * The current page number (1-based index).
+   * Defaults to DEFAULT_PAGE if not provided or invalid.
+   */
   public readonly page: number;
+
+  /**
+   * The number of items per page.
+   * Defaults to DEFAULT_PAGE_SIZE if not provided or invalid.
+   */
   public readonly size: number;
+
+  /**
+   * The number of items to skip for database queries.
+   * Calculated as (page - 1) * size.
+   */
   public readonly skip: number;
 
   private constructor(page: number, size: number) {
