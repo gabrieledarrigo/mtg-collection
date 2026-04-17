@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { IconName } from "@app/components/Icon/Icon";
 import { Toggle, ToggleVariant } from "@app/components/Toggle/Toggle";
 import { useUpdateSearchParams } from "@app/hooks/useUpdateSearchParams";
-import styles from "./FilterBar.module.css";
 import { parseViewToggle, ViewToggle } from "@app/lib/view";
 
 export function FilterBar() {
@@ -18,7 +17,7 @@ export function FilterBar() {
   };
 
   return (
-    <div className={styles["filter-bar"]}>
+    <div>
       <Toggle
         options={[
           { value: ViewToggle.grid, icon: IconName.GRID, label: "Grid view" },

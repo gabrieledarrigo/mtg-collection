@@ -12,7 +12,7 @@ export async function getCollectionItems(
 ): Promise<Page<CollectionItemWithCard>> {
   const { page, size, skip } = pagination;
 
-  const [count, collectionItems] = await prisma.$transaction([
+  const [totalItems, items] = await prisma.$transaction([
     prisma.collectionItem.count(),
     prisma.collectionItem.findMany({
       take: size,
@@ -28,8 +28,9 @@ export async function getCollectionItems(
   ]);
 
   return {
-    items: collectionItems,
-    totalItems: count,
+    items,
     page,
+    size,
+    totalItems,
   };
 }

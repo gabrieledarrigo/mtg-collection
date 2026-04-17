@@ -1,0 +1,11 @@
+.header {
+  margin: 0 0 var(--spacing-2);
+}
+
+.collection-count {
+  margin: 0 0 var(--spacing-0-5);
+}
+
+.footer {
+  margin-top: var(--spacing-3);
+}
