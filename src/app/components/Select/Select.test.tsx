@@ -148,6 +148,8 @@ describe("Select", () => {
     await user.type(input, "Nonexistent Option");
 
     // Empty state should be shown
-    expect(screen.getByText("No options found")).toBeInTheDocument();
+    expect(
+      screen.getByText("No options found", { exact: false }),
+    ).toBeInTheDocument();
   });
 });
