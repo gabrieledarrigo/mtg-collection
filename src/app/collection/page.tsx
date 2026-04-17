@@ -3,17 +3,22 @@ import { Pagination } from "@app/lib/pagination";
 import { FilterBar } from "./components/FilterBar/FilterBar";
 import { parseViewToggle } from "@app/lib/view";
 import { CollectionView } from "./components/CollectionView/CollectionView";
+import { PaginationView } from "./components/PaginationView/PaginationView";
 
 export type SearchParams = {
   searchParams?: Promise<{
     page?: string;
+    size?: string;
     view?: string;
   }>;
 };
 
 export default async function Collection({ searchParams }: SearchParams) {
   const params = await searchParams;
-  const pagination = Pagination.fromParams({ page: params?.page });
+  const pagination = Pagination.fromParams({
+    page: params?.page,
+    size: params?.size,
+  });
   const collectionItems = await getCollectionItems(pagination);
   const view = parseViewToggle(params?.view ?? null);
 
@@ -24,6 +29,10 @@ export default async function Collection({ searchParams }: SearchParams) {
       </header>
 
       <CollectionView view={view} collectionItems={collectionItems.items} />
+
+      <footer>
+        <PaginationView collectionItems={collectionItems} />
+      </footer>
     </section>
   );
 }
