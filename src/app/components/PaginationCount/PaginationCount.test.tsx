@@ -19,6 +19,14 @@ describe("PaginationCount", () => {
     expect(screen.getByText("13 - 24 of 96 items")).toBeInTheDocument();
   });
 
+  it("should handle 0 total items", () => {
+    render(
+      <PaginationCount currentPage={currentPage} size={size} totalItems={0} />,
+    );
+
+    expect(screen.getByText("0 items in your collection")).toBeInTheDocument();
+  });
+
   it("should always cap the last page item", () => {
     render(<PaginationCount currentPage={8} size={size} totalItems={90} />);
 

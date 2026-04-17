@@ -18,7 +18,9 @@ export function PaginationCount({
 
   return (
     <span className={styles.count}>
-      {pageFirstItem} - {pageLastItem} of {totalItems} {itemsName}
+      {totalItems === 0
+        ? `0 ${itemsName} in your collection`
+        : `${pageFirstItem} - ${pageLastItem} of ${totalItems} ${itemsName}`}
     </span>
   );
 }
