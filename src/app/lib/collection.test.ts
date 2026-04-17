@@ -101,7 +101,7 @@ describe("collection", () => {
         items: [collectionItem],
         totalItems: count,
         page: 1,
-        size: 20,
+        size: 48,
       });
     });
   });

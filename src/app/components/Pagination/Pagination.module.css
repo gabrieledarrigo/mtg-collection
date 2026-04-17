@@ -1,6 +1,4 @@
 .pagination {
-  margin-top: 40px; /* Adjust as needed */
-
   @media screen and (min-width: 768px) {
     display: flex;
     justify-content: space-between;
@@ -55,7 +53,6 @@
 }
 
 .pagination__count {
-  font-size: var(--size-small);
   width: 100%;
   margin-top: var(--spacing-0-5);
 }

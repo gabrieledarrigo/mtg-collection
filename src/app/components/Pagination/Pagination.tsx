@@ -5,6 +5,7 @@ import { Button, ButtonVariant } from "../Button/Button";
 import styles from "./Pagination.module.css";
 import { Icon, IconName } from "../Icon/Icon";
 import { Select } from "../Select/Select";
+import { PaginationCount } from "../PaginationCount/PaginationCount";
 
 export type PaginationProps = {
   currentPage: number;
@@ -54,8 +55,6 @@ export function Pagination({
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage >= totalPages;
-  const pageFirstItem = (currentPage - 1) * size + 1;
-  const pageLastItem = Math.min(currentPage * size, totalItems);
 
   return (
     <div className={styles.pagination}>
@@ -120,7 +119,12 @@ export function Pagination({
       </div>
 
       <div className={styles.pagination__count}>
-        {pageFirstItem} - {pageLastItem} of {totalItems} {itemsName}
+        <PaginationCount
+          currentPage={currentPage}
+          size={size}
+          totalItems={totalItems}
+          itemsName={itemsName}
+        />
       </div>
     </div>
   );

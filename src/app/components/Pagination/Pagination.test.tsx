@@ -30,20 +30,6 @@ describe("Pagination", () => {
     expect(screen.getByRole("button", { name: "8" })).toBeInTheDocument();
   });
 
-  it("should render the items count", () => {
-    render(
-      <Pagination
-        currentPage={currentPage}
-        size={size}
-        totalItems={totalItems}
-        onPageChange={jest.fn()}
-        onSizeChange={jest.fn()}
-      />,
-    );
-
-    expect(screen.getByText("13 - 24 of 96 items")).toBeInTheDocument();
-  });
-
   it("should disable the Previous button when the current page is the 1", () => {
     render(
       <Pagination

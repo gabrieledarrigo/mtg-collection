@@ -31,21 +31,6 @@ describe("PaginationView", () => {
     totalItems: 100,
   };
 
-  it("should render page buttons", () => {
-    render(<PaginationView collectionItems={collectionItems} />);
-
-    expect(screen.getByRole("button", { name: "Previous" })).toBeDefined();
-    expect(screen.getByRole("button", { name: "Next" })).toBeDefined();
-    expect(screen.getByRole("button", { name: "1" })).toBeDefined();
-    expect(screen.getByRole("button", { name: "2" })).toBeDefined();
-  });
-
-  it("should render the items count", () => {
-    render(<PaginationView collectionItems={collectionItems} />);
-
-    expect(screen.getByText("13 - 24 of 100 cards")).toBeDefined();
-  });
-
   it("should call updateSearchParams with the page number when clicking a page button", () => {
     render(<PaginationView collectionItems={collectionItems} />);
 

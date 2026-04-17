@@ -1,20 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Icon renders the arrow-back icon correctly 1`] = `
-<svg
-  data-testid="icon-arrow-back"
-  fill="currentColor"
-  height="30"
-  viewBox="0 0 30 30"
-  width="30"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M8.48,16.56l8.75,8.75L15,27.5,2.5,15,15,2.5l2.23,2.19L8.48,13.44h19v3.12Z"
-  />
-</svg>
-`;
-
 exports[`Icon renders the arrow-backward icon correctly 1`] = `
 <svg
   data-testid="icon-arrow-backward"
