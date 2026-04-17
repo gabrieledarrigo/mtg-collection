@@ -30,7 +30,7 @@ export function Pagination({
     const delta = 2;
     const left = currentPage - delta;
     const right = currentPage + delta;
-    const results = [];
+    const results: (string | number)[] = [];
     let previousPage = 0;
 
     for (let page = 1; page <= totalPages; page++) {

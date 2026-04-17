@@ -19,7 +19,7 @@ describe("PaginationCount", () => {
     expect(screen.getByText("13 - 24 of 96 items")).toBeInTheDocument();
   });
 
-  it("should should always cap the last page item", () => {
+  it("should always cap the last page item", () => {
     render(<PaginationCount currentPage={8} size={size} totalItems={90} />);
 
     expect(screen.getByText("85 - 90 of 90 items")).toBeInTheDocument();

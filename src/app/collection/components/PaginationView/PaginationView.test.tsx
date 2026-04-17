@@ -1,5 +1,6 @@
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { PaginationView } from "./PaginationView";
 import { Page } from "@app/lib/pagination";
 import { CollectionItem } from "@database/models";
@@ -53,5 +54,19 @@ describe("PaginationView", () => {
     screen.getByRole("button", { name: "Next" }).click();
 
     expect(updateSearchParams).toHaveBeenCalledWith({ page: "3" });
+  });
+
+  it("should call updateSearchParams with page 1 and the new size when changing the page size", async () => {
+    const user = userEvent.setup();
+
+    render(<PaginationView collectionItems={collectionItems} />);
+
+    const combobox = screen.getByRole("combobox");
+    await user.click(combobox);
+
+    const option = await screen.findByText("24");
+    await user.click(option);
+
+    expect(updateSearchParams).toHaveBeenCalledWith({ page: "1", size: "24" });
   });
 });

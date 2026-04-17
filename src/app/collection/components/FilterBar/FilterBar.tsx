@@ -17,7 +17,7 @@ export function FilterBar() {
   };
 
   return (
-    <div className="filter-bar">
+    <div>
       <Toggle
         options={[
           { value: ViewToggle.grid, icon: IconName.GRID, label: "Grid view" },
