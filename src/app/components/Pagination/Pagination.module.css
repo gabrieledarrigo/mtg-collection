@@ -1,0 +1,61 @@
+.pagination {
+  margin-top: 40px; /* Adjust as needed */
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.pagination__nav {
+  display: flex;
+  gap: var(--spacing-1);
+  justify-content: space-between;
+
+  @media screen and (min-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.pagination__label {
+  margin: 0 var(--spacing-0-5);
+}
+
+.pagination__pages {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    gap: var(--spacing-0-5);
+  }
+
+  @media screen and (min-width: 1025px) {
+    gap: var(--spacing-1);
+  }
+}
+
+.pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--size-16);
+  padding: var(--spacing-0-5) var(--spacing-1);
+}
+
+.pagination__size {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    margin-left: var(--spacing-3);
+  }
+}
+
+.pagination__count {
+  font-size: var(--size-small);
+  width: 100%;
+  margin-top: var(--spacing-0-5);
+}
