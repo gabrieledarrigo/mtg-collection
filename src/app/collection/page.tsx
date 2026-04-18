@@ -21,7 +21,7 @@ export default async function Collection({ searchParams }: SearchParams) {
     page: params?.page,
     size: params?.size,
   });
-  const collectionItems = await getCollectionItems(pagination);
+  const collectionItems = await getCollectionItems({}, pagination);
   const view = parseViewToggle(params?.view ?? null);
 
   return (
