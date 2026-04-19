@@ -1,18 +1,16 @@
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { FilterBar } from "../FilterBar/FilterBar";
-import { ViewToggle } from "@app/lib/view";
+import { ViewToggle } from "@app/lib/types";
 import * as navigation from "next/navigation";
 import * as hook from "@app/hooks/useUpdateSearchParams";
-import { createMock } from "@test/helpers";
 
 jest.mock("next/navigation");
 jest.mock("@app/hooks/useUpdateSearchParams");
 
 describe("FilterBar", () => {
-  const searchParams = createMock<navigation.ReadonlyURLSearchParams>({
-    get: jest.fn(),
-  });
+  const searchParams =
+    new URLSearchParams() as navigation.ReadonlyURLSearchParams;
 
   const setSearchParams = jest.fn();
 
@@ -40,7 +38,11 @@ describe("FilterBar", () => {
   });
 
   it("should select the table toggle when the search parameter view is equal to table", () => {
-    jest.spyOn(searchParams, "get").mockReturnValue(ViewToggle.table);
+    const withTableView = new URLSearchParams([
+      ["view", ViewToggle.TABLE],
+    ]) as navigation.ReadonlyURLSearchParams;
+
+    jest.spyOn(navigation, "useSearchParams").mockReturnValue(withTableView);
 
     render(<FilterBar />);
 

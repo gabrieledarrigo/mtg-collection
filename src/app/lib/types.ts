@@ -17,3 +17,16 @@ export const ConditionLabel = {
   PLAYED: "Played",
   POOR: "Poor",
 } as const;
+
+export enum ViewToggle {
+  GRID = "grid",
+  TABLE = "table",
+}
+
+export enum Color {
+  W = "W",
+  U = "U",
+  B = "B",
+  R = "R",
+  G = "G",
+}

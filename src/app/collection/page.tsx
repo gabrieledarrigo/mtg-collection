@@ -1,28 +1,25 @@
 import { getCollectionItems } from "@app/lib/collection";
 import { Pagination } from "@app/lib/pagination";
 import { FilterBar } from "./components/FilterBar/FilterBar";
-import { parseViewToggle } from "@app/lib/view";
 import { CollectionView } from "./components/CollectionView/CollectionView";
 import { PaginationView } from "./components/PaginationView/PaginationView";
 import { PaginationCount } from "@app/components/PaginationCount/PaginationCount";
 import styles from "./page.module.css";
+import { collectionSearchParams } from "./schemas/searchParams.schema";
 
-export type SearchParams = {
-  searchParams?: Promise<{
-    page?: string;
-    size?: string;
-    view?: string;
-  }>;
+export type CollectionProps = {
+  searchParams?: Promise<Record<string, string>>;
 };
 
-export default async function Collection({ searchParams }: SearchParams) {
-  const params = await searchParams;
-  const pagination = Pagination.fromParams({
-    page: params?.page,
-    size: params?.size,
+export default async function Collection({ searchParams }: CollectionProps) {
+  const { page, size, view, ...filters } = collectionSearchParams.parse(
+    (await searchParams) ?? {},
+  );
+  const pagination = Pagination.from({
+    page,
+    size,
   });
-  const collectionItems = await getCollectionItems(pagination);
-  const view = parseViewToggle(params?.view ?? null);
+  const collectionItems = await getCollectionItems(filters, pagination);
 
   return (
     <section>

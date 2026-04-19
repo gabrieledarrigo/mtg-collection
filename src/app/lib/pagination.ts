@@ -38,27 +38,14 @@ export class Pagination {
   }
 
   /**
-   * Creates a Pagination instance from query parameters.
-   * Parses string values and applies defaults if invalid or missing.
+   * Creates a Pagination instance.
    *
-   * @param params - Object containing optional page and size as strings
+   * @param params - Object containing page and size
    * @returns A new Pagination instance with validated values
    */
-  public static fromParams(params: {
-    page?: string;
-    size?: string;
-  }): Pagination {
-    const parsedPage = parseInt(params?.page ?? `${DEFAULT_PAGE}`);
-    const parsedSize = parseInt(params?.size ?? `${DEFAULT_PAGE_SIZE}`);
-
-    const page = Math.max(
-      1,
-      Number.isNaN(parsedPage) ? DEFAULT_PAGE : parsedPage,
-    );
-    const size = Math.max(
-      1,
-      Number.isNaN(parsedSize) ? DEFAULT_PAGE_SIZE : parsedSize,
-    );
+  public static from(params: { page: number; size: number }): Pagination {
+    const page = Math.max(1, params.page);
+    const size = Math.max(1, params.size);
 
     return new Pagination(page, size);
   }
