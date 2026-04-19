@@ -15,7 +15,8 @@ export const collectionSearchParams = z.object({
   setCode: z.string().optional(),
   colors: z
     .string()
-    .transform((s) => s.split(",") as Color[])
+    .transform((s) => s.split(","))
+    .pipe(z.array(z.enum(Color)))
     .optional(),
   rarity: z.enum(Rarity).optional().catch(undefined),
   language: z.enum(Language).optional().catch(undefined),

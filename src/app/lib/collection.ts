@@ -90,7 +90,7 @@ export async function getCollectionItems(
     };
   }
 
-  if (foil) {
+  if (foil !== undefined) {
     where.foil = {
       equals: foil,
     };

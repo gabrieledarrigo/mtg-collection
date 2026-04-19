@@ -12,17 +12,14 @@ export type CollectionProps = {
 };
 
 export default async function Collection({ searchParams }: CollectionProps) {
-  const params = collectionSearchParams.parse(await searchParams);
-  const pagination = Pagination.from({
-    page: params.page,
-    size: params.size,
-  });
-  const collectionItems = await getCollectionItems(
-    {
-      ...params,
-    },
-    pagination,
+  const { page, size, view, ...filters } = collectionSearchParams.parse(
+    (await searchParams) ?? {},
   );
+  const pagination = Pagination.from({
+    page,
+    size,
+  });
+  const collectionItems = await getCollectionItems(filters, pagination);
 
   return (
     <section>
@@ -39,10 +36,7 @@ export default async function Collection({ searchParams }: CollectionProps) {
         />
       </div>
 
-      <CollectionView
-        view={params.view}
-        collectionItems={collectionItems.items}
-      />
+      <CollectionView view={view} collectionItems={collectionItems.items} />
 
       <footer className={styles.footer}>
         <PaginationView collectionItems={collectionItems} />
