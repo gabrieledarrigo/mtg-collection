@@ -8,8 +8,9 @@ import {
   Rarity,
 } from "@database/index";
 import { createMock } from "@test/helpers";
-import { CollectionItemsFilter, getCollectionItems } from "./collection";
+import { getCollectionItems } from "./collection";
 import { Pagination } from "./pagination";
+import { Color } from "./types";
 
 jest.mock("@database/index", () => ({
   ...(jest.requireActual("@database/index") as object),
@@ -128,7 +129,7 @@ describe("collection", () => {
     });
 
     it("should query collection items with the given colors filter", async () => {
-      const colors: CollectionItemsFilter["colors"] = ["U", "B"];
+      const colors: Color[] = [Color.U, Color.B];
 
       await getCollectionItems({
         colors,

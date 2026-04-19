@@ -1,5 +1,5 @@
 import { CollectionItemWithCard } from "@database/models";
-import { ViewToggle } from "@app/lib/view";
+import { ViewToggle } from "@app/lib/types";
 import { CardsGrid } from "../CardsGrid/CardsGrid";
 import { CardsTable } from "../CardsTable/CardsTable";
 
@@ -9,10 +9,10 @@ export type CollectionViewProps = {
 };
 
 export function CollectionView({
-  view = ViewToggle.grid,
+  view = ViewToggle.GRID,
   collectionItems,
 }: CollectionViewProps) {
-  return view === ViewToggle.grid ? (
+  return view === ViewToggle.GRID ? (
     <CardsGrid collectionItems={collectionItems} />
   ) : (
     <CardsTable collectionItems={collectionItems} />

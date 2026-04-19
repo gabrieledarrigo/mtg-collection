@@ -3,7 +3,7 @@ import { describe, it, expect } from "@jest/globals";
 import { createMock } from "@test/helpers";
 import { render, screen } from "@testing-library/react";
 import { CollectionView } from "./CollectionView";
-import { ViewToggle } from "@app/lib/view";
+import { ViewToggle } from "@app/lib/types";
 
 describe("CollectionView", () => {
   const collectionItemOne = createMock<CollectionItemWithCard>({
@@ -47,7 +47,7 @@ describe("CollectionView", () => {
   it("should render a grid of cards when the given view prop is grid", () => {
     render(
       <CollectionView
-        view={ViewToggle.grid}
+        view={ViewToggle.GRID}
         collectionItems={collectionItems}
       />,
     );
@@ -60,7 +60,7 @@ describe("CollectionView", () => {
   it("should render a table when the given view prop is table", () => {
     render(
       <CollectionView
-        view={ViewToggle.table}
+        view={ViewToggle.TABLE}
         collectionItems={collectionItems}
       />,
     );

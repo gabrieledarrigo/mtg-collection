@@ -9,11 +9,12 @@ import {
   StringFilter,
 } from "@database/index";
 import { Page, Pagination } from "./pagination";
+import { Color } from "./types";
 
 export type CollectionItemsFilter = {
   search?: string;
   setCode?: string;
-  colors?: ("W" | "U" | "B" | "R" | "G")[];
+  colors?: Color[];
   rarity?: Rarity;
   language?: Language;
   condition?: Condition;
