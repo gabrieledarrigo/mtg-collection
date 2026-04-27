@@ -54,6 +54,9 @@ src/
 │   │       ├── ViewToggle/
 │   │       │   ├── ViewToggle.tsx
 │   │       │   └── ViewToggle.module.css
+│   │       ├── SortPopover/
+│   │       │   ├── SortPopover.tsx
+│   │       │   └── SortPopover.module.css
 │   │       └── Pagination/
 │   │           ├── Pagination.tsx
 │   │           └── Pagination.module.css
@@ -95,6 +98,9 @@ src/
 │   ├── Checkbox/
 │   │   ├── Checkbox.tsx
 │   │   └── Checkbox.module.css
+│   ├── Popover/
+│   │   ├── Popover.tsx
+│   │   └── Popover.module.css
 │   ├── ManaSymbol/
 │   │   ├── ManaSymbol.tsx
 │   │   └── ManaSymbol.module.css
@@ -428,12 +434,76 @@ Dettagli completi di una carta specifica.
 
 ---
 
+## US-003b: Componente Popover
+
+### Descrizione
+
+Componente Popover riutilizzabile che wrappa `@base-ui/react/popover`. A differenza del Modal (che è un overlay full-page), il Popover è un popup ancorato a un elemento trigger, ideale per controlli rapidi e contestuali.
+
+### Criteri di Accettazione
+
+- [ ] Popover si apre al click sul trigger
+- [ ] Popover posizionato rispetto al trigger (configurabile: top, bottom, left, right)
+- [ ] Si chiude al click fuori o con Escape
+- [ ] Supporta titolo opzionale
+- [ ] Accessibile (focus trap, aria attributes)
+
+### Dettagli Tecnici
+
+**Subtask:**
+
+1. Creare `src/app/components/Popover/Popover.tsx` - test apertura/chiusura, posizionamento
+2. Wrappare `@base-ui/react/popover` (Popover.Root, Popover.Trigger, Popover.Portal, Popover.Positioner, Popover.Popup)
+3. Props: `trigger` (ReactNode), `children` (contenuto), `title?`, `side?` (default: bottom), `sideOffset?` (default: 8)
+
+**Base UI component:** `@base-ui-components/react/popover`
+
+---
+
+## US-010: Sorting
+
+### Descrizione
+
+Controllo di ordinamento delle carte della collezione. Un bottone sort nella FilterBar apre un Popover con i criteri di ordinamento. Ogni criterio ha un Toggle a tre stati (ascending, nessuno, descending). Supporta sorting multiplo: l'ordine di priorità è fisso (Name → Price → Set → Quantity), vengono applicati solo i criteri attivi.
+
+### Criteri di Accettazione
+
+- [ ] Bottone sort con icona nella FilterBar (accanto al bottone filtri)
+- [ ] Click apre Popover con 4 criteri: Name, Price, Set, Quantity
+- [ ] Ogni criterio ha un Toggle a 3 stati: ascending (↑), nessuno (−), descending (↓)
+- [ ] Selezione applicata immediatamente (no bottone di conferma)
+- [ ] URL aggiornato con sorting multiplo: `?sort=name.asc&sort=price.desc`
+- [ ] Ordinamento funziona sia per vista Grid che Table
+
+### Dettagli Tecnici
+
+**Subtask:**
+
+1. Estendere Toggle per supportare un array di opzioni (attualmente limitato a tuple di 2)
+2. Definire tipi `SortField`, `SortDirection` e `SortCriteria` in `src/lib/types.ts`
+3. Estendere `getCollectionItems()` per supportare sorting multiplo - test sorting
+4. Creare `src/app/collection/components/SortPopover/SortPopover.tsx` (Client) - test apertura popover, selezione criteri, applicazione immediata
+5. Aggiornare `src/app/collection/page.tsx` per leggere `sort` da searchParams
+6. Aggiornare `FilterBar.tsx` per includere il bottone sort
+7. Integrare con `useUpdateSearchParams()`
+
+**Criteri di sorting (priorità fissa):**
+
+- `name`: ordinamento alfabetico per nome carta
+- `price`: ordinamento per prezzo
+- `set`: ordinamento per set (setCode + collectorNumber)
+- `quantity`: ordinamento per quantità posseduta
+
+**URL esempio:** `/collection?sort=name.asc&sort=price.desc`
+
+---
+
 ## Ordine di Implementazione
 
 ```
 US-000 (Test Config)
         ↓
-US-001 → US-002 → US-003
+US-001 → US-002 → US-003 → US-003b (Popover)
                     ↓
          US-004 (Collection Page + Grid)
                     ↓
@@ -443,11 +513,13 @@ US-001 → US-002 → US-003
                     ↓
               US-008 (Paginazione)
                     ↓
+              US-010 (Sorting)
+                    ↓
          US-009 (Card Detail + Link)
 ```
 
-**Milestone 1 (Setup):** US-000, US-001, US-002, US-003
+**Milestone 1 (Setup):** US-000, US-001, US-002, US-003, US-003b
 **Milestone 2 (Collection Page - MVP):** US-004, US-005
 **Milestone 3 (Filtri):** US-006, US-007
-**Milestone 4 (Paginazione):** US-008
+**Milestone 4 (Paginazione + Sorting):** US-008, US-010
 **Milestone 5 (Card Detail):** US-009
