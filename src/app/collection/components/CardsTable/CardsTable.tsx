@@ -16,6 +16,7 @@ export function CardsTable({ collectionItems }: CardsTableProps) {
         <tr>
           <th>Quantity</th>
           <th>Name</th>
+          <th>Color</th>
           <th>Set</th>
           <th>Condition</th>
           <th>Foil</th>
@@ -29,12 +30,24 @@ export function CardsTable({ collectionItems }: CardsTableProps) {
             <td>{collectionItem.quantity}</td>
             <td>{collectionItem.card.name}</td>
             <td>
+              {collectionItem.card.colorIdentity.map((color) => (
+                <i
+                  key={color}
+                  className={`mi mi-mana mi-${color.toLowerCase()}`}
+                  role="img"
+                  aria-label={`Mana ${color}`}
+                />
+              ))}
+            </td>
+            <td>
               {`${collectionItem.card.setCode.toUpperCase()} - #${collectionItem.card.collectorNumber}`}
             </td>
             <td>{ConditionLabel[collectionItem.condition]}</td>
             <td>{collectionItem.foil ? "YES" : "NO"}</td>
             <td>{collectionItem.card.language}</td>
-            <td>{formatCollectionItemTotalPrice(collectionItem)}</td>
+            <td className="align-right">
+              {formatCollectionItemTotalPrice(collectionItem)}
+            </td>
           </tr>
         ))}
       </tbody>

@@ -95,3 +95,15 @@ main {
     padding: var(--spacing-2-5);
   }
 }
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}

@@ -14,6 +14,7 @@ describe("CardsTable", () => {
       setName: "Set",
       setCode: "set",
       collectorNumber: "1",
+      colorIdentity: ["U"],
       language: Language.IT,
     },
     quantity: 12,
@@ -37,6 +38,7 @@ describe("CardsTable", () => {
       setName: "Set",
       setCode: "set",
       collectorNumber: "2",
+      colorIdentity: ["B"],
       language: Language.IT,
     },
     quantity: 3,
@@ -66,6 +68,7 @@ describe("CardsTable", () => {
 
     expect(within(tableHead).getByText("Quantity")).toBeInTheDocument();
     expect(within(tableHead).getByText("Name")).toBeInTheDocument();
+    expect(within(tableHead).getByText("Color")).toBeInTheDocument();
     expect(within(tableHead).getByText("Set")).toBeInTheDocument();
     expect(within(tableHead).getByText("Condition")).toBeInTheDocument();
     expect(within(tableHead).getByText("Foil")).toBeInTheDocument();
@@ -82,6 +85,9 @@ describe("CardsTable", () => {
     ).toBeInTheDocument();
     expect(
       within(firstRow).getByText(collectionItemOne.card.name),
+    ).toBeInTheDocument();
+    expect(
+      within(firstRow).getByRole("img", { name: "Mana U" }),
     ).toBeInTheDocument();
     expect(
       within(firstRow).getByText(
@@ -105,6 +111,9 @@ describe("CardsTable", () => {
     ).toBeInTheDocument();
     expect(
       within(secondRow).getByText(collectionItemTwo.card.name),
+    ).toBeInTheDocument();
+    expect(
+      within(secondRow).getByRole("img", { name: "Mana B" }),
     ).toBeInTheDocument();
     expect(
       within(secondRow).getByText(
