@@ -16,7 +16,7 @@ export const SEARCH_DEBOUNCE_DELAY = 500;
 export function FilterBar() {
   const searchParams = useSearchParams();
   const setSearchParams = useUpdateSearchParams();
-  const debounce = useDebounce(500);
+  const debounce = useDebounce(SEARCH_DEBOUNCE_DELAY);
 
   const params = collectionSearchParams.parse({
     search: searchParams.get("search") ?? "",
@@ -44,7 +44,7 @@ export function FilterBar() {
   };
 
   return (
-    <div className={styles.filters}>
+    <div>
       <div className={styles.filter__controls}>
         <div className={styles.filter__colors}>
           {Object.values(Color).map((color) => (

@@ -90,7 +90,9 @@ describe("FilterBar", () => {
   });
 
   it("should update the search params with the given user search", async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
 
     render(<FilterBar />);
 
@@ -121,11 +123,13 @@ describe("FilterBar", () => {
   });
 
   it("should add a color to the search params when a user checks a checkbox", async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
 
     render(<FilterBar />);
 
-    for await (const color of Object.values(Color)) {
+    for (const color of Object.values(Color)) {
       const checkbox = screen.getByRole("checkbox", {
         name: `Filter by ${color}`,
       });

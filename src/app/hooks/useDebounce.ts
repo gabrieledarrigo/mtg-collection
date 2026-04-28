@@ -1,4 +1,8 @@
-import { useCallback, useRef } from "react";
+"use client";
+
+import { useCallback, useEffect, useRef } from "react";
+
+type Timeout = ReturnType<typeof setTimeout>;
 
 export type Callback = (...args: unknown[]) => void;
 
@@ -9,7 +13,15 @@ export type Callback = (...args: unknown[]) => void;
  * @returns A function that accepts a callback and executes it after the specified delay, canceling any previously scheduled execution.
  */
 export function useDebounce(delay: number) {
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const timeoutRef = useRef<Timeout>(undefined);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return useCallback(
     (callback: Callback) => {

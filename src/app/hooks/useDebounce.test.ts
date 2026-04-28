@@ -2,10 +2,15 @@ import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { act } from "react";
 import { useDebounce } from "./useDebounce";
+import { afterEach } from "node:test";
 
 describe("useDebounce", () => {
   beforeEach(() => {
     jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it("should execute the callback after the specified delay", () => {
