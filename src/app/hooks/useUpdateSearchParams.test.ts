@@ -29,6 +29,7 @@ describe("useUpdateSearchParams", () => {
     const params = {
       foo: "bar",
       baz: "qoo",
+      taa: ["one", "two"],
     };
 
     const { result } = renderHook(() => useUpdateSearchParams());
@@ -37,7 +38,9 @@ describe("useUpdateSearchParams", () => {
       result.current(params);
     });
 
-    expect(router.push).toHaveBeenCalledWith(`${pathname}?foo=bar&baz=qoo`);
+    expect(router.push).toHaveBeenCalledWith(
+      `${pathname}?foo=bar&baz=qoo&taa=one&taa=two`,
+    );
   });
 
   it("should preserve existing params", () => {
@@ -86,7 +89,10 @@ describe("useUpdateSearchParams", () => {
 
   it("should remove existing params", () => {
     const withExistingParams = createMock<navigation.ReadonlyURLSearchParams>({
-      entries: () => [["param", "value"]],
+      entries: () => [
+        ["param", "value"],
+        ["taa", "one"],
+      ],
     });
 
     jest
@@ -95,7 +101,7 @@ describe("useUpdateSearchParams", () => {
 
     const params = {
       param: null,
-      foo: "bar",
+      taa: ["two", "three"],
     };
 
     const { result } = renderHook(() => useUpdateSearchParams());
@@ -104,6 +110,6 @@ describe("useUpdateSearchParams", () => {
       result.current(params);
     });
 
-    expect(router.push).toHaveBeenCalledWith(`${pathname}?foo=bar`);
+    expect(router.push).toHaveBeenCalledWith(`${pathname}?taa=two&taa=three`);
   });
 });

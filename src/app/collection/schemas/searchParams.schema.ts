@@ -19,15 +19,9 @@ export const collectionSearchParams = z.object({
   view: z.enum(ViewToggle).default(ViewToggle.GRID).catch(ViewToggle.GRID),
   search: z.string().optional(),
   setCode: z.string().optional(),
-  colors: z
-    .string()
-    .transform((s) =>
-      s
-        .split(",")
-        .filter((color) => color.length > 0)
-        .map((color) => color.trim()),
-    )
-    .pipe(z.array(z.enum(Color)))
+  color: z
+    .union([z.enum(Color), z.array(z.enum(Color))])
+    .transform((color) => (Array.isArray(color) ? color : [color]))
     .optional()
     .catch(undefined),
   rarity: z.enum(Rarity).optional().catch(undefined),
