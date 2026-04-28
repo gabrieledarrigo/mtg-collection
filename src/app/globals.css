@@ -92,7 +92,7 @@ main {
   padding: var(--spacing-1);
 
   @media screen and (min-width: 769px) {
-    padding: var(--spacing-2-5);
+    padding: var(--spacing-1-5);
   }
 }
 
@@ -106,4 +106,9 @@ main {
 
 .align-right {
   text-align: right;
+}
+
+.visually-hidden {
+  visibility: hidden;
+  display: none;
 }

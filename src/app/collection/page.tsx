@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 import { collectionSearchParams } from "./schemas/searchParams.schema";
 
 export type CollectionProps = {
-  searchParams?: Promise<Record<string, string>>;
+  searchParams?: Promise<Record<string, string | string[] | null>>;
 };
 
 export default async function Collection({ searchParams }: CollectionProps) {
