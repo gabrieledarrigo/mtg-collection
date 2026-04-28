@@ -8,18 +8,30 @@ import styles from "./page.module.css";
 import { collectionSearchParams } from "./schemas/searchParams.schema";
 
 export type CollectionProps = {
-  searchParams?: Promise<Record<string, string>>;
+  searchParams?: Promise<Record<string, string | string[] | null>>;
 };
 
 export default async function Collection({ searchParams }: CollectionProps) {
-  const { page, size, view, ...filters } = collectionSearchParams.parse(
-    (await searchParams) ?? {},
-  );
+  const {
+    page,
+    size,
+    view,
+    color: colors,
+    ...filters
+  } = collectionSearchParams.parse((await searchParams) ?? {});
+
   const pagination = Pagination.from({
     page,
     size,
   });
-  const collectionItems = await getCollectionItems(filters, pagination);
+
+  const collectionItems = await getCollectionItems(
+    {
+      colors,
+      ...filters,
+    },
+    pagination,
+  );
 
   return (
     <section>

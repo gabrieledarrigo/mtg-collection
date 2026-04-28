@@ -10,20 +10,27 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
  * @returns A function that updates the URL search parameters and navigates to the new URL.
  */
 export function useUpdateSearchParams(): (
-  params: Record<string, string | null>,
+  params: Record<string, string | string[] | null>,
 ) => void {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   return function updateSearchParams(
-    params: Record<string, string | null>,
+    params: Record<string, string | string[] | null>,
   ): void {
     const newParams = new URLSearchParams([...searchParams.entries()]);
 
-    Object.entries(params).forEach(([param, value]) =>
-      value ? newParams.set(param, value) : newParams.delete(param),
-    );
+    Object.entries(params).forEach(([param, value]) => {
+      if (!value) {
+        newParams.delete(param);
+      } else if (Array.isArray(value)) {
+        newParams.delete(param);
+        value.forEach((v) => newParams.append(param, v));
+      } else {
+        newParams.set(param, value);
+      }
+    });
 
     return router.push(`${pathname}?${newParams}`);
   };
