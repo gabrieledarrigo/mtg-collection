@@ -1,0 +1,25 @@
+.filter__controls {
+  display: flex;
+  gap: var(--spacing-1);
+}
+
+.filter__colors {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    gap: var(--spacing-1-5);
+  }
+}
+
+.filter__search {
+  width: 300px;
+}
+
+.filter__toggle {
+  margin-top: var(--spacing-1);
+
+  @media screen and (min-width: 768px) {
+    margin-top: var(--spacing-1-5);
+  }
+}

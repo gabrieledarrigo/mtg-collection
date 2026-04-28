@@ -1,7 +1,16 @@
-import { describe, it, expect, jest, beforeEach } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
-import { FilterBar } from "../FilterBar/FilterBar";
-import { ViewToggle } from "@app/lib/types";
+import {
+  describe,
+  it,
+  expect,
+  jest,
+  beforeEach,
+  beforeAll,
+  afterAll,
+} from "@jest/globals";
+import { act, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { FilterBar, SEARCH_DEBOUNCE_DELAY } from "../FilterBar/FilterBar";
+import { Color, ViewToggle } from "@app/lib/types";
 import * as navigation from "next/navigation";
 import * as hook from "@app/hooks/useUpdateSearchParams";
 
@@ -13,6 +22,14 @@ describe("FilterBar", () => {
     new URLSearchParams() as navigation.ReadonlyURLSearchParams;
 
   const setSearchParams = jest.fn();
+
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
 
   beforeEach(() => {
     jest.spyOn(navigation, "useSearchParams").mockReturnValue(searchParams);
@@ -62,5 +79,64 @@ describe("FilterBar", () => {
     tableToggle.click();
 
     expect(tableToggle).toHaveAttribute("aria-pressed");
+  });
+
+  it("should render a search input", () => {
+    render(<FilterBar />);
+
+    const searchInput = screen.getByRole("searchbox");
+
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  it("should update the search params with the given user search", async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
+
+    render(<FilterBar />);
+
+    const searchInput = screen.getByRole("searchbox");
+    await user.type(searchInput, "Brainstorm");
+
+    act(() => {
+      jest.advanceTimersByTime(SEARCH_DEBOUNCE_DELAY);
+    });
+
+    expect(setSearchParams).toHaveBeenCalledWith({ search: "Brainstorm" });
+  });
+
+  it("should render a checkbox for each Color", () => {
+    render(<FilterBar />);
+
+    const checkBoxes = screen.getAllByRole("checkbox");
+
+    expect(checkBoxes).toHaveLength(5);
+
+    for (const color of Object.values(Color)) {
+      const checkbox = screen.getByRole("checkbox", {
+        name: `Filter by ${color}`,
+      });
+
+      expect(checkbox).toBeInTheDocument();
+    }
+  });
+
+  it("should add a color to the search params when a user checks a checkbox", async () => {
+    const user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
+
+    render(<FilterBar />);
+
+    for (const color of Object.values(Color)) {
+      const checkbox = screen.getByRole("checkbox", {
+        name: `Filter by ${color}`,
+      });
+
+      await user.click(checkbox);
+
+      expect(setSearchParams).toHaveBeenCalledWith({ color: [color] });
+    }
   });
 });
