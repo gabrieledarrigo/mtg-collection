@@ -146,8 +146,6 @@ export async function getAvailableSets(): Promise<AvailableSets> {
         some: {},
       },
     },
-    orderBy: {
-      setName: "asc",
-    },
+    orderBy: [{ setName: "asc" }, { setCode: "asc" }],
   });
 }

@@ -326,7 +326,7 @@ describe("collection", () => {
         .mockResolvedValue(availableSets as never);
     });
 
-    it("should query and return all available set in the collection", async () => {
+    it("should query and return all available sets in the collection", async () => {
       const actual = await getAvailableSets();
 
       expect(prisma.card.findMany).toHaveBeenCalledWith({
@@ -340,9 +340,7 @@ describe("collection", () => {
             some: {},
           },
         },
-        orderBy: {
-          setName: "asc",
-        },
+        orderBy: [{ setName: "asc" }, { setCode: "asc" }],
       });
 
       expect(actual).toEqual(availableSets);
