@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Combobox } from "@base-ui/react/combobox";
 import { Field } from "@base-ui/react/field";
 import { Icon, IconName } from "../Icon/Icon";
@@ -11,10 +11,8 @@ export type SelectOption = {
   label: string;
 };
 
-export type SelectProps = {
+type SelectPropsBase = {
   options: SelectOption[];
-  value: string;
-  onChange: (value: string) => void;
   label?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -22,27 +20,46 @@ export type SelectProps = {
   required?: boolean;
 };
 
+type SingleSelectProps = SelectPropsBase & {
+  multiple?: false;
+  value: string;
+  onChange: (value: string) => void;
+};
+
+type MultipleSelectProps = SelectPropsBase & {
+  multiple: true;
+  value: string[];
+  onChange: (value: string[]) => void;
+};
+
+export type SelectProps = SingleSelectProps | MultipleSelectProps;
+
 export function Select({
   options,
   value,
   onChange,
   label,
   placeholder = "Select an option",
+  multiple = false,
   disabled = false,
   error,
   required = false,
 }: SelectProps) {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
-  const [triggerWidth, setTriggerWidth] = useState<number | undefined>();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const selectedOption = useMemo(
-    () => options.find((option) => option.value === value) ?? null,
-    [options, value],
+    () =>
+      multiple
+        ? options.filter((option) => value.includes(option.value))
+        : (options.find((option) => option.value === value) ?? null),
+    [options, multiple, value],
   );
 
-  const selectedLabel = selectedOption?.label ?? "";
+  const selectedLabel = !multiple
+    ? (options.find((option) => option.value === value)?.label ?? "")
+    : "";
 
   const filteredOptions = useMemo(() => {
     if (!inputValue || inputValue === selectedLabel) {
@@ -54,10 +71,33 @@ export function Select({
     );
   }, [options, inputValue, selectedLabel]);
 
-  const onValueChange = (newValue: SelectOption | null) => {
-    if (newValue && !disabled) {
-      onChange(newValue.value);
+  const renderValue = (options: SelectOption[], value: string[]) => {
+    if (value.length === 0) {
+      return null;
     }
+
+    const label =
+      options.find((option) => option.value === value[0])?.label ?? "";
+
+    const rest = value.length - 1;
+
+    if (rest > 0) {
+      return `${label} (+${rest} more)`;
+    }
+
+    return label;
+  };
+
+  const renderPlaceholder = () => {
+    if (multiple && value.length > 0) {
+      return "";
+    }
+
+    if (!multiple && selectedLabel) {
+      return "";
+    }
+
+    return placeholder;
   };
 
   const onInputValueChange = (newInputValue: string) => {
@@ -68,17 +108,31 @@ export function Select({
     setOpen(isOpen);
 
     if (isOpen) {
-      // Reset the input to show all options
       setInputValue("");
     }
   };
 
-  // Update trigger width when the dropdown opens
-  useEffect(() => {
-    if (open && triggerRef.current) {
-      setTriggerWidth(triggerRef.current.offsetWidth);
-    }
-  }, [open]);
+  const modeProps = multiple
+    ? {
+        multiple: true as const,
+        value: selectedOption as SelectOption[],
+        onValueChange: (newValue: SelectOption[]) => {
+          if (!disabled) {
+            (onChange as (value: string[]) => void)(
+              newValue.map(({ value }) => value),
+            );
+          }
+        },
+      }
+    : {
+        multiple: undefined as false | undefined,
+        value: selectedOption as SelectOption | null,
+        onValueChange: (newValue: SelectOption | null) => {
+          if (newValue && !disabled) {
+            (onChange as (value: string) => void)(newValue.value);
+          }
+        },
+      };
 
   return (
     <Field.Root className={styles.select}>
@@ -90,16 +144,22 @@ export function Select({
       )}
       <Combobox.Root<SelectOption>
         open={open}
-        value={selectedOption}
-        onValueChange={onValueChange}
         onInputValueChange={onInputValueChange}
         onOpenChange={onOpenChange}
         disabled={disabled}
+        {...(modeProps as Combobox.Root.Props<SelectOption>)}
       >
         <Combobox.Trigger ref={triggerRef} className={styles.select__trigger}>
+          {multiple && value.length > 0 && (
+            <span className={styles.select__value}>
+              <Combobox.Value>
+                {() => renderValue(options, value as string[])}
+              </Combobox.Value>
+            </span>
+          )}
           <Combobox.Input
             className={styles.select__input}
-            placeholder={placeholder}
+            placeholder={renderPlaceholder()}
             aria-label={label || placeholder}
           />
           <Combobox.Icon className={styles.select__icon}>
@@ -112,9 +172,8 @@ export function Select({
             className={styles.select__positioner}
             side="bottom"
             align="start"
-            sideOffset={12}
-            alignOffset={-16}
-            style={{ width: triggerWidth }}
+            sideOffset={4}
+            anchor={triggerRef}
           >
             <Combobox.Popup className={styles.select__popup}>
               <Combobox.List className={styles.select__list}>

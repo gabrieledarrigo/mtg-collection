@@ -74,6 +74,7 @@
   border-radius: var(--border-radius-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  width: var(--anchor-width);
 }
 
 .select__list {
@@ -134,4 +135,9 @@
   margin-top: var(--spacing-0-25);
   font-size: var(--size-small);
   color: var(--color-danger);
+}
+
+.select__value {
+  font-size: var(--size-16);
+  color: var(--color-neutral-800);
 }
