@@ -9,7 +9,11 @@ import {
 } from "@jest/globals";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { FilterBar, SEARCH_DEBOUNCE_DELAY } from "../FilterBar/FilterBar";
+import {
+  FilterBar,
+  FilterBarProps,
+  SEARCH_DEBOUNCE_DELAY,
+} from "../FilterBar/FilterBar";
 import { Color, ViewToggle } from "@app/lib/types";
 import * as navigation from "next/navigation";
 import * as hook from "@app/hooks/useUpdateSearchParams";
@@ -23,6 +27,19 @@ describe("FilterBar", () => {
 
   const setSearchParams = jest.fn();
 
+  const availableSets: FilterBarProps["availableSets"] = [
+    {
+      setCode: "mmq",
+      setName: "Mercadian Masques",
+    },
+    {
+      setCode: "leg",
+      setName: "Legends",
+    },
+  ];
+
+  let user: ReturnType<typeof userEvent.setup>;
+
   beforeAll(() => {
     jest.useFakeTimers();
   });
@@ -34,55 +51,40 @@ describe("FilterBar", () => {
   beforeEach(() => {
     jest.spyOn(navigation, "useSearchParams").mockReturnValue(searchParams);
     jest.spyOn(hook, "useUpdateSearchParams").mockReturnValue(setSearchParams);
+
+    user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
   });
 
-  it("should render a toggle with a grid and table option", () => {
-    render(<FilterBar />);
+  it("should render a select input to filter by set", () => {
+    render(<FilterBar availableSets={availableSets} />);
 
-    const gridToggle = screen.getByRole("button", { name: "Grid view" });
-    const tableToggle = screen.getByRole("button", { name: "Table view" });
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more sets",
+    });
 
-    expect(gridToggle).toBeInTheDocument();
-    expect(tableToggle).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
   });
 
-  it("should select the grid toggle by default", () => {
-    render(<FilterBar />);
+  it("should add a setCode to the search params when a user selects a set", async () => {
+    render(<FilterBar availableSets={availableSets} />);
 
-    const gridToggle = screen.getByRole("button", { name: "Grid view" });
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more sets",
+    });
+    await user.click(input);
 
-    expect(gridToggle).toHaveAttribute("aria-pressed");
-  });
+    const option = await screen.findByText("Mercadian Masques");
+    await user.click(option);
 
-  it("should select the table toggle when the search parameter view is equal to table", () => {
-    const withTableView = new URLSearchParams([
-      ["view", ViewToggle.TABLE],
-    ]) as navigation.ReadonlyURLSearchParams;
-
-    jest.spyOn(navigation, "useSearchParams").mockReturnValue(withTableView);
-
-    render(<FilterBar />);
-
-    const tableToggle = screen.getByRole("button", { name: "Table view" });
-
-    expect(tableToggle).toHaveAttribute("aria-pressed");
-  });
-
-  it("should select the toggle clicked by the user", () => {
-    render(<FilterBar />);
-
-    const gridToggle = screen.getByRole("button", { name: "Grid view" });
-    const tableToggle = screen.getByRole("button", { name: "Table view" });
-
-    expect(gridToggle).toHaveAttribute("aria-pressed");
-
-    tableToggle.click();
-
-    expect(tableToggle).toHaveAttribute("aria-pressed");
+    expect(setSearchParams).toHaveBeenCalledWith({
+      setCode: ["mmq"],
+    });
   });
 
   it("should render a search input", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const searchInput = screen.getByRole("searchbox");
 
@@ -90,11 +92,7 @@ describe("FilterBar", () => {
   });
 
   it("should update the search params with the given user search", async () => {
-    const user = userEvent.setup({
-      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
-    });
-
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const searchInput = screen.getByRole("searchbox");
     await user.type(searchInput, "Brainstorm");
@@ -107,7 +105,7 @@ describe("FilterBar", () => {
   });
 
   it("should render a checkbox for each Color", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const checkBoxes = screen.getAllByRole("checkbox");
 
@@ -123,11 +121,7 @@ describe("FilterBar", () => {
   });
 
   it("should add a color to the search params when a user checks a checkbox", async () => {
-    const user = userEvent.setup({
-      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
-    });
-
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     for (const color of Object.values(Color)) {
       const checkbox = screen.getByRole("checkbox", {
@@ -138,5 +132,50 @@ describe("FilterBar", () => {
 
       expect(setSearchParams).toHaveBeenCalledWith({ color: [color] });
     }
+  });
+
+  it("should render a toggle with a grid and table option", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const gridToggle = screen.getByRole("button", { name: "Grid view" });
+    const tableToggle = screen.getByRole("button", { name: "Table view" });
+
+    expect(gridToggle).toBeInTheDocument();
+    expect(tableToggle).toBeInTheDocument();
+  });
+
+  it("should select the grid toggle by default", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const gridToggle = screen.getByRole("button", { name: "Grid view" });
+
+    expect(gridToggle).toHaveAttribute("aria-pressed");
+  });
+
+  it("should select the table toggle when the search parameter view is equal to table", () => {
+    const withTableView = new URLSearchParams([
+      ["view", ViewToggle.TABLE],
+    ]) as navigation.ReadonlyURLSearchParams;
+
+    jest.spyOn(navigation, "useSearchParams").mockReturnValue(withTableView);
+
+    render(<FilterBar availableSets={availableSets} />);
+
+    const tableToggle = screen.getByRole("button", { name: "Table view" });
+
+    expect(tableToggle).toHaveAttribute("aria-pressed");
+  });
+
+  it("should select the toggle clicked by the user", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const gridToggle = screen.getByRole("button", { name: "Grid view" });
+    const tableToggle = screen.getByRole("button", { name: "Table view" });
+
+    expect(gridToggle).toHaveAttribute("aria-pressed");
+
+    tableToggle.click();
+
+    expect(tableToggle).toHaveAttribute("aria-pressed");
   });
 });

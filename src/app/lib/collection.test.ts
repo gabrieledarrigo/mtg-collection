@@ -110,17 +110,17 @@ describe("collection", () => {
       );
     });
 
-    it("should query collection items with the given set code filter", async () => {
-      const setCode = "drk";
+    it("should query collection items with the given set codes filter", async () => {
+      const setCodes = ["drk", "mmq"];
 
       await getCollectionItems({
-        setCode,
+        setCodes,
       });
 
       const where: CollectionItemWhereInput = {
         card: {
           setCode: {
-            equals: setCode,
+            in: setCodes,
           },
         },
       };

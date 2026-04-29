@@ -18,7 +18,11 @@ export const collectionSearchParams = z.object({
     .catch(DEFAULT_PAGE_SIZE),
   view: z.enum(ViewToggle).default(ViewToggle.GRID).catch(ViewToggle.GRID),
   search: z.string().optional(),
-  setCode: z.string().optional(),
+  setCode: z
+    .union([z.string(), z.array(z.string())])
+    .transform((setCode) => (Array.isArray(setCode) ? setCode : [setCode]))
+    .optional()
+    .catch(undefined),
   color: z
     .union([z.enum(Color), z.array(z.enum(Color))])
     .transform((color) => (Array.isArray(color) ? color : [color]))
