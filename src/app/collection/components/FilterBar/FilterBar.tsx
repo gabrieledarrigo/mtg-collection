@@ -70,7 +70,7 @@ export function FilterBar({ availableSets }: FilterBarProps) {
             }))}
             value={params.setCode ?? []}
             onChange={onSetChange}
-            placeholder="Select one or more set"
+            placeholder="Select one or more sets"
           />
         </div>
 

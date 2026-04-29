@@ -57,6 +57,83 @@ describe("FilterBar", () => {
     });
   });
 
+  it("should render a select input to filter by set", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more sets",
+    });
+
+    expect(input).toBeInTheDocument();
+  });
+
+  it("should add a setCode to the search params when a user selects a set", async () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more sets",
+    });
+    await user.click(input);
+
+    const option = await screen.findByText("Mercadian Masques");
+    await user.click(option);
+
+    expect(setSearchParams).toHaveBeenCalledWith({
+      setCode: ["mmq"],
+    });
+  });
+
+  it("should render a search input", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const searchInput = screen.getByRole("searchbox");
+
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  it("should update the search params with the given user search", async () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const searchInput = screen.getByRole("searchbox");
+    await user.type(searchInput, "Brainstorm");
+
+    act(() => {
+      jest.advanceTimersByTime(SEARCH_DEBOUNCE_DELAY);
+    });
+
+    expect(setSearchParams).toHaveBeenCalledWith({ search: "Brainstorm" });
+  });
+
+  it("should render a checkbox for each Color", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const checkBoxes = screen.getAllByRole("checkbox");
+
+    expect(checkBoxes).toHaveLength(5);
+
+    for (const color of Object.values(Color)) {
+      const checkbox = screen.getByRole("checkbox", {
+        name: `Filter by ${color}`,
+      });
+
+      expect(checkbox).toBeInTheDocument();
+    }
+  });
+
+  it("should add a color to the search params when a user checks a checkbox", async () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    for (const color of Object.values(Color)) {
+      const checkbox = screen.getByRole("checkbox", {
+        name: `Filter by ${color}`,
+      });
+
+      await user.click(checkbox);
+
+      expect(setSearchParams).toHaveBeenCalledWith({ color: [color] });
+    }
+  });
+
   it("should render a toggle with a grid and table option", () => {
     render(<FilterBar availableSets={availableSets} />);
 
@@ -100,82 +177,5 @@ describe("FilterBar", () => {
     tableToggle.click();
 
     expect(tableToggle).toHaveAttribute("aria-pressed");
-  });
-
-  it("should render a select input to filter by set", () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    const input = screen.getByRole("combobox", {
-      name: "Select one or more set",
-    });
-
-    expect(input).toBeInTheDocument();
-  });
-
-  it("should add a setCode to the search params when a user selects a set", async () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    const input = screen.getByRole("combobox", {
-      name: "Select one or more set",
-    });
-    await user.click(input);
-
-    const option = await screen.getByText("Mercadian Masques");
-    await user.click(option);
-
-    expect(setSearchParams).toHaveBeenCalledWith({
-      setCode: ["mmq"],
-    });
-  });
-
-  it("should render a checkbox for each Color", () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    const checkBoxes = screen.getAllByRole("checkbox");
-
-    expect(checkBoxes).toHaveLength(5);
-
-    for (const color of Object.values(Color)) {
-      const checkbox = screen.getByRole("checkbox", {
-        name: `Filter by ${color}`,
-      });
-
-      expect(checkbox).toBeInTheDocument();
-    }
-  });
-
-  it("should add a color to the search params when a user checks a checkbox", async () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    for (const color of Object.values(Color)) {
-      const checkbox = screen.getByRole("checkbox", {
-        name: `Filter by ${color}`,
-      });
-
-      await user.click(checkbox);
-
-      expect(setSearchParams).toHaveBeenCalledWith({ color: [color] });
-    }
-  });
-
-  it("should render a search input", () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    const searchInput = screen.getByRole("searchbox");
-
-    expect(searchInput).toBeInTheDocument();
-  });
-
-  it("should update the search params with the given user search", async () => {
-    render(<FilterBar availableSets={availableSets} />);
-
-    const searchInput = screen.getByRole("searchbox");
-    await user.type(searchInput, "Brainstorm");
-
-    act(() => {
-      jest.advanceTimersByTime(SEARCH_DEBOUNCE_DELAY);
-    });
-
-    expect(setSearchParams).toHaveBeenCalledWith({ search: "Brainstorm" });
   });
 });
