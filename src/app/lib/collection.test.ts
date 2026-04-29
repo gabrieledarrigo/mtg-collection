@@ -8,7 +8,11 @@ import {
   Rarity,
 } from "@database/index";
 import { createMock } from "@test/helpers";
-import { getCollectionItems } from "./collection";
+import {
+  AvailableSets,
+  getAvailableSets,
+  getCollectionItems,
+} from "./collection";
 import { Pagination } from "./pagination";
 import { Color } from "./types";
 
@@ -20,41 +24,44 @@ jest.mock("@database/index", () => ({
       count: jest.fn(),
       findMany: jest.fn(),
     },
+    card: {
+      findMany: jest.fn(),
+    },
   },
 }));
 
 describe("collection", () => {
-  const count = 100;
-  const collectionItem = createMock<CollectionItemWithCard>({
-    id: "collection-item-1",
-    card: {
-      id: "card-id-1",
-      name: "Card 1",
-      setName: "Set",
-      setCode: "set",
-      collectorNumber: "1",
-      language: Language.IT,
-    },
-    quantity: 12,
-    condition: Condition.MINT,
-    foil: true,
-    purchases: [
-      {
-        price: 1250,
-      },
-      {
-        price: 1370,
-      },
-    ],
-  });
-
-  beforeEach(() => {
-    jest
-      .spyOn(prisma, "$transaction")
-      .mockResolvedValue([count, [collectionItem]]);
-  });
-
   describe("getCollectionItems", () => {
+    const count = 100;
+    const collectionItem = createMock<CollectionItemWithCard>({
+      id: "collection-item-1",
+      card: {
+        id: "card-id-1",
+        name: "Card 1",
+        setName: "Set",
+        setCode: "set",
+        collectorNumber: "1",
+        language: Language.IT,
+      },
+      quantity: 12,
+      condition: Condition.MINT,
+      foil: true,
+      purchases: [
+        {
+          price: 1250,
+        },
+        {
+          price: 1370,
+        },
+      ],
+    });
+
+    beforeEach(() => {
+      jest
+        .spyOn(prisma, "$transaction")
+        .mockResolvedValue([count, [collectionItem]]);
+    });
+
     it("should query collection items with the given search filter", async () => {
       const search = "Brainstorm";
 
@@ -302,6 +309,43 @@ describe("collection", () => {
         page: 1,
         size: 48,
       });
+    });
+  });
+
+  describe("getAvailableSets", () => {
+    const availableSets: AvailableSets = [
+      {
+        setName: "Mercadian Masques",
+        setCode: "MQM",
+      },
+    ];
+
+    beforeEach(() => {
+      jest
+        .spyOn(prisma.card, "findMany")
+        .mockResolvedValue(availableSets as never);
+    });
+
+    it("should query and return all available set in the collection", async () => {
+      const actual = await getAvailableSets();
+
+      expect(prisma.card.findMany).toHaveBeenCalledWith({
+        distinct: ["setCode", "setName"],
+        select: {
+          setCode: true,
+          setName: true,
+        },
+        where: {
+          collectionItems: {
+            some: {},
+          },
+        },
+        orderBy: {
+          setName: "asc",
+        },
+      });
+
+      expect(actual).toEqual(availableSets);
     });
   });
 });

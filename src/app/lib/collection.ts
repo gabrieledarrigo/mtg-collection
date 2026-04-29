@@ -21,6 +21,11 @@ export type CollectionItemsFilter = {
   foil?: boolean;
 };
 
+export type AvailableSets = {
+  setCode: string;
+  setName: string;
+}[];
+
 /**
  * Retrieves a paginated list of collection items with their associated card and purchase data.
  *
@@ -122,4 +127,27 @@ export async function getCollectionItems(
     size,
     totalItems,
   };
+}
+
+/**
+ * Retrieves all available Magic: The Gathering sets that contain at least one card in the collection.
+ *
+ * @returns A Promise resolving to an AvailableSets array containing set codes and set names, ordered alphabetically by set name.
+ */
+export async function getAvailableSets(): Promise<AvailableSets> {
+  return prisma.card.findMany({
+    distinct: ["setCode", "setName"],
+    select: {
+      setCode: true,
+      setName: true,
+    },
+    where: {
+      collectionItems: {
+        some: {},
+      },
+    },
+    orderBy: {
+      setName: "asc",
+    },
+  });
 }
