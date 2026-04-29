@@ -115,6 +115,7 @@ export function Pagination({
           ]}
           value={String(size)}
           onChange={(value) => onSizeChange(Number(value))}
+          showClearButton={false}
         />
       </div>
 

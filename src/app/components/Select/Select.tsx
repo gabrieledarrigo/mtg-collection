@@ -18,6 +18,7 @@ type SelectPropsBase = {
   disabled?: boolean;
   error?: string;
   required?: boolean;
+  showClearButton?: boolean;
 };
 
 type SingleSelectProps = SelectPropsBase & {
@@ -44,6 +45,7 @@ export function Select({
   disabled = false,
   error,
   required = false,
+  showClearButton = true,
 }: SelectProps) {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
@@ -162,6 +164,14 @@ export function Select({
             placeholder={renderPlaceholder()}
             aria-label={label || placeholder}
           />
+          {showClearButton && (
+            <Combobox.Clear
+              className={styles.select__clear}
+              aria-label="Clear selection"
+            >
+              <Icon name={IconName.CLOSE} size={16} />
+            </Combobox.Clear>
+          )}
           <Combobox.Icon className={styles.select__icon}>
             <Icon name={IconName.ARROW_DROP_DOWN} size={16} />
           </Combobox.Icon>

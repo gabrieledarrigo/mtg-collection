@@ -20,7 +20,6 @@
   border-radius: var(--border-radius-sm);
   padding: var(--spacing-0-5) var(--spacing-1);
   min-height: 2.5rem;
-  /* width: 100%; */
 
   &:hover {
     border-color: var(--color-neutral-600);
@@ -57,10 +56,18 @@
   }
 }
 
+.select__clear {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  color: var(--color-neutral-800);
+}
+
 .select__icon {
   display: flex;
   align-items: center;
-  color: var(--color-neutral-600);
+  color: var(--color-neutral-800);
   flex-shrink: 0;
 }
 

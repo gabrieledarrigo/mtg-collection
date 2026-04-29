@@ -87,6 +87,31 @@ describe("Select", () => {
     expect(screen.getByText("Please select an option")).toBeInTheDocument();
   });
 
+  it("renders the clear button by default", () => {
+    render(
+      <Select options={defaultOptions} value="option1" onChange={() => {}} />,
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Clear selection" }),
+    ).toBeInTheDocument();
+  });
+
+  it("hides the clear button when showClearButton is false", () => {
+    render(
+      <Select
+        options={defaultOptions}
+        value="option1"
+        onChange={() => {}}
+        showClearButton={false}
+      />,
+    );
+
+    expect(
+      screen.queryByRole("button", { name: "Clear selection" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("allows filtering options by typing", async () => {
     const user = userEvent.setup();
     render(
