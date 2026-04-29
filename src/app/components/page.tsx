@@ -21,6 +21,7 @@ export default function Home() {
   const [checked2, setChecked2] = useState(true);
   const [checked3, setChecked3] = useState(false);
   const [checked4, setChecked4] = useState(false);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
   return (
     <main>
@@ -421,6 +422,21 @@ export default function Home() {
             label="Condition"
             required
             error="Please select a condition"
+          />
+
+          <Select
+            multiple
+            options={[
+              { value: "W", label: "White" },
+              { value: "U", label: "Blue" },
+              { value: "B", label: "Black" },
+              { value: "R", label: "Red" },
+              { value: "G", label: "Green" },
+            ]}
+            value={selectedColors}
+            onChange={setSelectedColors}
+            label="Colors (Multiple)"
+            placeholder="Select colors"
           />
         </div>
 

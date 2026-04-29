@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { jest, describe, it, expect } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -151,5 +152,125 @@ describe("Select", () => {
     expect(
       screen.getByText("No options found", { exact: false }),
     ).toBeInTheDocument();
+  });
+
+  it("renders a multiple select with no initial selection", () => {
+    render(
+      <Select
+        multiple
+        options={defaultOptions}
+        value={[]}
+        onChange={() => {}}
+      />,
+    );
+
+    const input = screen.getByRole("combobox");
+
+    expect(input).toBeInTheDocument();
+  });
+
+  it("calls onChange with selected values when an option is clicked in multiple mode", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn<(value: string[]) => void>();
+
+    render(
+      <Select
+        multiple
+        options={defaultOptions}
+        value={[]}
+        onChange={onChange}
+      />,
+    );
+
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+
+    const option = await screen.findByText("Option 1");
+    await user.click(option);
+
+    expect(onChange).toHaveBeenCalledWith(["option1"]);
+  });
+
+  it("calls onChange with all selected values in multiple mode", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn<(value: string[]) => void>();
+
+    render(
+      <Select
+        multiple
+        options={defaultOptions}
+        value={["option1"]}
+        onChange={onChange}
+      />,
+    );
+
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+
+    const option = await screen.findByText("Option 2");
+    await user.click(option);
+
+    expect(onChange).toHaveBeenCalledWith(["option1", "option2"]);
+  });
+
+  it("should be disabled in multiple mode when disabled prop is true", () => {
+    render(
+      <Select
+        multiple
+        options={defaultOptions}
+        value={["option1"]}
+        onChange={() => {}}
+        disabled
+      />,
+    );
+
+    const input = screen.getByRole("combobox");
+
+    expect(input).toBeDisabled();
+  });
+
+  it("displays the value summary after selecting multiple options", async () => {
+    const user = userEvent.setup();
+
+    function MultiSelectWrapper() {
+      const [selected, setSelected] = useState<string[]>([]);
+      return (
+        <Select
+          multiple
+          options={defaultOptions}
+          value={selected}
+          onChange={setSelected}
+          placeholder="Pick options"
+        />
+      );
+    }
+
+    render(<MultiSelectWrapper />);
+
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+
+    await user.click(await screen.findByRole("option", { name: "Option 1" }));
+
+    await user.click(await screen.findByRole("option", { name: "Option 2" }));
+    expect(screen.getByText("Option 1 (+1 more)")).toBeInTheDocument();
+
+    await user.click(await screen.findByRole("option", { name: "Option 3" }));
+    expect(screen.getByText("Option 1 (+2 more)")).toBeInTheDocument();
+  });
+
+  it("shows placeholder in single-select when value does not match any option", () => {
+    render(
+      <Select
+        options={defaultOptions}
+        value="nonexistent"
+        onChange={() => {}}
+        placeholder="Choose one"
+      />,
+    );
+
+    const input = screen.getByPlaceholderText("Choose one");
+
+    expect(input).toBeInTheDocument();
   });
 });
