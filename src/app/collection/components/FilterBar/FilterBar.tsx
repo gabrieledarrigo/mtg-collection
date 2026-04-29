@@ -10,10 +10,18 @@ import { Input } from "@app/components/Input/Input";
 import { useDebounce } from "@app/hooks/useDebounce";
 import { Checkbox } from "@app/components/Checkbox/Checkbox";
 import styles from "./FilterBar.module.css";
+import { Select } from "@app/components/Select/Select";
+
+export type FilterBarProps = {
+  availableSets: {
+    setCode: string;
+    setName: string;
+  }[];
+};
 
 export const SEARCH_DEBOUNCE_DELAY = 500;
 
-export function FilterBar() {
+export function FilterBar({ availableSets }: FilterBarProps) {
   const searchParams = useSearchParams();
   const setSearchParams = useUpdateSearchParams();
   const debounce = useDebounce(SEARCH_DEBOUNCE_DELAY);
@@ -21,6 +29,7 @@ export function FilterBar() {
   const params = collectionSearchParams.parse({
     search: searchParams.get("search") ?? "",
     color: searchParams.getAll("color"),
+    setCode: searchParams.getAll("setCode"),
     view: searchParams.get("view") ?? "",
   });
 
@@ -39,6 +48,12 @@ export function FilterBar() {
     setSearchParams({ color });
   };
 
+  const onSetChange = (setCodes: string[]) => {
+    setSearchParams({
+      setCode: setCodes.length > 0 ? setCodes : null,
+    });
+  };
+
   const onToggleChange = (view: ViewToggle) => {
     setSearchParams({ view });
   };
@@ -46,6 +61,27 @@ export function FilterBar() {
   return (
     <div>
       <div className={styles.filter__controls}>
+        <div className={styles.filter__sets}>
+          <Select
+            multiple
+            options={availableSets.map(({ setCode, setName }) => ({
+              value: setCode,
+              label: setName,
+            }))}
+            value={params.setCode ?? []}
+            onChange={onSetChange}
+            placeholder="Select one or more set"
+          />
+        </div>
+
+        <div className={styles.filter__search}>
+          <Input
+            type="search"
+            placeholder="Search by card name or text"
+            onChange={onSearch}
+          />
+        </div>
+
         <div className={styles.filter__colors}>
           {Object.values(Color).map((color) => (
             <Checkbox
@@ -64,14 +100,6 @@ export function FilterBar() {
               ariaLabel={`Filter by ${color}`}
             />
           ))}
-        </div>
-
-        <div className={styles.filter__search}>
-          <Input
-            type="search"
-            placeholder="Search by card name or text"
-            onChange={onSearch}
-          />
         </div>
       </div>
 

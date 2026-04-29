@@ -9,7 +9,11 @@ import {
 } from "@jest/globals";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { FilterBar, SEARCH_DEBOUNCE_DELAY } from "../FilterBar/FilterBar";
+import {
+  FilterBar,
+  FilterBarProps,
+  SEARCH_DEBOUNCE_DELAY,
+} from "../FilterBar/FilterBar";
 import { Color, ViewToggle } from "@app/lib/types";
 import * as navigation from "next/navigation";
 import * as hook from "@app/hooks/useUpdateSearchParams";
@@ -23,6 +27,19 @@ describe("FilterBar", () => {
 
   const setSearchParams = jest.fn();
 
+  const availableSets: FilterBarProps["availableSets"] = [
+    {
+      setCode: "mmq",
+      setName: "Mercadian Masques",
+    },
+    {
+      setCode: "leg",
+      setName: "Legends",
+    },
+  ];
+
+  let user: ReturnType<typeof userEvent.setup>;
+
   beforeAll(() => {
     jest.useFakeTimers();
   });
@@ -34,10 +51,14 @@ describe("FilterBar", () => {
   beforeEach(() => {
     jest.spyOn(navigation, "useSearchParams").mockReturnValue(searchParams);
     jest.spyOn(hook, "useUpdateSearchParams").mockReturnValue(setSearchParams);
+
+    user = userEvent.setup({
+      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+    });
   });
 
   it("should render a toggle with a grid and table option", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const gridToggle = screen.getByRole("button", { name: "Grid view" });
     const tableToggle = screen.getByRole("button", { name: "Table view" });
@@ -47,7 +68,7 @@ describe("FilterBar", () => {
   });
 
   it("should select the grid toggle by default", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const gridToggle = screen.getByRole("button", { name: "Grid view" });
 
@@ -61,7 +82,7 @@ describe("FilterBar", () => {
 
     jest.spyOn(navigation, "useSearchParams").mockReturnValue(withTableView);
 
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const tableToggle = screen.getByRole("button", { name: "Table view" });
 
@@ -69,7 +90,7 @@ describe("FilterBar", () => {
   });
 
   it("should select the toggle clicked by the user", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const gridToggle = screen.getByRole("button", { name: "Grid view" });
     const tableToggle = screen.getByRole("button", { name: "Table view" });
@@ -81,33 +102,34 @@ describe("FilterBar", () => {
     expect(tableToggle).toHaveAttribute("aria-pressed");
   });
 
-  it("should render a search input", () => {
-    render(<FilterBar />);
+  it("should render a select input to filter by set", () => {
+    render(<FilterBar availableSets={availableSets} />);
 
-    const searchInput = screen.getByRole("searchbox");
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more set",
+    });
 
-    expect(searchInput).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
   });
 
-  it("should update the search params with the given user search", async () => {
-    const user = userEvent.setup({
-      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
+  it("should add a setCode to the search params when a user selects a set", async () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const input = screen.getByRole("combobox", {
+      name: "Select one or more set",
     });
+    await user.click(input);
 
-    render(<FilterBar />);
+    const option = await screen.getByText("Mercadian Masques");
+    await user.click(option);
 
-    const searchInput = screen.getByRole("searchbox");
-    await user.type(searchInput, "Brainstorm");
-
-    act(() => {
-      jest.advanceTimersByTime(SEARCH_DEBOUNCE_DELAY);
+    expect(setSearchParams).toHaveBeenCalledWith({
+      setCode: ["mmq"],
     });
-
-    expect(setSearchParams).toHaveBeenCalledWith({ search: "Brainstorm" });
   });
 
   it("should render a checkbox for each Color", () => {
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     const checkBoxes = screen.getAllByRole("checkbox");
 
@@ -123,11 +145,7 @@ describe("FilterBar", () => {
   });
 
   it("should add a color to the search params when a user checks a checkbox", async () => {
-    const user = userEvent.setup({
-      advanceTimers: (ms) => jest.advanceTimersByTime(ms),
-    });
-
-    render(<FilterBar />);
+    render(<FilterBar availableSets={availableSets} />);
 
     for (const color of Object.values(Color)) {
       const checkbox = screen.getByRole("checkbox", {
@@ -138,5 +156,26 @@ describe("FilterBar", () => {
 
       expect(setSearchParams).toHaveBeenCalledWith({ color: [color] });
     }
+  });
+
+  it("should render a search input", () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const searchInput = screen.getByRole("searchbox");
+
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  it("should update the search params with the given user search", async () => {
+    render(<FilterBar availableSets={availableSets} />);
+
+    const searchInput = screen.getByRole("searchbox");
+    await user.type(searchInput, "Brainstorm");
+
+    act(() => {
+      jest.advanceTimersByTime(SEARCH_DEBOUNCE_DELAY);
+    });
+
+    expect(setSearchParams).toHaveBeenCalledWith({ search: "Brainstorm" });
   });
 });

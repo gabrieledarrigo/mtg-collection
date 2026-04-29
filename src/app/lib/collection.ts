@@ -13,7 +13,7 @@ import { Color } from "./types";
 
 export type CollectionItemsFilter = {
   search?: string;
-  setCode?: string;
+  setCodes?: string[];
   colors?: Color[];
   rarity?: Rarity;
   language?: Language;
@@ -38,7 +38,7 @@ export async function getCollectionItems(
   pagination: Pagination = Pagination.default(),
 ): Promise<Page<CollectionItemWithCard>> {
   const { page, size, skip } = pagination;
-  const { search, setCode, colors, rarity, language, condition, foil } =
+  const { search, setCodes, colors, rarity, language, condition, foil } =
     filters;
 
   const where: CollectionItemWhereInput = {};
@@ -65,9 +65,9 @@ export async function getCollectionItems(
     ];
   }
 
-  if (setCode) {
+  if (setCodes && setCodes.length > 0) {
     cardWhere.setCode = {
-      equals: setCode,
+      in: setCodes,
     };
   }
 

@@ -1,6 +1,26 @@
 .filter__controls {
   display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: var(--spacing-1);
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.filter__sets,
+.filter__search {
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 250px;
+  }
+
+  @media screen and (min-width: 1025px) {
+    width: 300px;
+  }
 }
 
 .filter__colors {
@@ -10,10 +30,10 @@
     display: flex;
     gap: var(--spacing-1-5);
   }
-}
 
-.filter__search {
-  width: 300px;
+  @media screen and (min-width: 1024px) {
+    margin-left: auto;
+  }
 }
 
 .filter__toggle {

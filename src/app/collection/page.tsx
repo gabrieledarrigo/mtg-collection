@@ -1,4 +1,4 @@
-import { getCollectionItems } from "@app/lib/collection";
+import { getAvailableSets, getCollectionItems } from "@app/lib/collection";
 import { Pagination } from "@app/lib/pagination";
 import { FilterBar } from "./components/FilterBar/FilterBar";
 import { CollectionView } from "./components/CollectionView/CollectionView";
@@ -17,6 +17,7 @@ export default async function Collection({ searchParams }: CollectionProps) {
     size,
     view,
     color: colors,
+    setCode: setCodes,
     ...filters
   } = collectionSearchParams.parse((await searchParams) ?? {});
 
@@ -28,15 +29,18 @@ export default async function Collection({ searchParams }: CollectionProps) {
   const collectionItems = await getCollectionItems(
     {
       colors,
+      setCodes,
       ...filters,
     },
     pagination,
   );
 
+  const availableSets = await getAvailableSets();
+
   return (
     <section>
       <header className={styles.header}>
-        <FilterBar />
+        <FilterBar availableSets={availableSets} />
       </header>
 
       <div className={styles["collection-count"]}>
