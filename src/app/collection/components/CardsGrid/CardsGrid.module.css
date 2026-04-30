@@ -5,13 +5,13 @@
   grid-row-gap: var(--spacing-1);
   align-items: start;
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: var(--spacing-1-5);
     grid-row-gap: var(--spacing-1-5);
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: var(--spacing-1-5);
     grid-row-gap: var(--spacing-1-5);
