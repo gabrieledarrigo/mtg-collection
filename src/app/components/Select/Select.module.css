@@ -19,7 +19,7 @@
   border: 1px solid var(--color-neutral-400);
   border-radius: var(--border-radius-sm);
   padding: var(--spacing-0-5) var(--spacing-1);
-  min-height: 2.5rem;
+  /* min-height: 2.5rem; */
 
   &:hover {
     border-color: var(--color-neutral-600);

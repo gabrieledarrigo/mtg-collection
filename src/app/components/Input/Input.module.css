@@ -20,6 +20,10 @@
   outline: none;
   transition: border-color 0.2s;
 
+  &:hover {
+    border-color: var(--color-neutral-600);
+  }
+
   &:focus {
     border-color: var(--color-primary);
   }

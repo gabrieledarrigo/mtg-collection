@@ -168,6 +168,8 @@ export function Select({
             <Combobox.Clear
               className={styles.select__clear}
               aria-label="Clear selection"
+              render={<div />}
+              nativeButton={false}
             >
               <Icon name={IconName.CLOSE} size={16} />
             </Combobox.Clear>

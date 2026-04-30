@@ -15,6 +15,10 @@
   background-color: var(--color-white);
   cursor: pointer;
 
+  &:hover {
+    border-color: var(--color-neutral-600);
+  }
+
   &[data-checked] {
     background-color: var(--color-neutral-400);
   }
