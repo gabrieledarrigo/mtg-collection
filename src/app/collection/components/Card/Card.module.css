@@ -2,38 +2,17 @@
   margin: 0;
 }
 
-.card--medium {
-  max-width: 225px;
-
-  @media screen and (min-width: 768px) {
-    max-width: 245px;
-  }
-}
-
-.card--large {
-  max-width: 336px;
-
-  & .card__picture {
-    width: 336px;
-    height: 469px;
-  }
-}
-
 .card__picture {
   position: relative;
-  width: 225px;
-  height: 313px;
   margin: 0;
   padding: 0;
+}
 
-  @media screen and (min-width: 1025px) {
-    width: 245px;
-    height: 341px;
-  }
-
-  img {
-    border-radius: 10px;
-  }
+.card__image {
+  border-radius: 10px;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .card__footer {

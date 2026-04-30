@@ -32,7 +32,7 @@ describe("Card", () => {
 
     expect(cardElement).toBeInTheDocument();
     expect(image.getAttribute("src")).toContain(
-      encodeURIComponent(collectionItem.card.imageUrlNormal!),
+      collectionItem.card.imageUrlNormal,
     );
   });
 
@@ -42,7 +42,7 @@ describe("Card", () => {
     const image = screen.getByRole("img");
 
     expect(image.getAttribute("src")).toContain(
-      encodeURIComponent(collectionItem.card.imageUrlNormal!),
+      collectionItem.card.imageUrlNormal,
     );
   });
 
@@ -54,7 +54,7 @@ describe("Card", () => {
     const image = screen.getByRole("img");
 
     expect(image.getAttribute("src")).toContain(
-      encodeURIComponent(collectionItem.card.imageUrlLarge!),
+      collectionItem.card.imageUrlLarge,
     );
   });
 
@@ -75,9 +75,7 @@ describe("Card", () => {
 
     const image = screen.getByRole("img");
 
-    expect(image.getAttribute("src")).toContain(
-      encodeURIComponent(NO_IMAGE_AVAILABLE),
-    );
+    expect(image.getAttribute("src")).toContain(NO_IMAGE_AVAILABLE);
   });
 
   it("should render the footer", () => {

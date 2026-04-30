@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CollectionItemWithCard } from "@database/models";
 import styles from "./Card.module.css";
 
@@ -26,14 +25,13 @@ export function Card({
       : (collectionItem.card.imageUrlLarge ?? NO_IMAGE_AVAILABLE);
 
   return (
-    <article className={`${styles.card} ${styles[`card--${variant}`]}`}>
+    <article className={`${styles.card}`}>
       <figure className={styles.card__picture}>
-        <Image
+        <img
           src={imageUrl}
+          className={styles.card__image}
           alt={collectionItem.card.name}
-          fill={true}
           title={`${collectionItem.card.name} - ${collectionItem.card.setName} (${collectionItem.card.setCode.toUpperCase()}) #${collectionItem.card.collectorNumber}`}
-          sizes="100%"
         />
       </figure>
 
