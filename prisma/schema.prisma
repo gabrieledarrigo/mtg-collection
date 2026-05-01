@@ -81,7 +81,7 @@ model Card {
   collectorNumber String           @map("collector_number")
   language        Language
   rarity          Rarity
-  typeLine        String?          @map("type_line")
+  typeLine        String           @map("type_line")
   imageUrlSmall   String?          @map("image_url_small")
   imageUrlNormal  String?          @map("image_url_normal")
   imageUrlLarge   String?          @map("image_url_large")
