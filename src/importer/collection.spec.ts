@@ -176,7 +176,7 @@ describe("collection", () => {
         cmc: 2,
         colorIdentity: [],
         oracleId: null,
-        typeLine: null,
+        typeLine: "Instant // Instant",
         printedTypeLine: null,
         printedText: null,
         oracleText: null,
@@ -202,7 +202,6 @@ describe("collection", () => {
         expect.objectContaining({
           create: expect.objectContaining({
             oracleId: null,
-            typeLine: null,
             printedName: null,
             printedTypeLine: null,
             printedText: null,

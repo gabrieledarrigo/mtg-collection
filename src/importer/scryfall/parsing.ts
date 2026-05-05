@@ -114,10 +114,11 @@ function getPrintedTypeLine(card: ScryfallCard.Any): string | null {
   return card?.printed_type_line ?? null;
 }
 
-function getTypeLine(card: ScryfallCard.Any): string | null {
-  if ("type_line" in card === false) {
-    return null;
-  }
+function getTypeLine(card: ScryfallCard.Any): string {
+  assert(
+    "type_line" in card,
+    `No type_line found for card: ${card.name} (${card.set}/${card.collector_number})`,
+  );
 
   return card.type_line;
 }

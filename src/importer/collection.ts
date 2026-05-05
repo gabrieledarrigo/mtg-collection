@@ -20,7 +20,7 @@ export type CardData = {
   collectorNumber: string;
   language: Language;
   rarity: Rarity;
-  typeLine: string | null;
+  typeLine: string;
   printedTypeLine: string | null;
   imageUrlSmall: string;
   imageUrlNormal: string;

@@ -150,6 +150,7 @@ describe("parsing", () => {
           collector_number: "1",
           lang: "en",
           rarity: "common",
+          type_line: "Instant",
           color_identity: [],
           layout,
           image_uris: {
@@ -168,7 +169,7 @@ describe("parsing", () => {
     );
 
     it("should transform a transform card using front face image", () => {
-      const card = {
+      const card = createMock<ScryfallCard.Transform>({
         id: "dfc-id",
         oracle_id: "dfc-oracle-id",
         name: "Delver of Secrets // Insectile Aberration",
@@ -177,7 +178,6 @@ describe("parsing", () => {
         lang: "en",
         rarity: "common",
         type_line: "Creature — Human Wizard // Creature — Human Insect",
-        oracle_text: "At the beginning of your upkeep...",
         mana_cost: "{U}",
         cmc: 1,
         color_identity: ["U"],
@@ -200,7 +200,7 @@ describe("parsing", () => {
             },
           },
         ],
-      } as unknown as ScryfallCard.Any;
+      });
 
       const result = toCardData(card);
 
@@ -215,7 +215,7 @@ describe("parsing", () => {
     });
 
     it("should transform a modal DFC card", () => {
-      const card = {
+      const card = createMock<ScryfallCard.ModalDfc>({
         id: "mdfc-id",
         oracle_id: "mdfc-oracle-id",
         name: "Kazandu Mammoth // Kazandu Valley",
@@ -223,6 +223,7 @@ describe("parsing", () => {
         collector_number: "189",
         lang: "en",
         rarity: "rare",
+        type_line: "Creature — Elephant // Land",
         mana_cost: "{1}{G}{G}",
         cmc: 3,
         color_identity: ["G"],
@@ -247,7 +248,7 @@ describe("parsing", () => {
             },
           },
         ],
-      } as unknown as ScryfallCard.Any;
+      });
 
       const result = toCardData(card);
 
@@ -269,6 +270,7 @@ describe("parsing", () => {
           collector_number: "1",
           lang: "en",
           rarity: "common",
+          type_line: "Land",
           color_identity: [],
           layout,
           card_faces: [
@@ -361,7 +363,40 @@ describe("parsing", () => {
       expect(result.cmc).toBe(6);
     });
 
-    it("should throw error for cards without images", () => {
+    it("should throw an error for cards without a type_line", () => {
+      const card = createMock<ScryfallCard.Any>({
+        id: "8e88390b-6467-4c9d-9167-ca79379408cf",
+        scryfall_uri:
+          "https://scryfall.com/card/clb/165/en/breath-weapon?utm_source=api",
+        oracle_id: "f3dd1f6d-f7d7-4358-8139-7495404f29c7",
+        name: "Breath Weapon",
+        set: "clb",
+        set_name: "Clash at the Castle",
+        collector_number: "165",
+        lang: "en",
+        rarity: "common",
+        oracle_text:
+          "Breath Weapon deals 2 damage to each non-Dragon creature.",
+        flavor_text:
+          "Dragons don't take kindly to imitators, especially ones that breathe poorly.",
+        artist: "John Doe",
+        mana_cost: "{2}{R}",
+        cmc: 3,
+        color_identity: ["R"],
+        layout: ScryfallLayout.Normal,
+        image_uris: {
+          small: "https://cards.scryfall.io/small/front/8/e/8e88390b.jpg",
+          normal: "https://cards.scryfall.io/normal/front/8/e/8e88390b.jpg",
+          large: "https://cards.scryfall.io/large/front/8/e/8e88390b.jpg",
+        },
+      });
+
+      expect(() => toCardData(card)).toThrow(
+        "No type_line found for card: Breath Weapon (clb/165)",
+      );
+    });
+
+    it("should throw an error for cards without images", () => {
       const card = createMock<ScryfallCard.Any>({
         id: "no-image-id",
         name: "No Image Card",
@@ -369,6 +404,7 @@ describe("parsing", () => {
         collector_number: "1",
         lang: "en",
         rarity: "common",
+        type_line: "Land",
         color_identity: [],
         layout: ScryfallLayout.Normal,
         image_uris: undefined,
@@ -379,7 +415,7 @@ describe("parsing", () => {
       );
     });
 
-    it("should throw error for DFC without card_faces images", () => {
+    it("should throw an error for DFC without card_faces images", () => {
       const card = createMock<ScryfallCard.Any>({
         id: "dfc-no-image-id",
         name: "DFC Without Images",
@@ -387,12 +423,21 @@ describe("parsing", () => {
         collector_number: "1",
         lang: "en",
         rarity: "common",
+        type_line: "Land",
         color_identity: [],
         layout: ScryfallLayout.Transform,
         card_faces: [
           {
             name: "Front",
             image_uris: undefined,
+          },
+          {
+            name: "Back",
+            image_uris: {
+              small: "https://example.com/back-small.jpg",
+              normal: "https://example.com/back-normal.jpg",
+              large: "https://example.com/back-large.jpg",
+            },
           },
         ],
       });
@@ -408,13 +453,14 @@ describe("parsing", () => {
         { name: "Back", oracle_text: "Back text" },
       ];
 
-      const card = createMock<ScryfallCard.Any>({
+      const card = createMock<ScryfallCard.Transform>({
         id: "dfc-id",
         name: "DFC Card",
         set: "tst",
         collector_number: "1",
         lang: "en",
         rarity: "common",
+        type_line: "Land",
         color_identity: [],
         layout: ScryfallLayout.Transform,
         card_faces: [
