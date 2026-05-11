@@ -44,13 +44,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@jest/globals": "^30.3.0",
-    "@next/eslint-plugin-next": "^16.2.4",
+    "@jest/globals": "^30.4.1",
+    "@next/eslint-plugin-next": "^16.2.6",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.2",
     "@types/pg": "^8.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -60,13 +60,13 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.8.3",
     "ts-jest": "^29.4.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.1"
+    "typescript-eslint": "^8.59.2"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -74,12 +74,12 @@
     "@prisma/client": "^7.8.0",
     "@scryfall/api-types": "^1.0.0-alpha.4",
     "dotenv": "^17.4.2",
-    "fast-csv": "^5.0.5",
-    "next": "^16.2.4",
+    "fast-csv": "^5.0.7",
+    "next": "^16.2.6",
     "pg": "^8.20.0",
     "prisma": "^7.8.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "zod": "^4.4.3"
   }
 }
