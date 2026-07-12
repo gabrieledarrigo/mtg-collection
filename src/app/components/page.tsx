@@ -10,6 +10,7 @@ import { Toggle, ToggleVariant } from "./Toggle/Toggle";
 import { Select } from "./Select/Select";
 import { Input } from "./Input/Input";
 import { Checkbox } from "./Checkbox/Checkbox";
+import { Popover } from "./Popover/Popover";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -169,6 +170,18 @@ export default function Home() {
               footer buttons to close it.
             </p>
           </Modal>
+        </div>
+
+        <h2>Popover</h2>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <Popover
+            renderTrigger={
+              <Button variant={ButtonVariant.PRIMARY}>Open popover</Button>
+            }
+            title="Sort values"
+          >
+            Popover content
+          </Popover>
         </div>
 
         <h2>Toggle</h2>
