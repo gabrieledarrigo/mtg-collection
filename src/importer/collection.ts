@@ -124,7 +124,7 @@ export async function createPurchase(
   transaction: Prisma.TransactionClient,
 ): Promise<Purchase> {
   const { id: collectionItemId } = collectionItem;
-  const { orderId: sourceOrderId, quantity, price, source } = data;
+  const { orderId, quantity, price, source } = data;
 
   const purchase = await transaction.purchase.create({
     data: {
@@ -132,7 +132,7 @@ export async function createPurchase(
       quantity,
       price,
       source,
-      sourceOrderId,
+      orderId,
       purchasedAt: new Date(),
     },
   });

@@ -347,7 +347,7 @@ describe("collection", () => {
           quantity: data.quantity,
           price: data.price,
           source: data.source,
-          sourceOrderId: data.orderId,
+          orderId: data.orderId,
           purchasedAt: expect.any(Date),
         },
       });

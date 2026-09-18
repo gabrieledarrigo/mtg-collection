@@ -133,9 +133,9 @@ model Purchase {
   price    Int      @map("price_per_card")
   currency Currency @default(EUR)
 
-  source        Source   @default(CARDTRADER)
-  sourceOrderId String   @map("source_order_id")
-  purchasedAt   DateTime @map("purchased_at")
+  source      Source   @default(CARDTRADER)
+  orderId     String   @map("order_id")
+  purchasedAt DateTime @map("purchased_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
