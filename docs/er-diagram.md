@@ -87,10 +87,10 @@ erDiagram
 
 ## Enums
 
-| Enum        | Values |
-|-------------|--------|
-| `Rarity`    | COMMON, UNCOMMON, RARE, SPECIAL, MYTHIC, BONUS |
-| `Condition` | MINT, NEAR_MINT, EXCELLENT, GOOD, LIGHT_PLAYED, PLAYED, POOR |
+| Enum        | Values                                                                |
+| ----------- | --------------------------------------------------------------------- |
+| `Rarity`    | COMMON, UNCOMMON, RARE, SPECIAL, MYTHIC, BONUS                        |
+| `Condition` | MINT, NEAR_MINT, EXCELLENT, GOOD, LIGHT_PLAYED, PLAYED, POOR          |
 | `Language`  | EN, ES, FR, DE, IT, PT, JA, KO, RU, ZHS, ZHT, HE, LA, GRC, AR, SA, PH |
-| `Currency`  | EUR |
-| `Source`    | CARDTRADER, DIRECT_PURCHASE, TRADE, GIFT, OTHER |
+| `Currency`  | EUR                                                                   |
+| `Source`    | CARDTRADER, DIRECT_PURCHASE, TRADE, GIFT, OTHER                       |

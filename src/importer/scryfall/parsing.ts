@@ -32,6 +32,13 @@ export const WITH_CARD_FACES: ScryfallLayout[] = [
   ScryfallLayout.ReversibleCard,
 ];
 
+/**
+ * Resolves the image URIs of a card, reading them from the front face for layouts that are split across faces.
+ *
+ * @param card - The Scryfall card to read the images from.
+ * @returns The small, normal, and large image URIs.
+ * @throws {Error} When the card has no images, or when its layout is not a known single- or double-faced one.
+ */
 function getCardImageUris(card: ScryfallCard.Any): {
   small: string;
   normal: string;
@@ -139,6 +146,14 @@ function getCmc(card: ScryfallCard.Any): number {
   return card.cmc;
 }
 
+/**
+ * Converts a Scryfall card into the shape stored in the database, flattening the fields that only some layouts carry.
+ *
+ * @param card - The Scryfall card to convert.
+ * @returns The card data ready to be persisted, with card faces serialized as JSON and language and rarity uppercased.
+ * @throws {Error} When the card has no images or no type line.
+ * @see upsertCard
+ */
 export function toCardData(card: ScryfallCard.Any): CardData {
   const imageUris = getCardImageUris(card);
   const oracleId = getOracleId(card);

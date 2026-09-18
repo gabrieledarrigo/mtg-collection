@@ -4,6 +4,8 @@ import {
   upsertCollectionItem,
   createPurchase,
   CardData,
+  CreatePurchaseData,
+  UpsertCollectionItemData,
 } from "./collection";
 import {
   Language,
@@ -275,9 +277,8 @@ describe("collection", () => {
         id: "card-1",
       });
 
-      const data = {
+      const data: UpsertCollectionItemData = {
         userId: "user-123",
-        language: Language.EN,
         foil: false,
         condition: Condition.NEAR_MINT,
         quantity: 4,
@@ -326,7 +327,7 @@ describe("collection", () => {
         id: "collection-item-1",
       });
 
-      const data = {
+      const data: CreatePurchaseData = {
         orderId: "order-123",
         quantity: 2,
         price: 9.99,

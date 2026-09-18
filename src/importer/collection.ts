@@ -36,6 +36,27 @@ export type CardData = {
   cardFaces: string | null;
 };
 
+export type UpsertCollectionItemData = {
+  userId: string;
+  foil: boolean;
+  condition: Condition;
+  quantity: number;
+};
+
+export type CreatePurchaseData = {
+  orderId: string;
+  quantity: number;
+  price: number;
+  source: Source;
+};
+
+/**
+ * Persists a card, leaving an already imported card untouched.
+ *
+ * @param data - The card data, keyed on its Scryfall id.
+ * @param transaction - The Prisma transaction client the write runs in.
+ * @returns A Promise resolving to the stored card, either the newly created one or the existing record.
+ */
 export async function upsertCard(
   data: CardData,
   transaction: Prisma.TransactionClient,
@@ -76,14 +97,17 @@ export async function upsertCard(
   return upserted;
 }
 
+/**
+ * Adds a card to a user's collection, incrementing the quantity when the same printing, foil flag, and condition is already owned.
+ *
+ * @param card - The card the collection item refers to.
+ * @param data - The owner, foil flag, condition, and quantity to add.
+ * @param transaction - The Prisma transaction client the write runs in.
+ * @returns A Promise resolving to the created or updated collection item.
+ */
 export async function upsertCollectionItem(
   card: Card,
-  data: {
-    userId: string;
-    foil: boolean;
-    condition: Condition;
-    quantity: number;
-  },
+  data: UpsertCollectionItemData,
   transaction: Prisma.TransactionClient,
 ): Promise<CollectionItem> {
   const cardId = card.id;
@@ -113,14 +137,17 @@ export async function upsertCollectionItem(
   return collectionItem;
 }
 
+/**
+ * Records a purchase against a collection item, timestamped as of now.
+ *
+ * @param collectionItem - The collection item the purchase belongs to.
+ * @param data - The order id, quantity, price, and source of the purchase.
+ * @param transaction - The Prisma transaction client the write runs in.
+ * @returns A Promise resolving to the created purchase.
+ */
 export async function createPurchase(
   collectionItem: CollectionItem,
-  data: {
-    orderId: string;
-    quantity: number;
-    price: number;
-    source: Source;
-  },
+  data: CreatePurchaseData,
   transaction: Prisma.TransactionClient,
 ): Promise<Purchase> {
   const { id: collectionItemId } = collectionItem;

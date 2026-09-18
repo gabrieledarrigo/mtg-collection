@@ -10,6 +10,12 @@ export type SearchParams = {
 const CARDS_URL = "https://api.scryfall.com/cards";
 const FETCH_DELAY = 150;
 
+/**
+ * Creates a fetch wrapper that spaces out requests to the Scryfall API and sends the headers it expects.
+ *
+ * @returns A function that fetches a URL, delaying the call when the previous request was made less than FETCH_DELAY milliseconds ago.
+ * @see https://scryfall.com/docs/api
+ */
 function createScryfallClient() {
   let lastRequestTime = 0;
 
@@ -34,6 +40,15 @@ function createScryfallClient() {
 
 const fetchScryfall = createScryfallClient();
 
+/**
+ * Retrieves a single card printing from Scryfall by its set, collector number, and language.
+ *
+ * @param setCode - The Scryfall set code (e.g. "neo").
+ * @param collectorNumber - The collector number within the set.
+ * @param language - The language of the printing to retrieve.
+ * @returns A Promise resolving to the matching Scryfall card.
+ * @throws {Error} When Scryfall responds with a non-successful status.
+ */
 export async function bySetAndNumber(
   setCode: string,
   collectorNumber: string,
@@ -54,6 +69,13 @@ export async function bySetAndNumber(
   return card;
 }
 
+/**
+ * Searches Scryfall for every printing of a card by name, in the requested language.
+ *
+ * @param params - The search criteria: the card name and the language to match.
+ * @returns A Promise resolving to the list of matching printings, including multilingual and extra cards.
+ * @throws {Error} When Scryfall responds with a non-successful status.
+ */
 export async function search(
   params: SearchParams,
 ): Promise<ScryfallList.Cards> {
