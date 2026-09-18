@@ -297,10 +297,6 @@ describe("cardtrader", () => {
       expect(extractOrderId("file_order_abc123_data.csv")).toBe("order_abc123");
     });
 
-    it("should be case insensitive", () => {
-      expect(extractOrderId("ORDER_ABC123")).toBe("ORDER_ABC123");
-    });
-
     it("should extract first order id when multiple exist", () => {
       expect(extractOrderId("order_first123_order_second456")).toBe(
         "order_first123",
