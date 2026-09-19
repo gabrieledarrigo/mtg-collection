@@ -15,7 +15,7 @@ export type ToggleOption<T extends string> = {
 };
 
 export type ToggleProps<T extends string> = {
-  options: [ToggleOption<T>, ToggleOption<T>];
+  options: ToggleOption<T>[];
   value: T;
   variant: ToggleVariant;
   onChange: (value: T) => void;

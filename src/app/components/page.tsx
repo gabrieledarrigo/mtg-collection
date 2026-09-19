@@ -200,6 +200,23 @@ export default function Home() {
 
           <Toggle
             options={[
+              { value: "left", icon: IconName.ARROW_BACKWARD, label: "Left" },
+              {
+                value: "bottom",
+                icon: IconName.ARROW_DROP_DOWN,
+                label: "Bottom",
+              },
+              { value: "right", icon: IconName.ARROW_FORWARD, label: "Right" },
+            ]}
+            variant={ToggleVariant.NEUTRAL}
+            value={"left"}
+            onChange={(value) => {
+              alert(`Value: ${value}`);
+            }}
+          />
+
+          <Toggle
+            options={[
               { value: "ON", label: "ON" },
               { value: "OFF", label: "OFF" },
             ]}

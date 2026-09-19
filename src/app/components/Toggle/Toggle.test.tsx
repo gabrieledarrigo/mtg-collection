@@ -4,7 +4,7 @@ import { Toggle, ToggleOption, ToggleVariant } from "./Toggle";
 import { IconName } from "../Icon/Icon";
 
 describe("Toggle", () => {
-  const defaultOptions: [ToggleOption<string>, ToggleOption<string>] = [
+  const defaultOptions: ToggleOption<string>[] = [
     { value: "a", label: "Option A" },
     { value: "b", label: "Option B" },
   ];
