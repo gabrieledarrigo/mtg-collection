@@ -30,3 +30,15 @@ export enum Color {
   R = "R",
   G = "G",
 }
+
+export enum SortField {
+  name = "name",
+  quantity = "quantity",
+}
+
+export enum SortDirection {
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export type SortCriteria = Partial<Record<SortField, SortDirection>>;

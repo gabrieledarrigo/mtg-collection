@@ -1,5 +1,6 @@
 import {
   CardWhereInput,
+  CollectionItemOrderByWithRelationInput,
   CollectionItemWhereInput,
   CollectionItemWithCard,
   Condition,
@@ -9,7 +10,7 @@ import {
   StringFilter,
 } from "@database/index";
 import { Page, Pagination } from "./pagination";
-import { Color } from "./types";
+import { Color, SortCriteria, SortDirection } from "./types";
 
 export type CollectionItemsFilter = {
   search?: string;
@@ -28,13 +29,16 @@ export type AvailableSets = {
 
 /**
  * Retrieves a paginated list of collection items with their associated card and purchase data.
+ * Supports sorting and pagination.
  *
  * @param filters - The optional parameters to filter the results.
+ * @param sort - The optional sort criteria,
  * @param pagination - The pagination parameters (page, size, skip). Defaults to Pagination.default().
  * @returns A Promise resolving to a Page containing the collection items, total count, and current page number.
  */
 export async function getCollectionItems(
   filters: CollectionItemsFilter = {},
+  sort: SortCriteria = {},
   pagination: Pagination = Pagination.default(),
 ): Promise<Page<CollectionItemWithCard>> {
   const { page, size, skip } = pagination;
@@ -47,6 +51,7 @@ export async function getCollectionItems(
     contains: search,
     mode: "insensitive",
   };
+  const orderBy: CollectionItemOrderByWithRelationInput[] = [];
 
   if (search) {
     cardWhere.OR = [
@@ -105,6 +110,24 @@ export async function getCollectionItems(
     where.card = cardWhere;
   }
 
+  if (sort.quantity) {
+    orderBy.push({
+      quantity: sort.quantity,
+    });
+  }
+
+  if (sort.name) {
+    orderBy.push({
+      card: {
+        name: sort.name,
+      },
+    });
+  }
+
+  orderBy.push({
+    createdAt: SortDirection.DESC,
+  });
+
   const [totalItems, items] = await prisma.$transaction([
     prisma.collectionItem.count({ where }),
     prisma.collectionItem.findMany({
@@ -115,9 +138,7 @@ export async function getCollectionItems(
         card: true,
         purchases: true,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy,
     }),
   ]);
 

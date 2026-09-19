@@ -18,6 +18,7 @@ export default async function Collection({ searchParams }: CollectionProps) {
     view,
     color: colors,
     setCode: setCodes,
+    sort,
     ...filters
   } = collectionSearchParams.parse((await searchParams) ?? {});
 
@@ -32,6 +33,7 @@ export default async function Collection({ searchParams }: CollectionProps) {
       setCodes,
       ...filters,
     },
+    sort,
     pagination,
   );
 

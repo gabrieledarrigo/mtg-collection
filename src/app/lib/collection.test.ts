@@ -14,7 +14,7 @@ import {
   getCollectionItems,
 } from "./collection";
 import { Pagination } from "./pagination";
-import { Color } from "./types";
+import { Color, SortCriteria, SortDirection } from "./types";
 
 jest.mock("@database/index", () => ({
   ...(jest.requireActual("@database/index") as object),
@@ -256,6 +256,49 @@ describe("collection", () => {
       );
     });
 
+    it("should sort the results with the given sort criteria and a createdAt tiebreak", async () => {
+      const sort = createMock<SortCriteria>({
+        quantity: SortDirection.ASC,
+        name: SortDirection.DESC,
+      });
+
+      await getCollectionItems({}, sort);
+
+      expect(prisma.collectionItem.count).toHaveBeenCalled();
+      expect(prisma.collectionItem.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          orderBy: [
+            {
+              quantity: sort.quantity,
+            },
+            {
+              card: {
+                name: sort.name,
+              },
+            },
+            {
+              createdAt: SortDirection.DESC,
+            },
+          ],
+        }),
+      );
+    });
+
+    it("should sorting the results with the default createdAt tiebreak when the client does not pass any sort criteria", async () => {
+      await getCollectionItems({});
+
+      expect(prisma.collectionItem.count).toHaveBeenCalled();
+      expect(prisma.collectionItem.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          orderBy: [
+            {
+              createdAt: SortDirection.DESC,
+            },
+          ],
+        }),
+      );
+    });
+
     it("should query and paginate collection items with the given pagination parameters", async () => {
       const pagination = createMock<Pagination>({
         page: 2,
@@ -263,7 +306,7 @@ describe("collection", () => {
         skip: 30,
       });
 
-      await getCollectionItems({}, pagination);
+      await getCollectionItems({}, {}, pagination);
 
       expect(prisma.collectionItem.count).toHaveBeenCalled();
       expect(prisma.collectionItem.findMany).toHaveBeenCalledWith({
@@ -274,9 +317,11 @@ describe("collection", () => {
           card: true,
           purchases: true,
         },
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
       });
     });
 
@@ -294,9 +339,11 @@ describe("collection", () => {
           card: true,
           purchases: true,
         },
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
       });
     });
 
